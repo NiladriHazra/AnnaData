@@ -11,6 +11,11 @@ export default async function handler(req, res) {
     await connectToDatabase();
     const { name, email, password } = req.body;
 
+    // Validate request data
+    if (!name || !email || !password) {
+      return res.status(422).json({ message: 'Missing required fields' });
+    }
+
     // Check if user already exists
     const userExists = await User.findOne({ email });
     
@@ -38,6 +43,10 @@ export default async function handler(req, res) {
       }
     });
   } catch (error) {
-    res.status(500).json({ message: 'Something went wrong', error: error.message });
+    console.error("Registration error:", error);
+    res.status(500).json({ 
+      message: 'Something went wrong', 
+      error: error.message 
+    });
   }
 }
