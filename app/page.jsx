@@ -1374,7 +1374,7 @@ export default function HomePage() {
               Your Nutritional Intelligence Assistant
             </motion.h2>
 
-            <motion.p
+            {/* <motion.p
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.4 }}
@@ -1383,7 +1383,7 @@ export default function HomePage() {
               Discover the nutritional content of any food by searching or
               uploading a photo. Get AI-powered insights tailored to your health
               goals.
-            </motion.p>
+            </motion.p> */}
           </div>
 
           {/* Daily Nutrition Summary */}
