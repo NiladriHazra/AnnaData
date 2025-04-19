@@ -91,8 +91,7 @@ import {
 
 // Initialize Gemini API
 const genAI = new GoogleGenerativeAI(
-  process.env.NEXT_PUBLIC_GEMINI_API_KEY ||
-    ""
+  process.env.NEXT_PUBLIC_GEMINI_API_KEY || ""
 );
 
 // Theme colors
@@ -553,7 +552,7 @@ const useUserData = () => {
 
     fetchUser();
   }, []);
-
+  
   const updateUser = useCallback(
     async (updatedData) => {
       try {
@@ -993,31 +992,31 @@ const AchievementCard = ({ achievement, isUnlocked }) => {
 
 // Main Profile Page Component
 export default function ProfilePage() {
-    const router = useRouter();
-    const {
-      user,
-      loading,
-      error,
-      saving,
-      updateUser,
-      updateAchievement,
-      formatDate,
-      getFormattedCreationDate,
-      calculateMembershipDuration,
-    } = useUserData();
-    const {
-      insights,
-      loading: insightsLoading,
-      error: insightsError,
-      generateInsights,
-    } = useAIInsights();
+  const router = useRouter();
+  const {
+    user,
+    loading,
+    error,
+    saving,
+    updateUser,
+    updateAchievement,
+    formatDate,
+    getFormattedCreationDate,
+    calculateMembershipDuration,
+  } = useUserData();
+  const {
+    insights,
+    loading: insightsLoading,
+    error: insightsError,
+    generateInsights,
+  } = useAIInsights();
 
-    const [activeTab, setActiveTab] = useState("overview");
-    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-    const [showProfilePictureModal, setShowProfilePictureModal] = useState(false);
-    const [isEditing, setIsEditing] = useState(false);
-    const [editableUser, setEditableUser] = useState(null);
-    const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [activeTab, setActiveTab] = useState("overview");
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [showProfilePictureModal, setShowProfilePictureModal] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editableUser, setEditableUser] = useState(null);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   // Initialize editable user when user data is loaded
   useEffect(() => {
     if (user) {
@@ -1053,7 +1052,6 @@ export default function ProfilePage() {
     [userAchievements]
   );
 
-
   // Handle profile updates
   const handleSaveProfile = async () => {
     if (!editableUser) return;
@@ -1072,8 +1070,8 @@ export default function ProfilePage() {
   const handleToggleAchievement = async (achievementId, achieved) => {
     await updateAchievement(achievementId, achieved);
   };
-// Handle theme change
-const handleThemeChange = (themeKey) => {
+  // Handle theme change
+  const handleThemeChange = (themeKey) => {
     if (!editableUser) return;
 
     setEditableUser((prev) => ({
@@ -1082,21 +1080,50 @@ const handleThemeChange = (themeKey) => {
     }));
   };
 
+  const handleLogoutEverywhere = async () => {
+    try {
+      // Call the API endpoint
+      const response = await fetch("/api/auth/logoutEverywhere", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to log out all sessions");
+      }
+
+      // After successful logout everywhere, redirect to login page
+      localStorage.removeItem("userData");
+      localStorage.removeItem("userInsights");
+
+      // Display a success message (optional)
+      alert("You have been logged out of all devices. Please log in again.");
+
+      // Redirect to login page
+      router.push("/login");
+    } catch (error) {
+      console.error("Error logging out everywhere:", error);
+      alert("Failed to log out all sessions. Please try again.");
+    }
+  };
+
   // Delete account (simulated)
   const handleDeleteAccount = async () => {
     try {
       // In a real implementation, you would call your API to delete the account
-      const response = await fetch('/api/profile/deleteAccount', {
-        method: 'POST',
+      const response = await fetch("/api/profile/deleteAccount", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
       });
-      
+
       if (!response.ok) {
-        throw new Error('Failed to delete account');
+        throw new Error("Failed to delete account");
       }
-      
+
       // Clear localStorage and navigate to home
       localStorage.removeItem("userData");
       router.push("/");
@@ -1220,7 +1247,6 @@ const handleThemeChange = (themeKey) => {
 
   // Get user level
   const { level, progress } = calculateUserLevel();
-
 
   return (
     <main className="min-h-screen bg-gradient-to-b from-[#070B14] via-[#0b1120] to-[#0A0E1A] text-white">
@@ -3789,7 +3815,10 @@ const handleThemeChange = (themeKey) => {
                           Delete Account
                         </button>
 
-                        <button className="px-4 py-2.5 bg-amber-900/30 border border-amber-700/30 hover:bg-amber-900/50 rounded-lg text-amber-300 transition-colors flex items-center text-sm">
+                        <button
+                          onClick={handleLogoutEverywhere}
+                          className="px-4 py-2.5 bg-amber-900/30 border border-amber-700/30 hover:bg-amber-900/50 rounded-lg text-amber-300 transition-colors flex items-center text-sm"
+                        >
                           <LogOut className="mr-2 h-4 w-4" />
                           Log Out Everywhere
                         </button>

@@ -40,14 +40,13 @@ import {
 
 // Initialize Gemini API
 const genAI = new GoogleGenerativeAI(
-  process.env.NEXT_PUBLIC_GEMINI_API_KEY ||
-    ""
+  process.env.NEXT_PUBLIC_GEMINI_API_KEY || ""
 );
 
 // Card Components
 const NutritionCard = ({ nutrient, value, color, percentage, icon }) => {
   return (
-    <motion.div 
+    <motion.div
       whileHover={{ y: -5 }}
       className="bg-gradient-to-br from-slate-900/80 to-black/60 backdrop-blur-lg border border-slate-700/50 p-5 rounded-xl shadow-lg transition-all hover:border-slate-600 hover:shadow-xl"
     >
@@ -157,23 +156,23 @@ export default function HomePage() {
   const [savingToDiary, setSavingToDiary] = useState(false);
   const [diarySuccess, setDiarySuccess] = useState(false);
   const [mealTypeDialogOpen, setMealTypeDialogOpen] = useState(false);
-  
+
   // New state for notifications
   const [notifications, setNotifications] = useState([]);
   const [showNotifications, setShowNotifications] = useState(false);
   const [unreadCount, setUnreadCount] = useState(0);
   const [isLoadingNotifications, setIsLoadingNotifications] = useState(false);
-  
+
   // New state for food diary
   const [showDiaryView, setShowDiaryView] = useState(false);
   const [diaryItems, setDiaryItems] = useState([]);
   const [selectedDate, setSelectedDate] = useState(new Date());
-  const [activeMealFilter, setActiveMealFilter] = useState('all');
-  
+  const [activeMealFilter, setActiveMealFilter] = useState("all");
+
   // New state for sharing
   const [shareModalOpen, setShareModalOpen] = useState(false);
   const [shareUrl, setShareUrl] = useState("");
-  
+
   // New state for seasonal foods
   const [showSeasonalFoods, setShowSeasonalFoods] = useState(false);
   const [seasonalFoods, setSeasonalFoods] = useState([]);
@@ -191,7 +190,7 @@ export default function HomePage() {
   const determineCurrentSeason = () => {
     const now = new Date();
     const month = now.getMonth();
-    
+
     if (month >= 2 && month <= 4) return "Spring";
     if (month >= 5 && month <= 7) return "Summer";
     if (month >= 8 && month <= 10) return "Fall";
@@ -201,16 +200,18 @@ export default function HomePage() {
   // Generate notifications using Gemini API
   const generateNotifications = async () => {
     setIsLoadingNotifications(true);
-    
+
     try {
       // Get user's saved foods from localStorage
-      const savedFoods = JSON.parse(localStorage.getItem('savedFoods') || '[]');
-      const recentFoods = savedFoods.slice(0, 3).map(item => item.food.food_name);
-      
+      const savedFoods = JSON.parse(localStorage.getItem("savedFoods") || "[]");
+      const recentFoods = savedFoods
+        .slice(0, 3)
+        .map((item) => item.food.food_name);
+
       // Create a prompt for Gemini
       const prompt = `
         Generate 3-5 personalized nutrition notifications for a user who recently logged these foods:
-        ${recentFoods.length ? recentFoods.join(', ') : 'No recent food logs'}
+        ${recentFoods.length ? recentFoods.join(", ") : "No recent food logs"}
         
         Each notification should include:
         1. A short personalized message about nutrition or health (keep it under 120 characters)
@@ -226,31 +227,36 @@ export default function HomePage() {
         
         Make the notifications encouraging and actionable. No explanations or additional text.
       `;
-      
+
       // Call Gemini API
       const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
       const result = await model.generateContent(prompt);
       const response = await result.response;
       const text = response.text();
-      
+
       // Clean the text to ensure valid JSON
       const cleanedText = text.replace(/```json|```/g, "").trim();
-      
+
       // Parse the response
       const generatedNotifications = JSON.parse(cleanedText);
-      
+
       // Add IDs and read status to notifications
-      const notificationsWithIds = generatedNotifications.map((notification, index) => ({
-        ...notification,
-        id: Date.now() + index,
-        read: false,
-        timestamp: new Date().toISOString()
-      }));
-      
+      const notificationsWithIds = generatedNotifications.map(
+        (notification, index) => ({
+          ...notification,
+          id: Date.now() + index,
+          read: false,
+          timestamp: new Date().toISOString(),
+        })
+      );
+
       // Save to state and localStorage
       setNotifications(notificationsWithIds);
       setUnreadCount(notificationsWithIds.length);
-      localStorage.setItem('notifications', JSON.stringify(notificationsWithIds));
+      localStorage.setItem(
+        "notifications",
+        JSON.stringify(notificationsWithIds)
+      );
     } catch (error) {
       console.error("Error generating notifications:", error);
       // Fallback notifications
@@ -259,25 +265,29 @@ export default function HomePage() {
           id: Date.now(),
           message: "Remember to log your water intake today!",
           category: "reminder",
-          priority: "medium", 
+          priority: "medium",
           icon: "💧",
           read: false,
-          timestamp: new Date().toISOString()
+          timestamp: new Date().toISOString(),
         },
         {
           id: Date.now() + 1,
-          message: "Try adding more protein to your next meal for better muscle recovery",
+          message:
+            "Try adding more protein to your next meal for better muscle recovery",
           category: "tip",
           priority: "low",
           icon: "💪",
           read: false,
-          timestamp: new Date().toISOString()
-        }
+          timestamp: new Date().toISOString(),
+        },
       ];
-      
+
       setNotifications(fallbackNotifications);
       setUnreadCount(fallbackNotifications.length);
-      localStorage.setItem('notifications', JSON.stringify(fallbackNotifications));
+      localStorage.setItem(
+        "notifications",
+        JSON.stringify(fallbackNotifications)
+      );
     } finally {
       setIsLoadingNotifications(false);
     }
@@ -285,30 +295,30 @@ export default function HomePage() {
 
   // Mark notification as read
   const markNotificationAsRead = (id) => {
-    const updatedNotifications = notifications.map(notification => 
+    const updatedNotifications = notifications.map((notification) =>
       notification.id === id ? { ...notification, read: true } : notification
     );
     setNotifications(updatedNotifications);
-    setUnreadCount(updatedNotifications.filter(n => !n.read).length);
-    localStorage.setItem('notifications', JSON.stringify(updatedNotifications));
+    setUnreadCount(updatedNotifications.filter((n) => !n.read).length);
+    localStorage.setItem("notifications", JSON.stringify(updatedNotifications));
   };
 
   // Mark all notifications as read
   const markAllAsRead = () => {
-    const updatedNotifications = notifications.map(notification => ({ 
-      ...notification, 
-      read: true 
+    const updatedNotifications = notifications.map((notification) => ({
+      ...notification,
+      read: true,
     }));
     setNotifications(updatedNotifications);
     setUnreadCount(0);
-    localStorage.setItem('notifications', JSON.stringify(updatedNotifications));
+    localStorage.setItem("notifications", JSON.stringify(updatedNotifications));
   };
 
   // Function to load diary items
   const loadDiaryItems = useCallback(() => {
     try {
       // Get saved foods from localStorage
-      const savedFoods = JSON.parse(localStorage.getItem('savedFoods') || '[]');
+      const savedFoods = JSON.parse(localStorage.getItem("savedFoods") || "[]");
       setDiaryItems(savedFoods);
     } catch (e) {
       console.error("Error loading diary items:", e);
@@ -317,40 +327,46 @@ export default function HomePage() {
   }, []);
 
   // Filter diary items by date
-  const getDiaryItemsByDate = useCallback((date, mealType = 'all') => {
-    const targetDate = new Date(date).toDateString();
-    let filtered = diaryItems.filter(item => {
-      const itemDate = new Date(item.date).toDateString();
-      return itemDate === targetDate;
-    });
-    
-    if (mealType !== 'all') {
-      filtered = filtered.filter(item => item.mealType === mealType);
-    }
-    
-    return filtered;
-  }, [diaryItems]);
+  const getDiaryItemsByDate = useCallback(
+    (date, mealType = "all") => {
+      const targetDate = new Date(date).toDateString();
+      let filtered = diaryItems.filter((item) => {
+        const itemDate = new Date(item.date).toDateString();
+        return itemDate === targetDate;
+      });
+
+      if (mealType !== "all") {
+        filtered = filtered.filter((item) => item.mealType === mealType);
+      }
+
+      return filtered;
+    },
+    [diaryItems]
+  );
 
   // Calculate nutrition totals for diary items
   const calculateTotals = useCallback((items) => {
-    return items.reduce((totals, item) => {
-      const { calories, protein, carbs, fats } = item.food.nutrients;
-      return {
-        calories: totals.calories + calories,
-        protein: totals.protein + protein,
-        carbs: totals.carbs + carbs,
-        fat: totals.fat + fats
-      };
-    }, { calories: 0, protein: 0, carbs: 0, fat: 0 });
+    return items.reduce(
+      (totals, item) => {
+        const { calories, protein, carbs, fats } = item.food.nutrients;
+        return {
+          calories: totals.calories + calories,
+          protein: totals.protein + protein,
+          carbs: totals.carbs + carbs,
+          fat: totals.fat + fats,
+        };
+      },
+      { calories: 0, protein: 0, carbs: 0, fat: 0 }
+    );
   }, []);
 
   // Delete an item from diary
   const removeDiaryItem = (timestamp) => {
-    const updatedItems = diaryItems.filter(item => 
-      new Date(item.date).getTime() !== timestamp
+    const updatedItems = diaryItems.filter(
+      (item) => new Date(item.date).getTime() !== timestamp
     );
     setDiaryItems(updatedItems);
-    localStorage.setItem('savedFoods', JSON.stringify(updatedItems));
+    localStorage.setItem("savedFoods", JSON.stringify(updatedItems));
   };
 
   // Function to generate shareable content
@@ -359,18 +375,18 @@ export default function HomePage() {
     const protein = food.nutrients.protein;
     const carbs = food.nutrients.carbs;
     const fats = food.nutrients.fats;
-    
+
     return {
       title: `Nutrition info for ${food.food_name} | अन्ना - Data`,
       text: `I found nutrition info for ${food.food_name} using अन्ना - Data!\n\n• Calories: ${calories} kcal\n• Protein: ${protein}g\n• Carbs: ${carbs}g\n• Fat: ${fats}g\n\n${food.serving_type} (${food.calories_calculated_for}g)`,
-      url: window.location.href
+      url: window.location.href,
     };
   };
 
   // Function to handle sharing
   const shareFood = async (food) => {
     const shareData = generateShareableContent(food);
-    
+
     try {
       // Check if Web Share API is available
       if (navigator.share) {
@@ -405,12 +421,12 @@ export default function HomePage() {
     try {
       // Try to load from localStorage first
       const cachedData = localStorage.getItem(`seasonalFoods_${season}`);
-      
+
       if (cachedData) {
         const parsed = JSON.parse(cachedData);
         const cacheAge = Date.now() - parsed.timestamp;
         const cacheExpiryMs = 7 * 24 * 60 * 60 * 1000; // 7 days
-        
+
         // Use cache if it's less than 7 days old
         if (cacheAge < cacheExpiryMs) {
           setSeasonalFoods(parsed.foods);
@@ -419,7 +435,7 @@ export default function HomePage() {
           return;
         }
       }
-      
+
       // Call Gemini API for fresh data
       const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
       const prompt = `
@@ -445,21 +461,24 @@ export default function HomePage() {
         
         Make your response concise, accurate, and emphasize health benefits.
       `;
-      
+
       const result = await model.generateContent(prompt);
       const response = await result.response;
       const text = response.text();
-      
+
       // Clean and parse the response
       const cleanedText = text.replace(/```json|```/g, "").trim();
       const generatedFoods = JSON.parse(cleanedText);
-      
+
       // Cache the results in localStorage
-      localStorage.setItem(`seasonalFoods_${season}`, JSON.stringify({
-        foods: generatedFoods,
-        timestamp: Date.now()
-      }));
-      
+      localStorage.setItem(
+        `seasonalFoods_${season}`,
+        JSON.stringify({
+          foods: generatedFoods,
+          timestamp: Date.now(),
+        })
+      );
+
       setSeasonalFoods(generatedFoods);
       setCurrentSeason(season);
     } catch (error) {
@@ -468,33 +487,36 @@ export default function HomePage() {
       const fallbackFoods = [
         {
           name: "Spinach",
-          description: "Leafy green vegetable rich in iron, vitamins, and antioxidants. Helps with energy production and immune function.",
+          description:
+            "Leafy green vegetable rich in iron, vitamins, and antioxidants. Helps with energy production and immune function.",
           keyNutrients: ["Iron", "Vitamin K", "Folate", "Magnesium"],
           prepMethod: "Steamed or raw in salads",
           mealType: "lunch",
           category: "vegetable",
-          emoji: "🍃"
+          emoji: "🍃",
         },
         {
           name: "Strawberries",
-          description: "Sweet berries packed with vitamin C and antioxidants. Great for skin health and immune support.",
+          description:
+            "Sweet berries packed with vitamin C and antioxidants. Great for skin health and immune support.",
           keyNutrients: ["Vitamin C", "Manganese", "Folate", "Potassium"],
           prepMethod: "Fresh, raw",
           mealType: "breakfast",
           category: "fruit",
-          emoji: "🍓"
+          emoji: "🍓",
         },
         {
           name: "Asparagus",
-          description: "Nutrient-dense spring vegetable with fiber and antioxidants. Supports digestive health.",
+          description:
+            "Nutrient-dense spring vegetable with fiber and antioxidants. Supports digestive health.",
           keyNutrients: ["Folate", "Vitamin K", "Fiber", "Antioxidants"],
           prepMethod: "Roasted or steamed",
           mealType: "dinner",
           category: "vegetable",
-          emoji: "🌱"
-        }
+          emoji: "🌱",
+        },
       ];
-      
+
       setSeasonalFoods(fallbackFoods);
       setCurrentSeason(season);
     } finally {
@@ -519,11 +541,11 @@ export default function HomePage() {
 
     // Load notifications from localStorage
     try {
-      const savedNotifications = localStorage.getItem('notifications');
+      const savedNotifications = localStorage.getItem("notifications");
       if (savedNotifications) {
         const parsedNotifications = JSON.parse(savedNotifications);
         setNotifications(parsedNotifications);
-        setUnreadCount(parsedNotifications.filter(n => !n.read).length);
+        setUnreadCount(parsedNotifications.filter((n) => !n.read).length);
       } else {
         // Generate new notifications if none exist
         generateNotifications();
@@ -553,7 +575,7 @@ export default function HomePage() {
     if (diarySuccess) {
       // Refresh diary items
       loadDiaryItems();
-      
+
       // Wait a bit after saving to diary to generate new notifications
       setTimeout(() => {
         generateNotifications();
@@ -1001,46 +1023,48 @@ export default function HomePage() {
   };
 
   // Function to save food to diary - Fixed implementation
-  const saveToFoodDiary = async (mealType = 'snack') => {
+  const saveToFoodDiary = async (mealType = "snack") => {
     try {
       setSavingToDiary(true);
-      
+
       // Always store in localStorage first as a failsafe
-      const savedFoods = JSON.parse(localStorage.getItem('savedFoods') || '[]');
+      const savedFoods = JSON.parse(localStorage.getItem("savedFoods") || "[]");
       const newEntry = {
         food: selectedFood,
         mealType,
-        date: new Date().toISOString()
+        date: new Date().toISOString(),
       };
-      
+
       savedFoods.push(newEntry);
-      localStorage.setItem('savedFoods', JSON.stringify(savedFoods));
-      
+      localStorage.setItem("savedFoods", JSON.stringify(savedFoods));
+
       // If user is authenticated, also try to save to the backend
       if (session) {
         try {
-          await fetch('/api/diary/add', {
-            method: 'POST',
+          await fetch("/api/diary/add", {
+            method: "POST",
             headers: {
-              'Content-Type': 'application/json',
+              "Content-Type": "application/json",
             },
             body: JSON.stringify(newEntry),
           });
-          
-          console.log('Food saved to backend diary');
+
+          console.log("Food saved to backend diary");
         } catch (apiError) {
-          console.error('Error saving to backend diary, but saved to localStorage:', apiError);
+          console.error(
+            "Error saving to backend diary, but saved to localStorage:",
+            apiError
+          );
         }
       }
-      
+
       // Show success message regardless of API success, since we saved to localStorage
       setDiarySuccess(true);
       setTimeout(() => {
         setDiarySuccess(false);
       }, 3000);
-      
     } catch (error) {
-      console.error('Error saving to diary:', error);
+      console.error("Error saving to diary:", error);
       setError(`Failed to save to diary: ${error.message}`);
     } finally {
       setSavingToDiary(false);
@@ -1049,11 +1073,15 @@ export default function HomePage() {
 
   // Helper functions for notifications
   function getPriorityColor(priority) {
-    switch(priority?.toLowerCase()) {
-      case 'high': return 'text-red-400';
-      case 'medium': return 'text-amber-400';
-      case 'low': return 'text-emerald-400';
-      default: return 'text-blue-400';
+    switch (priority?.toLowerCase()) {
+      case "high":
+        return "text-red-400";
+      case "medium":
+        return "text-amber-400";
+      case "low":
+        return "text-emerald-400";
+      default:
+        return "text-blue-400";
     }
   }
 
@@ -1062,22 +1090,22 @@ export default function HomePage() {
       const date = new Date(timestamp);
       const now = new Date();
       const seconds = Math.round((now - date) / 1000);
-      
-      if (seconds < 60) return 'just now';
-      
+
+      if (seconds < 60) return "just now";
+
       const minutes = Math.round(seconds / 60);
       if (minutes < 60) return `${minutes}m ago`;
-      
+
       const hours = Math.round(minutes / 60);
       if (hours < 24) return `${hours}h ago`;
-      
+
       const days = Math.round(hours / 24);
-      if (days === 1) return 'yesterday';
+      if (days === 1) return "yesterday";
       if (days < 7) return `${days}d ago`;
-      
+
       return date.toLocaleDateString();
     } catch (e) {
-      return 'unknown time';
+      return "unknown time";
     }
   }
 
@@ -1086,7 +1114,7 @@ export default function HomePage() {
       <main className="min-h-screen bg-gradient-to-b from-[#070B14] via-[#0b1120] to-[#0A0E1A] text-white">
         <div className="absolute inset-0 bg-[url('/noise.png')] opacity-[0.03] mix-blend-overlay pointer-events-none"></div>
         <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center opacity-[0.03] mix-blend-overlay pointer-events-none"></div>
-        
+
         {/* Animated glowing orb */}
         <div className="fixed top-1/4 -right-28 w-96 h-96 bg-indigo-600/20 rounded-full blur-3xl animate-pulse pointer-events-none"></div>
         <div className="fixed top-3/4 -left-28 w-96 h-96 bg-purple-600/20 rounded-full blur-3xl animate-pulse pointer-events-none"></div>
@@ -1139,7 +1167,7 @@ export default function HomePage() {
 
                 {/* Notification bell */}
                 <div className="relative">
-                  <button 
+                  <button
                     onClick={() => setShowNotifications(!showNotifications)}
                     className="flex items-center px-2 py-2 rounded-md text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-800/50 transition-colors relative"
                   >
@@ -1150,23 +1178,25 @@ export default function HomePage() {
                       </span>
                     )}
                   </button>
-                  
+
                   {showNotifications && (
-                    <motion.div 
+                    <motion.div
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
                       className="absolute right-0 mt-2 w-80 bg-slate-900/90 backdrop-blur-lg border border-slate-700/50 rounded-lg shadow-xl py-2 z-50"
                     >
                       <div className="px-3 py-2 border-b border-slate-700/50 flex justify-between items-center">
-                        <h4 className="font-medium text-white">Notifications</h4>
-                        <button 
+                        <h4 className="font-medium text-white">
+                          Notifications
+                        </h4>
+                        <button
                           onClick={markAllAsRead}
                           className="text-xs text-indigo-400 hover:text-indigo-300 px-2 py-1 rounded hover:bg-indigo-900/30"
                         >
                           Mark all as read
                         </button>
                       </div>
-                      
+
                       {isLoadingNotifications ? (
                         <div className="flex items-center justify-center py-6">
                           <div className="w-6 h-6 border-2 border-indigo-500 border-t-transparent rounded-full animate-spin"></div>
@@ -1174,22 +1204,36 @@ export default function HomePage() {
                       ) : notifications.length > 0 ? (
                         <>
                           <div className="max-h-72 overflow-y-auto">
-                            {notifications.map(notification => (
-                              <div 
-                                key={notification.id} 
-                                onClick={() => markNotificationAsRead(notification.id)}
-                                className={`px-3 py-2 hover:bg-slate-800/50 border-b border-slate-700/30 cursor-pointer ${!notification.read ? 'bg-slate-800/20' : ''}`}
+                            {notifications.map((notification) => (
+                              <div
+                                key={notification.id}
+                                onClick={() =>
+                                  markNotificationAsRead(notification.id)
+                                }
+                                className={`px-3 py-2 hover:bg-slate-800/50 border-b border-slate-700/30 cursor-pointer ${
+                                  !notification.read ? "bg-slate-800/20" : ""
+                                }`}
                               >
                                 <div className="flex gap-3">
                                   <div className="mt-1 flex-shrink-0 text-lg">
                                     {notification.icon || "📝"}
                                   </div>
                                   <div>
-                                    <p className={`text-sm ${!notification.read ? 'text-white' : 'text-slate-300'}`}>
+                                    <p
+                                      className={`text-sm ${
+                                        !notification.read
+                                          ? "text-white"
+                                          : "text-slate-300"
+                                      }`}
+                                    >
                                       {notification.message}
                                     </p>
                                     <div className="flex justify-between items-center mt-1">
-                                      <span className={`text-xs ${getPriorityColor(notification.priority)}`}>
+                                      <span
+                                        className={`text-xs ${getPriorityColor(
+                                          notification.priority
+                                        )}`}
+                                      >
                                         {notification.category}
                                       </span>
                                       <span className="text-xs text-slate-400">
@@ -1202,10 +1246,10 @@ export default function HomePage() {
                             ))}
                           </div>
                           <div className="px-3 py-2 text-center border-t border-slate-700/50">
-                            <button 
+                            <button
                               onClick={() => {
                                 setShowNotifications(false);
-                                router.push('/notifications');
+                                router.push("/notifications");
                               }}
                               className="text-xs text-indigo-400 hover:text-indigo-300"
                             >
@@ -1215,7 +1259,9 @@ export default function HomePage() {
                         </>
                       ) : (
                         <div className="px-3 py-6 text-center">
-                          <p className="text-slate-400 text-sm">No notifications yet</p>
+                          <p className="text-slate-400 text-sm">
+                            No notifications yet
+                          </p>
                         </div>
                       )}
                     </motion.div>
@@ -1231,10 +1277,14 @@ export default function HomePage() {
                     {session ? (
                       <>
                         <div className="w-6 h-6 rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 mr-2 flex items-center justify-center text-xs font-bold overflow-hidden">
-                          {session.user?.name?.charAt(0) || session.user?.email?.charAt(0) || 'U'}
+                          {session.user?.name?.charAt(0) ||
+                            session.user?.email?.charAt(0) ||
+                            "U"}
                         </div>
                         <span className="max-w-[80px] truncate">
-                          {session.user?.name || session.user?.email?.split('@')[0] || 'User'}
+                          {session.user?.name ||
+                            session.user?.email?.split("@")[0] ||
+                            "User"}
                         </span>
                       </>
                     ) : (
@@ -1275,7 +1325,7 @@ export default function HomePage() {
 
           {/* Mobile Menu */}
           {mobileMenuOpen && (
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
@@ -1332,7 +1382,7 @@ export default function HomePage() {
                   {session ? (
                     <>
                       <div className="w-6 h-6 rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 mr-3 flex items-center justify-center text-xs font-bold">
-                        {session.user?.name?.charAt(0) || 'U'}
+                        {session.user?.name?.charAt(0) || "U"}
                       </div>
                       Profile
                     </>
@@ -1394,7 +1444,7 @@ export default function HomePage() {
             </h2>
 
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-              <motion.div 
+              <motion.div
                 whileHover={{ y: -5 }}
                 className="bg-gradient-to-br from-slate-900/80 to-black/60 backdrop-blur-lg border border-slate-700/50 rounded-xl p-4 shadow-lg hover:border-slate-600 hover:shadow-xl transition-all"
               >
@@ -1424,7 +1474,7 @@ export default function HomePage() {
                 </div>
               </motion.div>
 
-              <motion.div 
+              <motion.div
                 whileHover={{ y: -5 }}
                 className="bg-gradient-to-br from-slate-900/80 to-black/60 backdrop-blur-lg border border-slate-700/50 rounded-xl p-4 shadow-lg hover:border-slate-600 hover:shadow-xl transition-all"
               >
@@ -1454,7 +1504,7 @@ export default function HomePage() {
                 </div>
               </motion.div>
 
-              <motion.div 
+              <motion.div
                 whileHover={{ y: -5 }}
                 className="bg-gradient-to-br from-slate-900/80 to-black/60 backdrop-blur-lg border border-slate-700/50 rounded-xl p-4 shadow-lg hover:border-slate-600 hover:shadow-xl transition-all"
               >
@@ -1484,7 +1534,7 @@ export default function HomePage() {
                 </div>
               </motion.div>
 
-              <motion.div 
+              <motion.div
                 whileHover={{ y: -5 }}
                 className="bg-gradient-to-br from-slate-900/80 to-black/60 backdrop-blur-lg border border-slate-700/50 rounded-xl p-4 shadow-lg hover:border-slate-600 hover:shadow-xl transition-all"
               >
@@ -1527,8 +1577,8 @@ export default function HomePage() {
               <div className="flex border-b border-slate-700/50">
                 <button
                   className={`flex items-center px-6 py-4 ${
-                    !image 
-                      ? "bg-gradient-to-r from-indigo-900/60 to-purple-900/60 text-white" 
+                    !image
+                      ? "bg-gradient-to-r from-indigo-900/60 to-purple-900/60 text-white"
                       : "text-slate-300 hover:text-white hover:bg-slate-800/30 transition-colors"
                   }`}
                   onClick={() => {
@@ -1541,8 +1591,8 @@ export default function HomePage() {
                 </button>
                 <button
                   className={`flex items-center px-6 py-4 ${
-                    image 
-                      ? "bg-gradient-to-r from-indigo-900/60 to-purple-900/60 text-white" 
+                    image
+                      ? "bg-gradient-to-r from-indigo-900/60 to-purple-900/60 text-white"
                       : "text-slate-300 hover:text-white hover:bg-slate-800/30 transition-colors"
                   }`}
                   onClick={() => document.getElementById("food-image").click()}
@@ -1674,7 +1724,7 @@ export default function HomePage() {
 
           {/* Error Message */}
           {error && (
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               className="bg-gradient-to-r from-red-900/30 to-rose-900/30 backdrop-blur-lg border border-red-500/30 text-white rounded-lg p-4 mb-6 shadow-lg"
@@ -1795,7 +1845,7 @@ export default function HomePage() {
                   {/* Animated particles */}
                   <div className="absolute inset-0 overflow-hidden">
                     {[...Array(20)].map((_, i) => (
-                      <div 
+                      <div
                         key={i}
                         className="absolute rounded-full bg-white/20"
                         style={{
@@ -1803,12 +1853,14 @@ export default function HomePage() {
                           height: `${Math.random() * 10 + 5}px`,
                           top: `${Math.random() * 100}%`,
                           left: `${Math.random() * 100}%`,
-                          animation: `float ${Math.random() * 10 + 10}s linear infinite`
+                          animation: `float ${
+                            Math.random() * 10 + 10
+                          }s linear infinite`,
                         }}
                       ></div>
                     ))}
                   </div>
-                  
+
                   <button
                     onClick={() => setSelectedFood(null)}
                     className="absolute top-4 right-4 bg-black/30 backdrop-blur-md hover:bg-black/50 p-2 rounded-full text-white transition-colors"
@@ -1888,7 +1940,7 @@ export default function HomePage() {
                         />
                       </div>
 
-                      <motion.div 
+                      <motion.div
                         whileHover={{ y: -5 }}
                         className="bg-gradient-to-br from-slate-900/80 to-black/60 backdrop-blur-lg border border-slate-700/50 rounded-xl p-5 mb-6 shadow-lg
                         hover:border-slate-600 hover:shadow-xl transition-all"
@@ -2008,7 +2060,7 @@ export default function HomePage() {
                           </div>
                         )}
 
-                        <motion.div 
+                        <motion.div
                           whileHover={{ y: -5 }}
                           className="bg-gradient-to-br from-slate-900/80 to-black/60 backdrop-blur-lg border border-slate-700/50 rounded-xl p-5 shadow-lg hover:border-slate-600 hover:shadow-xl transition-all"
                         >
@@ -2112,7 +2164,7 @@ export default function HomePage() {
                           onClick={() => {
                             if (!session) {
                               // Redirect to sign-in if not authenticated
-                              router.push('/api/auth/signin');
+                              router.push("/api/auth/signin");
                             } else {
                               setMealTypeDialogOpen(true);
                             }
@@ -2135,12 +2187,12 @@ export default function HomePage() {
                                 Saved!
                               </motion.div>
                               <Calendar className="mr-2 h-5 w-5" />
-                              {session ? 'Save to Diary' : 'Sign in to Save'}
+                              {session ? "Save to Diary" : "Sign in to Save"}
                             </>
                           ) : (
                             <>
                               <Calendar className="mr-2 h-5 w-5" />
-                              {session ? 'Save to Diary' : 'Sign in to Save'}
+                              {session ? "Save to Diary" : "Sign in to Save"}
                             </>
                           )}
                         </motion.button>
@@ -2161,7 +2213,7 @@ export default function HomePage() {
                           Find Recipes
                         </motion.button>
                       </div>
-                      
+
                       {/* Social share button */}
                       <div className="mt-4">
                         <motion.button
@@ -2210,7 +2262,7 @@ export default function HomePage() {
                       {/* Animated particles */}
                       <div className="absolute inset-0 overflow-hidden">
                         {[...Array(10)].map((_, i) => (
-                          <div 
+                          <div
                             key={i}
                             className="absolute rounded-full bg-white/20"
                             style={{
@@ -2218,12 +2270,14 @@ export default function HomePage() {
                               height: `${Math.random() * 8 + 4}px`,
                               top: `${Math.random() * 100}%`,
                               left: `${Math.random() * 100}%`,
-                              animation: `float ${Math.random() * 8 + 8}s linear infinite`
+                              animation: `float ${
+                                Math.random() * 8 + 8
+                              }s linear infinite`,
                             }}
                           ></div>
                         ))}
                       </div>
-                      
+
                       <span className="text-4xl transform transition-transform group-hover:scale-125">
                         {getFoodEmoji(food.food_name)}
                       </span>
@@ -2317,7 +2371,9 @@ export default function HomePage() {
               >
                 <h2 className="text-2xl font-bold text-white mb-8 text-center">
                   Discover More with{" "}
-                  <span className="font-devanagari bg-gradient-to-r from-indigo-400 to-purple-500 text-transparent bg-clip-text">अन्ना - Data</span>
+                  <span className="font-devanagari bg-gradient-to-r from-indigo-400 to-purple-500 text-transparent bg-clip-text">
+                    अन्ना - Data
+                  </span>
                 </h2>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -2445,7 +2501,10 @@ export default function HomePage() {
               >
                 <h2 className="text-2xl font-bold text-white text-center mb-8">
                   Features That Make{" "}
-                  <span className="font-devanagari bg-gradient-to-r from-indigo-400 to-purple-500 text-transparent bg-clip-text">अन्ना - Data</span> Special
+                  <span className="font-devanagari bg-gradient-to-r from-indigo-400 to-purple-500 text-transparent bg-clip-text">
+                    अन्ना - Data
+                  </span>{" "}
+                  Special
                 </h2>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -2517,7 +2576,7 @@ export default function HomePage() {
                   ))}
                 </div>
               </motion.div>
-              
+
               {/* New Seasonal Recommendations Section */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -2529,12 +2588,12 @@ export default function HomePage() {
                   <Award className="mr-2 h-6 w-6 text-indigo-500" />
                   Seasonal Recommendations
                 </h2>
-                
+
                 <div className="relative overflow-hidden rounded-xl bg-gradient-to-br from-indigo-900/40 to-purple-900/40 border border-indigo-500/30 p-6 shadow-xl">
                   {/* Animated particles */}
                   <div className="absolute inset-0 overflow-hidden">
                     {[...Array(15)].map((_, i) => (
-                      <div 
+                      <div
                         key={i}
                         className="absolute rounded-full bg-white/10"
                         style={{
@@ -2542,20 +2601,39 @@ export default function HomePage() {
                           height: `${Math.random() * 8 + 3}px`,
                           top: `${Math.random() * 100}%`,
                           left: `${Math.random() * 100}%`,
-                          animation: `float ${Math.random() * 10 + 5}s linear infinite`
+                          animation: `float ${
+                            Math.random() * 10 + 5
+                          }s linear infinite`,
                         }}
                       ></div>
                     ))}
                   </div>
-                  
+
                   <div className="relative z-10">
-                    <h3 className="text-xl font-bold text-white mb-4">Spring Superfoods to Boost Your Health</h3>
-                    
+                    <h3 className="text-xl font-bold text-white mb-4">
+                      Spring Superfoods to Boost Your Health
+                    </h3>
+
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                       {[
-                        { name: "Fresh Berries", benefit: "Rich in antioxidants and vitamins", emoji: "🫐", query: "mixed berries" },
-                        { name: "Leafy Greens", benefit: "High in fiber and essential nutrients", emoji: "🥬", query: "spinach" },
-                        { name: "Asparagus", benefit: "Excellent source of folate and vitamin K", emoji: "🌱", query: "asparagus" },
+                        {
+                          name: "Fresh Berries",
+                          benefit: "Rich in antioxidants and vitamins",
+                          emoji: "🫐",
+                          query: "mixed berries",
+                        },
+                        {
+                          name: "Leafy Greens",
+                          benefit: "High in fiber and essential nutrients",
+                          emoji: "🥬",
+                          query: "spinach",
+                        },
+                        {
+                          name: "Asparagus",
+                          benefit: "Excellent source of folate and vitamin K",
+                          emoji: "🌱",
+                          query: "asparagus",
+                        },
                       ].map((item, index) => (
                         <motion.div
                           key={index}
@@ -2567,12 +2645,16 @@ export default function HomePage() {
                           }}
                         >
                           <span className="text-4xl mb-3">{item.emoji}</span>
-                          <h4 className="font-medium text-white mb-1">{item.name}</h4>
-                          <p className="text-sm text-slate-300">{item.benefit}</p>
+                          <h4 className="font-medium text-white mb-1">
+                            {item.name}
+                          </h4>
+                          <p className="text-sm text-slate-300">
+                            {item.benefit}
+                          </p>
                         </motion.div>
                       ))}
                     </div>
-                    
+
                     <div className="mt-6 text-center">
                       <motion.button
                         whileHover={{ scale: 1.05 }}
@@ -2660,7 +2742,7 @@ export default function HomePage() {
                 >
                   <div className="flex flex-col md:flex-row gap-6">
                     <div className="w-full md:w-1/3">
-                      <motion.div 
+                      <motion.div
                         whileHover={{ y: -5 }}
                         className="bg-gradient-to-br from-slate-900/80 to-black/60 backdrop-blur-md border border-slate-700/50 rounded-xl p-5 shadow-xl hover:border-slate-600"
                       >
@@ -2760,7 +2842,7 @@ export default function HomePage() {
                     </div>
 
                     <div className="w-full md:w-2/3">
-                      <motion.div 
+                      <motion.div
                         whileHover={{ y: -5 }}
                         className="bg-gradient-to-br from-slate-900/80 to-black/60 backdrop-blur-md border border-slate-700/50 rounded-xl p-6 shadow-xl hover:border-slate-600"
                       >
@@ -2983,7 +3065,7 @@ export default function HomePage() {
                       </motion.div>
 
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
-                        <motion.div 
+                        <motion.div
                           whileHover={{ y: -5 }}
                           className="bg-gradient-to-br from-slate-900/80 to-black/60 backdrop-blur-md border border-slate-700/50 rounded-xl p-5 shadow-xl hover:border-slate-600"
                         >
@@ -3026,7 +3108,7 @@ export default function HomePage() {
                           </div>
                         </motion.div>
 
-                        <motion.div 
+                        <motion.div
                           whileHover={{ y: -5 }}
                           className="bg-gradient-to-br from-slate-900/80 to-black/60 backdrop-blur-md border border-slate-700/50 rounded-xl p-5 shadow-xl hover:border-slate-600"
                         >
@@ -3116,7 +3198,7 @@ export default function HomePage() {
               </motion.div>
             </div>
           )}
-          
+
           {/* Diary View Modal */}
           {showDiaryView && (
             <div className="fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto">
@@ -3141,67 +3223,118 @@ export default function HomePage() {
                   </button>
                 </div>
 
-                <div className="p-6 overflow-y-auto" style={{ maxHeight: "calc(90vh - 70px)" }}>
+                <div
+                  className="p-6 overflow-y-auto"
+                  style={{ maxHeight: "calc(90vh - 70px)" }}
+                >
                   {/* Date selector */}
                   <div className="flex items-center justify-center mb-6">
-                    <button 
-                      onClick={() => setSelectedDate(new Date(selectedDate.setDate(selectedDate.getDate() - 1)))}
+                    <button
+                      onClick={() =>
+                        setSelectedDate(
+                          new Date(
+                            selectedDate.setDate(selectedDate.getDate() - 1)
+                          )
+                        )
+                      }
                       className="p-2 bg-slate-800 text-slate-300 rounded-full hover:bg-indigo-700 transition-colors"
                     >
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                        <path fillRule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clipRule="evenodd" />
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-5 w-5"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
+                          clipRule="evenodd"
+                        />
                       </svg>
                     </button>
-                    
+
                     <h3 className="text-xl font-medium text-white mx-6">
-                      {selectedDate.toLocaleDateString('en-US', { 
-                        weekday: 'short', 
-                        month: 'short', 
-                        day: 'numeric' 
+                      {selectedDate.toLocaleDateString("en-US", {
+                        weekday: "short",
+                        month: "short",
+                        day: "numeric",
                       })}
                     </h3>
-                    
-                    <button 
-                      onClick={() => setSelectedDate(new Date(selectedDate.setDate(selectedDate.getDate() + 1)))}
+
+                    <button
+                      onClick={() =>
+                        setSelectedDate(
+                          new Date(
+                            selectedDate.setDate(selectedDate.getDate() + 1)
+                          )
+                        )
+                      }
                       className="p-2 bg-slate-800 text-slate-300 rounded-full hover:bg-indigo-700 transition-colors"
-                      disabled={new Date(selectedDate).toDateString() === new Date().toDateString()}
+                      disabled={
+                        new Date(selectedDate).toDateString() ===
+                        new Date().toDateString()
+                      }
                     >
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                        <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-5 w-5"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                          clipRule="evenodd"
+                        />
                       </svg>
                     </button>
                   </div>
-                  
+
                   {/* Meal type filter */}
                   <div className="flex flex-wrap justify-center gap-2 mb-6">
-                    {['all', 'breakfast', 'lunch', 'dinner', 'snack'].map((mealType) => (
-                      <motion.button
-                        key={mealType}
-                        whileHover={{ y: -2, scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                        onClick={() => setActiveMealFilter(mealType)}
-                        className={`px-4 py-2 rounded-full text-sm transition-all ${
-                          activeMealFilter === mealType 
-                            ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white' 
-                            : 'bg-slate-800 text-slate-300'
-                        }`}
-                      >
-                        {mealType.charAt(0).toUpperCase() + mealType.slice(1)}
-                      </motion.button>
-                    ))}
+                    {["all", "breakfast", "lunch", "dinner", "snack"].map(
+                      (mealType) => (
+                        <motion.button
+                          key={mealType}
+                          whileHover={{ y: -2, scale: 1.05 }}
+                          whileTap={{ scale: 0.95 }}
+                          onClick={() => setActiveMealFilter(mealType)}
+                          className={`px-4 py-2 rounded-full text-sm transition-all ${
+                            activeMealFilter === mealType
+                              ? "bg-gradient-to-r from-indigo-600 to-purple-600 text-white"
+                              : "bg-slate-800 text-slate-300"
+                          }`}
+                        >
+                          {mealType.charAt(0).toUpperCase() + mealType.slice(1)}
+                        </motion.button>
+                      )
+                    )}
                   </div>
 
                   {/* Daily totals */}
-                  {getDiaryItemsByDate(selectedDate, activeMealFilter).length > 0 && (
+                  {getDiaryItemsByDate(selectedDate, activeMealFilter).length >
+                    0 && (
                     <div className="bg-gradient-to-br from-slate-900/50 to-black/30 rounded-xl p-4 mb-6 border border-slate-700/50">
-                      <h3 className="text-lg font-medium text-white mb-4">Daily Totals</h3>
-                      
+                      <h3 className="text-lg font-medium text-white mb-4">
+                        Daily Totals
+                      </h3>
+
                       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                        {Object.entries(calculateTotals(getDiaryItemsByDate(selectedDate, activeMealFilter))).map(([key, value]) => (
-                          <div key={key} className="bg-slate-800/50 rounded-lg p-3 border border-slate-700/30">
-                            <div className="text-xs text-slate-400 mb-1">{key.charAt(0).toUpperCase() + key.slice(1)}</div>
+                        {Object.entries(
+                          calculateTotals(
+                            getDiaryItemsByDate(selectedDate, activeMealFilter)
+                          )
+                        ).map(([key, value]) => (
+                          <div
+                            key={key}
+                            className="bg-slate-800/50 rounded-lg p-3 border border-slate-700/30"
+                          >
+                            <div className="text-xs text-slate-400 mb-1">
+                              {key.charAt(0).toUpperCase() + key.slice(1)}
+                            </div>
                             <div className="text-lg font-bold text-white">
-                              {Math.round(value)}{key === 'calories' ? '' : 'g'}
+                              {Math.round(value)}
+                              {key === "calories" ? "" : "g"}
                             </div>
                           </div>
                         ))}
@@ -3210,95 +3343,169 @@ export default function HomePage() {
                   )}
 
                   {/* Food items by meal type */}
-                  {getDiaryItemsByDate(selectedDate, activeMealFilter).length > 0 ? (
+                  {getDiaryItemsByDate(selectedDate, activeMealFilter).length >
+                  0 ? (
                     <div>
-                      {['breakfast', 'lunch', 'dinner', 'snack'].map((mealType) => {
-                        const mealItems = activeMealFilter === 'all' 
-                          ? getDiaryItemsByDate(selectedDate).filter(item => item.mealType === mealType)
-                          : getDiaryItemsByDate(selectedDate, mealType);
-                          
-                        if (mealItems.length === 0 && activeMealFilter !== 'all') return null;
-                        if (mealItems.length === 0) return null;
-                        
-                        return (
-                          <div key={mealType} className="mb-6">
-                            {activeMealFilter === 'all' && (
-                              <h3 className="text-lg font-medium text-white mb-3 capitalize flex items-center">
-                                {mealType === 'breakfast' && <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-amber-500" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM4.332 8.027a6.012 6.012 0 011.912-2.706C6.512 5.73 6.974 6 7.5 6A1.5 1.5 0 019 7.5V8a2 2 0 004 0 2 2 0 011.523-1.943A5.977 5.977 0 0116 10c0 .34-.028.675-.083 1H15a2 2 0 00-2 2v2.197A5.973 5.973 0 0110 16v-2a2 2 0 00-2-2 2 2 0 01-2-2 2 2 0 00-1.668-1.973z" clipRule="evenodd" /></svg>}
-                                {mealType === 'lunch' && <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-blue-500" viewBox="0 0 20 20" fill="currentColor"><path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z" /></svg>}
-                                {mealType === 'dinner' && <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-purple-500" viewBox="0 0 20 20" fill="currentColor"><path d="M10 2a5 5 0 00-5 5v2a2 2 0 00-2 2v5a2 2 0 002 2h10a2 2 0 002-2v-5a2 2 0 00-2-2H7V7a3 3 0 015.905-.75 1 1 0 001.937-.5A5.002 5.002 0 0010 2z" /></svg>}
-                                {mealType === 'snack' && <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-emerald-500" viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>}
-                                {mealType}
-                              </h3>
-                            )}
-                            
-                            <div className="space-y-3">
-                              {mealItems.map((item) => (
-                                <motion.div 
-                                  key={new Date(item.date).getTime()}
-                                  initial={{ opacity: 0, y: 10 }}
-                                  animate={{ opacity: 1, y: 0 }}
-                                  exit={{ opacity: 0, y: -10 }}
-                                  className="bg-gradient-to-br from-slate-900/80 to-black/60 backdrop-blur-lg border border-slate-700/50 rounded-lg overflow-hidden flex flex-col md:flex-row"
-                                >
-                                  <div className="bg-gradient-to-r from-indigo-600/40 to-purple-600/40 p-4 flex items-center justify-center md:w-20">
-                                    <span className="text-3xl">{getFoodEmoji(item.food.food_name)}</span>
-                                  </div>
-                                  
-                                  <div className="p-4 flex-grow">
-                                    <div className="flex justify-between items-start">
-                                      <div>
-                                        <h4 className="text-lg font-medium text-white">{item.food.food_name}</h4>
-                                        <p className="text-sm text-slate-300">
-                                          {item.food.serving_type} • {formatTimeAgo(item.date)}
-                                        </p>
-                                      </div>
-                                      
-                                      <button 
-                                        onClick={() => removeDiaryItem(new Date(item.date).getTime())}
-                                        className="p-1 rounded-full text-slate-400 hover:bg-red-900/30 hover:text-red-300"
-                                      >
-                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                          <path fillRule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clipRule="evenodd" />
-                                        </svg>
-                                      </button>
+                      {["breakfast", "lunch", "dinner", "snack"].map(
+                        (mealType) => {
+                          const mealItems =
+                            activeMealFilter === "all"
+                              ? getDiaryItemsByDate(selectedDate).filter(
+                                  (item) => item.mealType === mealType
+                                )
+                              : getDiaryItemsByDate(selectedDate, mealType);
+
+                          if (
+                            mealItems.length === 0 &&
+                            activeMealFilter !== "all"
+                          )
+                            return null;
+                          if (mealItems.length === 0) return null;
+
+                          return (
+                            <div key={mealType} className="mb-6">
+                              {activeMealFilter === "all" && (
+                                <h3 className="text-lg font-medium text-white mb-3 capitalize flex items-center">
+                                  {mealType === "breakfast" && (
+                                    <svg
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      className="h-5 w-5 mr-2 text-amber-500"
+                                      viewBox="0 0 20 20"
+                                      fill="currentColor"
+                                    >
+                                      <path
+                                        fillRule="evenodd"
+                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zM4.332 8.027a6.012 6.012 0 011.912-2.706C6.512 5.73 6.974 6 7.5 6A1.5 1.5 0 019 7.5V8a2 2 0 004 0 2 2 0 011.523-1.943A5.977 5.977 0 0116 10c0 .34-.028.675-.083 1H15a2 2 0 00-2 2v2.197A5.973 5.973 0 0110 16v-2a2 2 0 00-2-2 2 2 0 01-2-2 2 2 0 00-1.668-1.973z"
+                                        clipRule="evenodd"
+                                      />
+                                    </svg>
+                                  )}
+                                  {mealType === "lunch" && (
+                                    <svg
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      className="h-5 w-5 mr-2 text-blue-500"
+                                      viewBox="0 0 20 20"
+                                      fill="currentColor"
+                                    >
+                                      <path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z" />
+                                    </svg>
+                                  )}
+                                  {mealType === "dinner" && (
+                                    <svg
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      className="h-5 w-5 mr-2 text-purple-500"
+                                      viewBox="0 0 20 20"
+                                      fill="currentColor"
+                                    >
+                                      <path d="M10 2a5 5 0 00-5 5v2a2 2 0 00-2 2v5a2 2 0 002 2h10a2 2 0 002-2v-5a2 2 0 00-2-2H7V7a3 3 0 015.905-.75 1 1 0 001.937-.5A5.002 5.002 0 0010 2z" />
+                                    </svg>
+                                  )}
+                                  {mealType === "snack" && (
+                                    <svg
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      className="h-5 w-5 mr-2 text-emerald-500"
+                                      viewBox="0 0 20 20"
+                                      fill="currentColor"
+                                    >
+                                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                    </svg>
+                                  )}
+                                  {mealType}
+                                </h3>
+                              )}
+
+                              <div className="space-y-3">
+                                {mealItems.map((item) => (
+                                  <motion.div
+                                    key={new Date(item.date).getTime()}
+                                    initial={{ opacity: 0, y: 10 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    exit={{ opacity: 0, y: -10 }}
+                                    className="bg-gradient-to-br from-slate-900/80 to-black/60 backdrop-blur-lg border border-slate-700/50 rounded-lg overflow-hidden flex flex-col md:flex-row"
+                                  >
+                                    <div className="bg-gradient-to-r from-indigo-600/40 to-purple-600/40 p-4 flex items-center justify-center md:w-20">
+                                      <span className="text-3xl">
+                                        {getFoodEmoji(item.food.food_name)}
+                                      </span>
                                     </div>
-                                    
-                                    <div className="flex mt-3 space-x-3">
-                                      <div className="px-2 py-1 bg-indigo-900/40 rounded text-xs font-medium text-indigo-200 border border-indigo-500/30">
-                                        {Math.round(item.food.nutrients.calories)} kcal
+
+                                    <div className="p-4 flex-grow">
+                                      <div className="flex justify-between items-start">
+                                        <div>
+                                          <h4 className="text-lg font-medium text-white">
+                                            {item.food.food_name}
+                                          </h4>
+                                          <p className="text-sm text-slate-300">
+                                            {item.food.serving_type} •{" "}
+                                            {formatTimeAgo(item.date)}
+                                          </p>
+                                        </div>
+
+                                        <button
+                                          onClick={() =>
+                                            removeDiaryItem(
+                                              new Date(item.date).getTime()
+                                            )
+                                          }
+                                          className="p-1 rounded-full text-slate-400 hover:bg-red-900/30 hover:text-red-300"
+                                        >
+                                          <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            className="h-5 w-5"
+                                            viewBox="0 0 20 20"
+                                            fill="currentColor"
+                                          >
+                                            <path
+                                              fillRule="evenodd"
+                                              d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
+                                              clipRule="evenodd"
+                                            />
+                                          </svg>
+                                        </button>
                                       </div>
-                                      <div className="px-2 py-1 bg-blue-900/40 rounded text-xs font-medium text-blue-200 border border-blue-500/30">
-                                        P: {item.food.nutrients.protein}g
-                                      </div>
-                                      <div className="px-2 py-1 bg-emerald-900/40 rounded text-xs font-medium text-emerald-200 border border-emerald-500/30">
-                                        C: {item.food.nutrients.carbs}g
-                                      </div>
-                                      <div className="px-2 py-1 bg-amber-900/40 rounded text-xs font-medium text-amber-200 border border-amber-500/30">
-                                        F: {item.food.nutrients.fats}g
+
+                                      <div className="flex mt-3 space-x-3">
+                                        <div className="px-2 py-1 bg-indigo-900/40 rounded text-xs font-medium text-indigo-200 border border-indigo-500/30">
+                                          {Math.round(
+                                            item.food.nutrients.calories
+                                          )}{" "}
+                                          kcal
+                                        </div>
+                                        <div className="px-2 py-1 bg-blue-900/40 rounded text-xs font-medium text-blue-200 border border-blue-500/30">
+                                          P: {item.food.nutrients.protein}g
+                                        </div>
+                                        <div className="px-2 py-1 bg-emerald-900/40 rounded text-xs font-medium text-emerald-200 border border-emerald-500/30">
+                                          C: {item.food.nutrients.carbs}g
+                                        </div>
+                                        <div className="px-2 py-1 bg-amber-900/40 rounded text-xs font-medium text-amber-200 border border-amber-500/30">
+                                          F: {item.food.nutrients.fats}g
+                                        </div>
                                       </div>
                                     </div>
-                                  </div>
-                                </motion.div>
-                              ))}
+                                  </motion.div>
+                                ))}
+                              </div>
                             </div>
-                          </div>
-                        );
-                      })}
+                          );
+                        }
+                      )}
                     </div>
                   ) : (
                     <div className="py-12 text-center">
                       <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-slate-800/50 flex items-center justify-center">
                         <Calendar className="h-10 w-10 text-slate-500" />
                       </div>
-                      <h3 className="text-xl font-medium text-white mb-2">No food entries yet</h3>
+                      <h3 className="text-xl font-medium text-white mb-2">
+                        No food entries yet
+                      </h3>
                       <p className="text-slate-400 max-w-md mx-auto">
-                        Search for foods and use the "Save to Diary" button to keep track of your meals.
+                        Search for foods and use the "Save to Diary" button to
+                        keep track of your meals.
                       </p>
                     </div>
                   )}
                 </div>
-                
+
                 <div className="sticky bottom-0 bg-black/80 backdrop-blur-lg p-4 border-t border-slate-700/50">
                   <motion.button
                     whileHover={{ scale: 1.02 }}
@@ -3316,7 +3523,7 @@ export default function HomePage() {
               </motion.div>
             </div>
           )}
-          
+
           {/* Share Success Modal */}
           {shareModalOpen && (
             <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
@@ -3329,18 +3536,21 @@ export default function HomePage() {
                   <div className="w-16 h-16 mx-auto bg-gradient-to-br from-indigo-600 to-purple-600 rounded-full flex items-center justify-center">
                     <Share2 className="h-8 w-8 text-white" />
                   </div>
-                  <h3 className="text-xl font-bold text-white mt-4 mb-2">Nutrition Info Copied!</h3>
+                  <h3 className="text-xl font-bold text-white mt-4 mb-2">
+                    Nutrition Info Copied!
+                  </h3>
                   <p className="text-slate-300 mb-4">
-                    The food information has been copied to your clipboard. You can now paste it anywhere.
+                    The food information has been copied to your clipboard. You
+                    can now paste it anywhere.
                   </p>
                 </div>
-                
+
                 <div className="bg-black/30 rounded-lg p-3 border border-slate-700/50 mb-4 max-h-40 overflow-y-auto">
                   <pre className="text-sm text-slate-300 whitespace-pre-wrap font-mono">
                     {shareUrl}
                   </pre>
                 </div>
-                
+
                 <div className="flex gap-3">
                   <motion.button
                     whileHover={{ scale: 1.02 }}
@@ -3365,7 +3575,7 @@ export default function HomePage() {
               </motion.div>
             </div>
           )}
-          
+
           {/* Seasonal Foods Modal */}
           {showSeasonalFoods && (
             <div className="fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto">
@@ -3390,34 +3600,38 @@ export default function HomePage() {
                   </button>
                 </div>
 
-                <div className="p-6 overflow-y-auto" style={{ maxHeight: "calc(90vh - 70px)" }}>
+                <div
+                  className="p-6 overflow-y-auto"
+                  style={{ maxHeight: "calc(90vh - 70px)" }}
+                >
                   {/* Season selector */}
                   <div className="flex flex-wrap justify-center gap-2 mb-8">
-                    {['Spring', 'Summer', 'Fall', 'Winter'].map((season) => (
+                    {["Spring", "Summer", "Fall", "Winter"].map((season) => (
                       <motion.button
                         key={season}
                         whileHover={{ y: -2, scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
                         onClick={() => generateSeasonalFoods(season)}
                         className={`px-6 py-2 rounded-full text-sm font-medium transition-all ${
-                          currentSeason === season 
-                            ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white' 
-                            : 'bg-slate-800 text-slate-300'
+                          currentSeason === season
+                            ? "bg-gradient-to-r from-indigo-600 to-purple-600 text-white"
+                            : "bg-slate-800 text-slate-300"
                         }`}
                       >
                         {season}
                       </motion.button>
                     ))}
                   </div>
-                  
+
                   {/* Season Info */}
                   <div className="text-center mb-8">
                     <h3 className="text-xl font-medium bg-gradient-to-r from-indigo-400 to-purple-500 text-transparent bg-clip-text mb-2">
                       Eating with the seasons
                     </h3>
                     <p className="text-slate-300 max-w-2xl mx-auto">
-                      Seasonal foods are fresher, more nutritious, and often more environmentally friendly. 
-                      They're harvested at peak ripeness and typically require fewer resources to grow.
+                      Seasonal foods are fresher, more nutritious, and often
+                      more environmentally friendly. They're harvested at peak
+                      ripeness and typically require fewer resources to grow.
                     </p>
                   </div>
 
@@ -3454,35 +3668,46 @@ export default function HomePage() {
                                   {food.category}
                                 </span>
                               </div>
-                              
+
                               <div className="p-5">
                                 <div className="flex justify-between items-start mb-2">
-                                  <h3 className="text-xl font-medium text-white">{food.name}</h3>
+                                  <h3 className="text-xl font-medium text-white">
+                                    {food.name}
+                                  </h3>
                                   <span className="px-2 py-1 bg-indigo-900/30 rounded text-xs text-indigo-300 capitalize border border-indigo-500/20">
                                     {food.mealType}
                                   </span>
                                 </div>
-                                
+
                                 <p className="text-slate-300 text-sm mb-4">
                                   {food.description}
                                 </p>
-                                
+
                                 <div className="mb-4">
-                                  <h4 className="text-xs uppercase tracking-wider text-slate-400 mb-2">Key Nutrients</h4>
+                                  <h4 className="text-xs uppercase tracking-wider text-slate-400 mb-2">
+                                    Key Nutrients
+                                  </h4>
                                   <div className="flex flex-wrap gap-2">
                                     {food.keyNutrients.map((nutrient, i) => (
-                                      <span key={i} className="px-2 py-1 bg-slate-800/50 rounded-full text-xs text-slate-300 border border-slate-700/30">
+                                      <span
+                                        key={i}
+                                        className="px-2 py-1 bg-slate-800/50 rounded-full text-xs text-slate-300 border border-slate-700/30"
+                                      >
                                         {nutrient}
                                       </span>
                                     ))}
                                   </div>
                                 </div>
-                                
+
                                 <div className="mb-4">
-                                  <h4 className="text-xs uppercase tracking-wider text-slate-400 mb-2">Best Preparation</h4>
-                                  <p className="text-sm text-slate-300">{food.prepMethod}</p>
+                                  <h4 className="text-xs uppercase tracking-wider text-slate-400 mb-2">
+                                    Best Preparation
+                                  </h4>
+                                  <p className="text-sm text-slate-300">
+                                    {food.prepMethod}
+                                  </p>
                                 </div>
-                                
+
                                 <motion.button
                                   whileHover={{ scale: 1.02 }}
                                   whileTap={{ scale: 0.98 }}
@@ -3501,18 +3726,22 @@ export default function HomePage() {
                           ))
                         ) : (
                           <div className="col-span-full text-center py-10">
-                            <p className="text-slate-400">No seasonal foods found. Try selecting a different season.</p>
+                            <p className="text-slate-400">
+                              No seasonal foods found. Try selecting a different
+                              season.
+                            </p>
                           </div>
                         )}
                       </div>
                     </div>
                   )}
                 </div>
-                
+
                 <div className="sticky bottom-0 bg-black/80 backdrop-blur-lg p-4 border-t border-slate-700/50">
                   <div className="flex justify-between items-center">
                     <p className="text-slate-400 text-sm">
-                      <span className="text-white">Tip:</span> Eating seasonally can reduce your environmental footprint
+                      <span className="text-white">Tip:</span> Eating seasonally
+                      can reduce your environmental footprint
                     </p>
                     <motion.button
                       whileHover={{ scale: 1.05 }}
@@ -3531,50 +3760,67 @@ export default function HomePage() {
 
         {/* Footer */}
         <footer className="relative bg-gradient-to-r from-black/70 via-slate-900/70 to-black/70 backdrop-blur-lg border-t border-slate-800/80 py-10 mt-20 overflow-hidden">
-  {/* Animated background elements */}
-  <div className="absolute inset-0 overflow-hidden pointer-events-none">
-    <div className="absolute -top-10 right-10 w-80 h-80 bg-indigo-700/10 rounded-full blur-3xl"></div>
-    <div className="absolute bottom-5 -left-20 w-72 h-72 bg-purple-700/10 rounded-full blur-3xl"></div>
-    <div className="absolute -bottom-10 right-1/4 w-60 h-60 bg-blue-700/10 rounded-full blur-3xl"></div>
-  </div>
+          {/* Animated background elements */}
+          <div className="absolute inset-0 overflow-hidden pointer-events-none">
+            <div className="absolute -top-10 right-10 w-80 h-80 bg-indigo-700/10 rounded-full blur-3xl"></div>
+            <div className="absolute bottom-5 -left-20 w-72 h-72 bg-purple-700/10 rounded-full blur-3xl"></div>
+            <div className="absolute -bottom-10 right-1/4 w-60 h-60 bg-blue-700/10 rounded-full blur-3xl"></div>
+          </div>
 
-  <div className="container mx-auto px-4">
-    {/* Main footer content - simplified */}
-    <div className="flex flex-col md:flex-row justify-between items-center gap-8">
-      {/* Brand Column */}
-      <div className="space-y-5">
-        <div>
-          <span className="text-3xl font-bold bg-gradient-to-r from-indigo-400 via-purple-500 to-indigo-400 text-transparent bg-clip-text font-devanagari">
-            अन्ना - Data
-          </span>
-          <p className="text-slate-400 mt-2">
-            Your personal nutrition intelligence platform
-          </p>
-        </div>
+          <div className="container mx-auto px-4">
+            {/* Main footer content - simplified */}
+            <div className="flex flex-col md:flex-row justify-between items-center gap-8">
+              {/* Brand Column */}
+              <div className="space-y-5">
+                <div>
+                  <span className="text-3xl font-bold bg-gradient-to-r from-indigo-400 via-purple-500 to-indigo-400 text-transparent bg-clip-text font-devanagari">
+                    अन्ना - Data
+                  </span>
+                  <p className="text-slate-400 mt-2">
+                    Your personal nutrition intelligence platform
+                  </p>
+                </div>
 
-        {/* Social Media Links */}
-        <div className="flex gap-4">
-          <a
-            href="https://x.com/PixelNiladri"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="w-9 h-9 rounded-full bg-slate-800/90 hover:bg-indigo-600/90 flex items-center justify-center transition-colors group"
-            aria-label="Twitter"
-          >
-            <svg className="w-4 h-4 text-slate-400 group-hover:text-white transition-colors" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.45-6.231Zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77Z" fill="currentColor"></path>
-            </svg>
-          </a>
-          <a
-            href="https://github.com/NiladriHazra/AnnaData"
-            className="w-9 h-9 rounded-full bg-slate-800/90 hover:bg-indigo-600/90 flex items-center justify-center transition-colors group"
-            aria-label="GitHub"
-          >
-            <svg className="w-5 h-5 text-slate-400 group-hover:text-white transition-colors" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
-            </svg>
-          </a>
-          {/* <a
+                {/* Social Media Links */}
+                <div className="flex gap-4">
+                  <a
+                    href="https://x.com/PixelNiladri"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-9 h-9 rounded-full bg-slate-800/90 hover:bg-indigo-600/90 flex items-center justify-center transition-colors group"
+                    aria-label="Twitter"
+                  >
+                    <svg
+                      className="w-4 h-4 text-slate-400 group-hover:text-white transition-colors"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.45-6.231Zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77Z"
+                        fill="currentColor"
+                      ></path>
+                    </svg>
+                  </a>
+                  <a
+                    href="https://github.com/NiladriHazra/AnnaData"
+                    className="w-9 h-9 rounded-full bg-slate-800/90 hover:bg-indigo-600/90 flex items-center justify-center transition-colors group"
+                    aria-label="GitHub"
+                  >
+                    <svg
+                      className="w-5 h-5 text-slate-400 group-hover:text-white transition-colors"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+                    </svg>
+                  </a>
+                  {/* <a
             href="#"
             className="w-9 h-9 rounded-full bg-slate-800/90 hover:bg-indigo-600/90 flex items-center justify-center transition-colors group"
             aria-label="Instagram"
@@ -3596,71 +3842,91 @@ export default function HomePage() {
               <circle cx="4" cy="4" r="2"></circle>
             </svg>
           </a> */}
-        </div>
-      </div>
+                </div>
+              </div>
 
-      {/* Quick Links - Simplified */}
-      <div className="flex flex-wrap gap-8">
-        <a
-          href="#"
-          className="text-slate-400 hover:text-indigo-400 transition-colors"
-        >
-          About
-        </a>
-        <a
-          href="#"
-          className="text-slate-400 hover:text-indigo-400 transition-colors"
-        >
-          Privacy
-        </a>
-        <a
-          href="#"
-          className="text-slate-400 hover:text-indigo-400 transition-colors"
-        >
-          Terms
-        </a>
-        <a
-          href="#"
-          className="text-slate-400 hover:text-indigo-400 transition-colors"
-        >
-          Contact
-        </a>
-      </div>
-    </div>
+              {/* Quick Links - Simplified */}
+              <div className="flex flex-wrap gap-8">
+                <a
+                  href="#"
+                  className="text-slate-400 hover:text-indigo-400 transition-colors"
+                >
+                  About
+                </a>
+                <a
+                  href="#"
+                  className="text-slate-400 hover:text-indigo-400 transition-colors"
+                >
+                  Privacy
+                </a>
+                <a
+                  href="#"
+                  className="text-slate-400 hover:text-indigo-400 transition-colors"
+                >
+                  Terms
+                </a>
+                <a
+                  href="#"
+                  className="text-slate-400 hover:text-indigo-400 transition-colors"
+                >
+                  Contact
+                </a>
+              </div>
+            </div>
 
-    {/* Bottom bar */}
-    <div className="mt-8 pt-6 border-t border-slate-800/50 flex flex-col md:flex-row justify-between items-center">
-      <div className="mb-4 md:mb-0">
-        <p className="text-slate-500 text-sm">
-          &copy; {new Date().getFullYear()} अन्ना - Data • All rights reserved
-        </p>
-      </div>
+            {/* Bottom bar */}
+            {/* Bottom bar - Responsive version */}
+            <div className="mt-8 pt-6 border-t border-slate-800/50">
+              <div className="flex flex-col space-y-4">
+                {/* Copyright section */}
+                <div className="text-center md:text-left">
+                  <p className="text-slate-500 text-sm">
+                    &copy; {new Date().getFullYear()} अन्ना - Data • All rights
+                    reserved
+                  </p>
+                </div>
 
-      <div className="flex items-center">
-        <div className="text-slate-500 flex items-center gap-2">
-          <span>Created by</span>
-          <a href="https://x.com/PixelNiladri" target="_blank" rel="noopener noreferrer" className="relative group">
-            <span className="bg-gradient-to-r from-indigo-400 to-purple-500 text-transparent bg-clip-text font-semibold text-base">Niladri Hazra</span>
-            <span className="text-indigo-400/90">(Team अन्ना - Data)</span>
-            <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-indigo-500 to-purple-500 group-hover:w-full transition-all duration-300"></span>
-          </a>
-        </div>
-        
-        <span className="mx-3 text-slate-700">•</span>
-        
-        <div className="flex items-center">
-          <span className="inline-flex items-center mr-2 px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-900/40 text-indigo-300 border border-indigo-800/40">
-            v2.4.0
-          </span>
-          <span className="text-xs text-slate-500">
-            Updated: 2025-04-19 08:51:32
-          </span>
-        </div>
-      </div>
-    </div>
-  </div>
-</footer>
-        
+                {/* Creator info and version */}
+                <div className="flex flex-col md:flex-row items-center justify-center md:justify-between space-y-3 md:space-y-0">
+                  {/* Creator */}
+                  <div className="text-slate-500 flex flex-wrap items-center justify-center gap-1 text-sm">
+                    <span>Created by</span>
+                    <a
+                      href="https://x.com/PixelNiladri"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="relative group"
+                    >
+                      <span className="bg-gradient-to-r from-indigo-400 to-purple-500 text-transparent bg-clip-text font-semibold">
+                        Niladri Hazra
+                      </span>
+                      <span className="text-indigo-400/90">
+                        (Team अन्ना - Data)
+                      </span>
+                      <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-indigo-500 to-purple-500 group-hover:w-full transition-all duration-300"></span>
+                    </a>
+                  </div>
+
+                  {/* Divider shown only on desktop */}
+                  <span className="hidden md:inline mx-3 text-slate-700">
+                    •
+                  </span>
+
+                  {/* Version info */}
+                  <div className="flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-2">
+                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-900/40 text-indigo-300 border border-indigo-800/40">
+                      v2.4.0
+                    </span>
+                    <span className="text-xs text-slate-500">
+                      Updated: 2025-04-19 08:51:32
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </footer>
+
         {/* Add CSS animation for floating particles */}
         <style jsx global>{`
           @keyframes float {
