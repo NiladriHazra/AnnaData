@@ -4,54 +4,42 @@ import { getToken } from 'next-auth/jwt';
 export async function middleware(request) {
   const path = request.nextUrl.pathname;
   
-  console.log("Middleware running for path:", path);
-  console.log("Request URL:", request.url);
-  
-  // Allow all API routes to pass through without auth check during debugging
-  if (path.startsWith('/api/')) {
-    console.log("API route detected, allowing request");
-    return NextResponse.next();
-  }
-  
   // Public paths that don't require authentication
   const publicPaths = [
     '/login', 
     '/register', 
     '/api/auth',
-    '/favicon.ico'
+    '/favicon.ico',
+    '/_next' // Important to include Next.js internal routes
   ];
-  const isPublicPath = publicPaths.some((publicPath) => path.startsWith(publicPath));
   
-  if (isPublicPath) {
-    console.log("Public path detected, allowing request");
+  const isPublicPath = publicPaths.some((publicPath) => path.startsWith(publicPath));
+  const isApiPath = path.startsWith('/api/');
+  
+  if (isPublicPath || isApiPath) {
     return NextResponse.next();
   }
 
   try {
-    console.log("Checking for auth token...");
-    // Important: specify the secure and domain parameters to match your config
     const token = await getToken({ 
       req: request, 
       secret: process.env.NEXTAUTH_SECRET,
-      secureCookie: true // Match your cookies settings
+      // Don't specify secureCookie or cookieName here
     });
     
-    console.log("Token exists:", !!token);
-    
     if (!token) {
-      console.log("No token found, redirecting to login");
+      // Redirect to login if no token
       const url = new URL('/login', request.url);
       url.searchParams.set('callbackUrl', encodeURI(request.url));
       return NextResponse.redirect(url);
     }
     
-    // User is authenticated
-    console.log("User is authenticated, allowing request");
     return NextResponse.next();
   } catch (error) {
-    console.error("Error in middleware:", error);
-    // During debugging, let requests through on error
-    return NextResponse.next();
+    console.error("Middleware error:", error);
+    // On error, redirect to login
+    const url = new URL('/login', request.url);
+    return NextResponse.redirect(url);
   }
 }
 

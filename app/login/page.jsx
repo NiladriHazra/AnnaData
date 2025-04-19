@@ -28,7 +28,7 @@ export default function LoginPage() {
 
  // In your login handler function:
 
-const handleSubmit = async (e) => {
+ const handleSubmit = async (e) => {
   e.preventDefault();
   setLoading(true);
   setError('');
@@ -36,8 +36,9 @@ const handleSubmit = async (e) => {
   try {
     console.log("Login attempt for:", email);
     
+    // Use a single sign-in attempt with redirect:true
     const result = await signIn('credentials', {
-      redirect: false,
+      redirect: false, // Initially false to check for errors
       email,
       password
     });
@@ -47,17 +48,12 @@ const handleSubmit = async (e) => {
     if (result.error) {
       setError(result.error);
     } else {
-      // Instead of timer + redirect, use signIn with redirect:true
-      // This is more reliable for NextAuth session handling
       setShowSuccessMessage(true);
       
-      // Instead of a setTimeout, use direct signIn with redirect
-      signIn('credentials', {
-        redirect: true,
-        email,
-        password,
-        callbackUrl: '/'
-      });
+      // Use window.location for a direct navigation
+      setTimeout(() => {
+        window.location.href = '/';
+      }, 1500);
     }
   } catch (error) {
     console.error("Login error:", error);
@@ -98,14 +94,15 @@ const handleSubmit = async (e) => {
         password
       });
 
-      if (result.error) {
-        setError(result.error);
-      } else {
-        setShowSuccessMessage(true);
-        setTimeout(() => {
-          window.location.href = '/';
-        }, 1500);
-      }
+     // In the handleRegister function
+if (result.error) {
+  setError(result.error);
+} else {
+  setShowSuccessMessage(true);
+  setTimeout(() => {
+    window.location.href = '/';
+  }, 1500);
+}
     } catch (error) {
       setError(error.message);
     } finally {

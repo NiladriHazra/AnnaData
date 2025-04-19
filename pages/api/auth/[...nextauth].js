@@ -66,7 +66,7 @@ export const authOptions = {
         sameSite: 'lax',
         path: '/',
         secure: true, // Always use secure cookies with your custom domain
-        domain: '.niladri.tech' // Try with your root domain
+       
       }
     }
   },
