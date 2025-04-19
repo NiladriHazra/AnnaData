@@ -126,7 +126,7 @@ export default function RecipePage() {
 }
  function RecipeContent() {
   const searchParams = useSearchParams();
-  // const router = useRouter();
+  const router = useRouter();
   const initialQuery = searchParams.get("query") || "";
 
   const [query, setQuery] = useState(initialQuery);
