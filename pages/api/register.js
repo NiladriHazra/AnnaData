@@ -1,5 +1,5 @@
 import bcrypt from 'bcryptjs';
-import connectToDatabase from '../../lib/mongodb';
+import connectToDatabase from '../../lib/mongodb';  // Changed back to default import
 import User from '../../models/User';
 
 export default async function handler(req, res) {
@@ -8,6 +8,7 @@ export default async function handler(req, res) {
   }
 
   try {
+    // Just establish the connection, no need to destructure anything
     await connectToDatabase();
     const { name, email, password } = req.body;
 
@@ -37,7 +38,7 @@ export default async function handler(req, res) {
       success: true,
       message: 'User registered successfully',
       user: {
-        id: user._id,
+        id: user._id.toString(),  // Convert ObjectId to string
         name: user.name,
         email: user.email,
       }

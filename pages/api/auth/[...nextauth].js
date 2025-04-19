@@ -1,7 +1,7 @@
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from 'bcryptjs';
-import connectToDatabase from "../../../lib/mongodb";
+import { connectToDatabase } from "../../../lib/mongodb"; // Change to destructured import
 import User from "../../../models/User";
 
 export const authOptions = {
@@ -13,7 +13,7 @@ export const authOptions = {
         password: { label: "Password", type: "password" }
       },
       async authorize(credentials) {
-        await connectToDatabase();
+        await connectToDatabase(); // This just establishes the mongoose connection
 
         // Find user by email
         const user = await User.findOne({ email: credentials.email });
