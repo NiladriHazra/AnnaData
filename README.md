@@ -1,7 +1,8 @@
 # AnnaData: Your Personal Nutrition Intelligence Platform
 
-![AnnaData Banner](imagesanna\banner.png)
-
+![AnnaData Banner]<div align="center">
+  <img src="imagesanna\banner.png" width="45%" alt="Dashboard">
+</div>
 [![GitHub stars](https://img.shields.io/github/stars/NiladriHazra/AnnaData?style=social)](https://github.com/NiladriHazra/AnnaData/stargazers)
 [![Twitter Follow](https://img.shields.io/twitter/follow/PixelNiladri?style=social)](https://twitter.com/PixelNiladri)
 [![GitHub license](https://img.shields.io/github/license/NiladriHazra/AnnaData?color=blue)](https://github.com/NiladriHazra/AnnaData/blob/main/LICENSE)
