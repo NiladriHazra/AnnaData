@@ -58,16 +58,25 @@ export const authOptions = {
       return session;
     },
   },
+  cookies: {
+    sessionToken: {
+      name: `next-auth.session-token`,
+      options: {
+        httpOnly: true,
+        sameSite: 'lax',
+        path: '/',
+        secure: true, // Always use secure cookies with your custom domain
+        domain: '.niladri.tech' // Try with your root domain
+      }
+    }
+  },
   pages: {
     signIn: "/login",
   },
   secret: process.env.NEXTAUTH_SECRET,
+  debug: true, // Enable debugging to see what's happening
 };
 
-// Add at the end of your [...nextauth].js file:
-console.log("NextAuth options loaded, providers:", 
-  authOptions.providers?.length, 
-  "session strategy:", 
-  authOptions.session?.strategy);
+console.log("NextAuth options loaded with URL:", process.env.NEXTAUTH_URL);
 
 export default NextAuth(authOptions);

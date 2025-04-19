@@ -1,37 +1,60 @@
 import { NextResponse } from 'next/server';
 import { getToken } from 'next-auth/jwt';
 
-// Configure the middleware
 export async function middleware(request) {
-  // Get the pathname
   const path = request.nextUrl.pathname;
-
+  
+  console.log("Middleware running for path:", path);
+  console.log("Request URL:", request.url);
+  
+  // Allow all API routes to pass through without auth check during debugging
+  if (path.startsWith('/api/')) {
+    console.log("API route detected, allowing request");
+    return NextResponse.next();
+  }
+  
   // Public paths that don't require authentication
-  const publicPaths = ['/login', '/register', '/api/auth/signin', '/api/auth/callback'];
+  const publicPaths = [
+    '/login', 
+    '/register', 
+    '/api/auth',
+    '/favicon.ico'
+  ];
   const isPublicPath = publicPaths.some((publicPath) => path.startsWith(publicPath));
-
-  // Check if the path is for API routes (you might want to handle API authentication differently)
-  const isApiPath = path.startsWith('/api');
-
-  // If it's a public path, allow the request
+  
   if (isPublicPath) {
+    console.log("Public path detected, allowing request");
     return NextResponse.next();
   }
 
-  // Get the session token
-  const token = await getToken({ req: request, secret: process.env.NEXTAUTH_SECRET });
-
-  // If there's no token and the path isn't public, redirect to login
-  if (!token && !isApiPath) {
-    const url = new URL('/login', request.url);
-    url.searchParams.set('callbackUrl', encodeURI(request.url));
-    return NextResponse.redirect(url);
+  try {
+    console.log("Checking for auth token...");
+    // Important: specify the secure and domain parameters to match your config
+    const token = await getToken({ 
+      req: request, 
+      secret: process.env.NEXTAUTH_SECRET,
+      secureCookie: true // Match your cookies settings
+    });
+    
+    console.log("Token exists:", !!token);
+    
+    if (!token) {
+      console.log("No token found, redirecting to login");
+      const url = new URL('/login', request.url);
+      url.searchParams.set('callbackUrl', encodeURI(request.url));
+      return NextResponse.redirect(url);
+    }
+    
+    // User is authenticated
+    console.log("User is authenticated, allowing request");
+    return NextResponse.next();
+  } catch (error) {
+    console.error("Error in middleware:", error);
+    // During debugging, let requests through on error
+    return NextResponse.next();
   }
-
-  return NextResponse.next();
 }
 
-// Configure paths for middleware to run on
 export const config = {
-  matcher: ['/((?!_next/static|_next/image|favicon.ico|.*\\.png$).*)']
+  matcher: ['/((?!_next/static|_next/image|.*\\.png$|.*\\.ico$).*)']
 };

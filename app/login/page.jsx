@@ -26,34 +26,46 @@ export default function LoginPage() {
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const router = useRouter();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setError('');
-  
-    try {
-      const result = await signIn('credentials', {
-        redirect: false,
+ // In your login handler function:
+
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  setLoading(true);
+  setError('');
+
+  try {
+    console.log("Login attempt for:", email);
+    
+    const result = await signIn('credentials', {
+      redirect: false,
+      email,
+      password
+    });
+
+    console.log("SignIn result:", result);
+
+    if (result.error) {
+      setError(result.error);
+    } else {
+      // Instead of timer + redirect, use signIn with redirect:true
+      // This is more reliable for NextAuth session handling
+      setShowSuccessMessage(true);
+      
+      // Instead of a setTimeout, use direct signIn with redirect
+      signIn('credentials', {
+        redirect: true,
         email,
-        password
+        password,
+        callbackUrl: '/'
       });
-  
-      if (result.error) {
-        setError(result.error);
-      } else {
-        setShowSuccessMessage(true);
-        
-        // Use window.location for a more reliable redirect after authentication
-        setTimeout(() => {
-          window.location.href = '/';
-        }, 1500);
-      }
-    } catch (error) {
-      setError('Something went wrong. Please try again.');
-    } finally {
-      setLoading(false);
     }
-  };
+  } catch (error) {
+    console.error("Login error:", error);
+    setError('Something went wrong. Please try again.');
+  } finally {
+    setLoading(false);
+  }
+};
 
   const handleRegister = async (e) => {
     e.preventDefault();
