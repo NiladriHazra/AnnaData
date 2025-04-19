@@ -41,7 +41,7 @@ import {
 // Initialize Gemini API
 const genAI = new GoogleGenerativeAI(
   process.env.NEXT_PUBLIC_GEMINI_API_KEY ||
-    "AIzaSyD2o0V8Kg-T_FQymwvlOyphswEwAxKEQoU"
+    ""
 );
 
 // Card Components
@@ -3530,52 +3530,136 @@ export default function HomePage() {
         </div>
 
         {/* Footer */}
-        <footer className="bg-gradient-to-r from-black/70 via-slate-900/70 to-black/70 backdrop-blur-lg border-t border-slate-800/80 py-10 mt-20">
-          <div className="container mx-auto px-4">
-            <div className="flex flex-col md:flex-row justify-between items-center">
-              <div className="mb-6 md:mb-0">
-                <span className="text-2xl font-bold bg-gradient-to-r from-indigo-400 via-purple-500 to-indigo-400 text-transparent bg-clip-text font-devanagari">
-                  अन्ना - Data
-                </span>
-                <p className="text-slate-400 mt-1">
-                  Discover the nutrition behind your food
-                </p>
-              </div>
+        <footer className="relative bg-gradient-to-r from-black/70 via-slate-900/70 to-black/70 backdrop-blur-lg border-t border-slate-800/80 py-10 mt-20 overflow-hidden">
+  {/* Animated background elements */}
+  <div className="absolute inset-0 overflow-hidden pointer-events-none">
+    <div className="absolute -top-10 right-10 w-80 h-80 bg-indigo-700/10 rounded-full blur-3xl"></div>
+    <div className="absolute bottom-5 -left-20 w-72 h-72 bg-purple-700/10 rounded-full blur-3xl"></div>
+    <div className="absolute -bottom-10 right-1/4 w-60 h-60 bg-blue-700/10 rounded-full blur-3xl"></div>
+  </div>
 
-              <div className="flex gap-8">
-                <a
-                  href="#"
-                  className="text-slate-400 hover:text-indigo-400 transition-colors"
-                >
-                  About
-                </a>
-                <a
-                  href="#"
-                  className="text-slate-400 hover:text-indigo-400 transition-colors"
-                >
-                  Privacy
-                </a>
-                <a
-                  href="#"
-                  className="text-slate-400 hover:text-indigo-400 transition-colors"
-                >
-                  Terms
-                </a>
-                <a
-                  href="#"
-                  className="text-slate-400 hover:text-indigo-400 transition-colors"
-                >
-                  Contact
-                </a>
-              </div>
-            </div>
+  <div className="container mx-auto px-4">
+    {/* Main footer content - simplified */}
+    <div className="flex flex-col md:flex-row justify-between items-center gap-8">
+      {/* Brand Column */}
+      <div className="space-y-5">
+        <div>
+          <span className="text-3xl font-bold bg-gradient-to-r from-indigo-400 via-purple-500 to-indigo-400 text-transparent bg-clip-text font-devanagari">
+            अन्ना - Data
+          </span>
+          <p className="text-slate-400 mt-2">
+            Your personal nutrition intelligence platform
+          </p>
+        </div>
 
-            <div className="mt-8 text-center text-xs text-slate-500">
-              &copy; {new Date().getFullYear()} अन्ना - Data. Created by Niladri
-              Hazra. All rights reserved.
-            </div>
-          </div>
-        </footer>
+        {/* Social Media Links */}
+        <div className="flex gap-4">
+          <a
+            href="https://x.com/PixelNiladri"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-9 h-9 rounded-full bg-slate-800/90 hover:bg-indigo-600/90 flex items-center justify-center transition-colors group"
+            aria-label="Twitter"
+          >
+            <svg className="w-4 h-4 text-slate-400 group-hover:text-white transition-colors" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.45-6.231Zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77Z" fill="currentColor"></path>
+            </svg>
+          </a>
+          <a
+            href="https://github.com/NiladriHazra/AnnaData"
+            className="w-9 h-9 rounded-full bg-slate-800/90 hover:bg-indigo-600/90 flex items-center justify-center transition-colors group"
+            aria-label="GitHub"
+          >
+            <svg className="w-5 h-5 text-slate-400 group-hover:text-white transition-colors" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+            </svg>
+          </a>
+          {/* <a
+            href="#"
+            className="w-9 h-9 rounded-full bg-slate-800/90 hover:bg-indigo-600/90 flex items-center justify-center transition-colors group"
+            aria-label="Instagram"
+          >
+            <svg className="w-5 h-5 text-slate-400 group-hover:text-white transition-colors" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+              <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+              <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+            </svg>
+          </a>
+          <a
+            href="#"
+            className="w-9 h-9 rounded-full bg-slate-800/90 hover:bg-indigo-600/90 flex items-center justify-center transition-colors group"
+            aria-label="LinkedIn"
+          >
+            <svg className="w-5 h-5 text-slate-400 group-hover:text-white transition-colors" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+              <rect x="2" y="9" width="4" height="12"></rect>
+              <circle cx="4" cy="4" r="2"></circle>
+            </svg>
+          </a> */}
+        </div>
+      </div>
+
+      {/* Quick Links - Simplified */}
+      <div className="flex flex-wrap gap-8">
+        <a
+          href="#"
+          className="text-slate-400 hover:text-indigo-400 transition-colors"
+        >
+          About
+        </a>
+        <a
+          href="#"
+          className="text-slate-400 hover:text-indigo-400 transition-colors"
+        >
+          Privacy
+        </a>
+        <a
+          href="#"
+          className="text-slate-400 hover:text-indigo-400 transition-colors"
+        >
+          Terms
+        </a>
+        <a
+          href="#"
+          className="text-slate-400 hover:text-indigo-400 transition-colors"
+        >
+          Contact
+        </a>
+      </div>
+    </div>
+
+    {/* Bottom bar */}
+    <div className="mt-8 pt-6 border-t border-slate-800/50 flex flex-col md:flex-row justify-between items-center">
+      <div className="mb-4 md:mb-0">
+        <p className="text-slate-500 text-sm">
+          &copy; {new Date().getFullYear()} अन्ना - Data • All rights reserved
+        </p>
+      </div>
+
+      <div className="flex items-center">
+        <div className="text-slate-500 flex items-center gap-2">
+          <span>Created by</span>
+          <a href="https://x.com/PixelNiladri" target="_blank" rel="noopener noreferrer" className="relative group">
+            <span className="bg-gradient-to-r from-indigo-400 to-purple-500 text-transparent bg-clip-text font-semibold text-base">Niladri Hazra</span>
+            <span className="text-indigo-400/90">(Team अन्ना - Data)</span>
+            <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-indigo-500 to-purple-500 group-hover:w-full transition-all duration-300"></span>
+          </a>
+        </div>
+        
+        <span className="mx-3 text-slate-700">•</span>
+        
+        <div className="flex items-center">
+          <span className="inline-flex items-center mr-2 px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-900/40 text-indigo-300 border border-indigo-800/40">
+            v2.4.0
+          </span>
+          <span className="text-xs text-slate-500">
+            Updated: 2025-04-19 08:51:32
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
         
         {/* Add CSS animation for floating particles */}
         <style jsx global>{`

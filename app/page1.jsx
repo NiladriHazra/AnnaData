@@ -42,7 +42,7 @@ import Image from "next/image";
 // Initialize Gemini API
 const genAI = new GoogleGenerativeAI(
   process.env.NEXT_PUBLIC_GEMINI_API_KEY ||
-    "AIzaSyD2o0V8Kg-T_FQymwvlOyphswEwAxKEQoU"
+    ""
 );
 
 

@@ -42,7 +42,7 @@ import Image from "next/image";
 // Initialize Gemini API
 const genAI = new GoogleGenerativeAI(
   process.env.NEXT_PUBLIC_GEMINI_API_KEY ||
-    "AIzaSyD2o0V8Kg-T_FQymwvlOyphswEwAxKEQoU"
+    ""
 );
 
 
@@ -1374,7 +1374,7 @@ const togglePlay = () => {
       {/* Use youtube-nocookie.com for better privacy and fewer restrictions */}
       <iframe
         ref={videoRef}
-        src={`https://www.youtube-nocookie.com/embed/${videoInfo.videoId}?enablejsapi=1&origin=${encodeURIComponent(window.location.origin)}&widgetid=1&rel=0`}
+        src={`https://www.youtube.com/embed/${videoInfo.videoId}?enablejsapi=1&origin=${encodeURIComponent(window.location.origin)}&widgetid=1&rel=0`}
         title={videoInfo.title || `How to make ${recipe.name}`}
         className="w-full aspect-video"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
