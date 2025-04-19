@@ -4,8 +4,8 @@ import { useState, useEffect, useCallback, useRef, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { GoogleGenerativeAI } from "@google/generative-ai";
-// import { useUserData } from "./userData";
-// import { useAIInsights } from "./aiInsights";
+import { useUserData } from "./userData";
+import { useAIInsights } from "./aiInsights";
 import {
   Filter,
   Play,
