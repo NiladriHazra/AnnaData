@@ -1,4 +1,5 @@
 "use client";
+import React, { Suspense } from "react";
 
 import { useState, useEffect, useRef } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
@@ -109,10 +110,23 @@ const RecipeHistoryCard = ({ recipe, onClick }) => (
     </div>
   </motion.div>
 );
+function SearchParamsWrapper({ children }) {
+  return <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>;
+}
 
 export default function RecipePage() {
-  const searchParams = useSearchParams();
   const router = useRouter();
+  
+  // Wrap the component that uses useSearchParams in a Suspense boundary
+  return (
+    <SearchParamsWrapper>
+      <RecipeContent />
+    </SearchParamsWrapper>
+  );
+}
+ function RecipeContent() {
+  const searchParams = useSearchParams();
+  // const router = useRouter();
   const initialQuery = searchParams.get("query") || "";
 
   const [query, setQuery] = useState(initialQuery);
