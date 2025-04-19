@@ -30,20 +30,22 @@ export default function LoginPage() {
     e.preventDefault();
     setLoading(true);
     setError('');
-
+  
     try {
       const result = await signIn('credentials', {
         redirect: false,
         email,
         password
       });
-
+  
       if (result.error) {
         setError(result.error);
       } else {
         setShowSuccessMessage(true);
+        
+        // Use window.location for a more reliable redirect after authentication
         setTimeout(() => {
-          router.push('/');
+          window.location.href = '/';
         }, 1500);
       }
     } catch (error) {
@@ -89,7 +91,7 @@ export default function LoginPage() {
       } else {
         setShowSuccessMessage(true);
         setTimeout(() => {
-          router.push('/');
+          window.location.href = '/';
         }, 1500);
       }
     } catch (error) {
