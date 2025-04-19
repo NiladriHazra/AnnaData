@@ -1354,7 +1354,7 @@ const togglePlay = () => {
               </div>
 
              {/* YouTube Video Section */}
-{videoLoading ? (
+{/* {videoLoading ? (
   <div className="mb-8 bg-gradient-to-br from-slate-900/80 to-black/60 backdrop-blur-md rounded-xl overflow-hidden border border-slate-700/50 shadow-xl p-8 flex items-center justify-center">
     <div className="flex flex-col items-center">
       <div className="w-10 h-10 border-4 border-t-indigo-600 border-indigo-600/30 rounded-full animate-spin mb-4"></div>
@@ -1371,7 +1371,7 @@ const togglePlay = () => {
     </div>
     
     <div ref={videoPlayerRef} className="relative">
-      {/* Use youtube-nocookie.com for better privacy and fewer restrictions */}
+      
       <iframe
         ref={videoRef}
         src={`https://www.youtube.com/embed/${videoInfo.videoId}?enablejsapi=1&origin=${encodeURIComponent(window.location.origin)}&widgetid=1&rel=0`}
@@ -1381,9 +1381,9 @@ const togglePlay = () => {
         allowFullScreen
         loading="lazy"
       ></iframe>
-      
+       */}
       {/* Video overlay controls with improved styling */}
-      <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
+      {/* <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-4">
             <button 
@@ -1442,7 +1442,7 @@ const togglePlay = () => {
   <div className="mb-8 bg-gradient-to-br from-slate-900/80 to-black/60 backdrop-blur-md rounded-xl overflow-hidden border border-slate-700/50 shadow-xl p-6 flex items-center justify-center">
     <p className="text-slate-300">No video available for this recipe.</p>
   </div>
-) : null}
+) : null} */}
               {/* Section navigation */}
               <div className="mb-6 overflow-x-auto scrollbar-hide">
                 <div className="flex space-x-2 min-w-max">
