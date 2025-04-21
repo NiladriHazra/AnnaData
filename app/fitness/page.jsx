@@ -597,7 +597,7 @@ Provide a helpful, motivating response focused on fitness. Keep it brief (under 
   return { messages, isLoading, error, sendMessage, clearMessages };
 };
 
-// Calorie calculator component
+// Calorie calculator component - modified for responsiveness
 const CalorieCalculator = ({ onClose, updateMetric }) => {
   const [gender, setGender] = useState("male");
   const [age, setAge] = useState(30);
@@ -693,6 +693,7 @@ const CalorieCalculator = ({ onClose, updateMetric }) => {
     updateMetric("goals", "custom", calorieGoal);
   };
 
+
   const activityLabels = {
     sedentary: "Sedentary (office job, little exercise)",
     lightly_active: "Lightly Active (light exercise 1-3 days/week)",
@@ -708,7 +709,7 @@ const CalorieCalculator = ({ onClose, updateMetric }) => {
   };
 
   return (
-    <div className="bg-gradient-to-br from-slate-900/90 to-black/90 backdrop-blur-xl rounded-xl p-6 max-w-2xl w-full border border-slate-700/50 shadow-2xl">
+    <div className="bg-gradient-to-br from-slate-900/90 to-black/90 backdrop-blur-xl rounded-xl p-6 max-w-2xl w-full border border-slate-700/50 shadow-2xl max-h-[90vh] overflow-y-auto scrollbar-hide">
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-2xl font-bold bg-gradient-to-r from-indigo-400 to-purple-500 text-transparent bg-clip-text">
           Calorie Calculator
@@ -885,7 +886,7 @@ const CalorieCalculator = ({ onClose, updateMetric }) => {
           <h4 className="text-lg font-medium text-white mb-3">
             Recommended Macros
           </h4>
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div className="bg-blue-900/30 p-3 rounded-lg border border-blue-500/30">
               <div className="text-sm text-blue-300 mb-1">Protein</div>
               <div className="text-lg font-bold text-white">
@@ -920,8 +921,8 @@ const CalorieCalculator = ({ onClose, updateMetric }) => {
             <h4 className="text-sm font-medium text-slate-300 mb-3">
               Macronutrient Breakdown
             </h4>
-            <div className="flex items-center">
-              <div className="w-1/3">
+            <div className="flex flex-col sm:flex-row items-center">
+              <div className="w-full sm:w-1/3 mb-4 sm:mb-0">
                 <ResponsiveContainer width="100%" height={120}>
                   <PieChart>
                     <Pie
@@ -944,7 +945,7 @@ const CalorieCalculator = ({ onClose, updateMetric }) => {
                   </PieChart>
                 </ResponsiveContainer>
               </div>
-              <div className="w-2/3">
+              <div className="w-full sm:w-2/3">
                 <div className="flex flex-col space-y-1">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center">

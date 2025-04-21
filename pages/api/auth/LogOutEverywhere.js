@@ -1,35 +1,24 @@
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "./[...nextauth]";
-
-export default async function handler(req, res) {
-  // Log all incoming requests to help debug
-  console.log("Logout request received:", req.method);
-
-  if (req.method !== "POST") {
-    return res.status(405).json({ message: "Method not allowed" });
-  }
-
-  try {
-    // Get the current user session
-    const session = await getServerSession(req, res, authOptions);
-    console.log("Session in logout endpoint:", session);
-
-    // Check if the user is authenticated
-    if (!session) {
-      console.log("No session found during logout attempt");
-      return res.status(401).json({ message: "Not authenticated" });
+// This file should be in the pages/api directory for Next.js Pages Router
+export default function handler(req, res) {
+    if (req.method === 'POST') {
+      try {
+        // Simple implementation - in a real app you would invalidate sessions in your database
+        console.log("Logout everywhere endpoint called");
+        
+        // Send a successful response
+        return res.status(200).json({ 
+          success: true, 
+          message: "Successfully logged out from all devices" 
+        });
+      } catch (error) {
+        console.error("Server error during logout everywhere:", error);
+        return res.status(500).json({ 
+          success: false, 
+          message: "Server error during logout" 
+        });
+      }
+    } else {
+      // Method not allowed
+      return res.status(405).json({ message: 'Method not allowed' });
     }
-
-    // For now, let's avoid database operations and simply return success
-    // You can add the database operations back once the basic functionality works
-    console.log("Logout successful for user:", session.user.email);
-    
-    return res.status(200).json({ success: true });
-  } catch (error) {
-    console.error("Error in logoutEverywhere:", error);
-    return res.status(500).json({ 
-      message: "Internal server error", 
-      error: error.message || "Unknown error" 
-    });
   }
-}

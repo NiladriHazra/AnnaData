@@ -1082,57 +1082,111 @@ export default function ProfilePage() {
 
   const handleLogoutEverywhere = async () => {
     try {
-      // Call the API endpoint
+      // Show a loading message
+      console.log("Logging out from all devices...");
+      
       const response = await fetch("/api/auth/logoutEverywhere", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
       });
-
-      if (!response.ok) {
-        throw new Error("Failed to log out all sessions");
+  
+      console.log("Logout response status:", response.status);
+      
+      // Use a safer approach to parse JSON that won't throw an error
+      let responseData;
+      try {
+        const text = await response.text();
+        console.log("Raw response:", text); // Log the raw response
+        responseData = text ? JSON.parse(text) : {};
+      } catch (parseError) {
+        console.error("Error parsing response:", parseError);
+        responseData = { error: "Failed to parse response" };
       }
-
-      // After successful logout everywhere, redirect to login page
+      
+      console.log("Logout response data:", responseData);
+  
+      if (!response.ok) {
+        throw new Error(responseData.message || "Failed to log out all sessions");
+      }
+  
+      // After successful logout everywhere, clean up client data
       localStorage.removeItem("userData");
       localStorage.removeItem("userInsights");
-
-      // Display a success message (optional)
-      alert("You have been logged out of all devices. Please log in again.");
-
+  
+      // Show success message
+      alert("Successfully logged out from all devices");
+  
       // Redirect to login page
       router.push("/login");
     } catch (error) {
       console.error("Error logging out everywhere:", error);
-      alert("Failed to log out all sessions. Please try again.");
+      alert(`Failed to log out: ${error.message}`);
     }
   };
 
   // Delete account (simulated)
   const handleDeleteAccount = async () => {
     try {
-      // In a real implementation, you would call your API to delete the account
+      // Show a loading message
+      console.log("Deleting account...");
+      
       const response = await fetch("/api/profile/deleteAccount", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
+        // Make sure to include credentials to allow cookie clearing
+        credentials: 'include'
       });
-
-      if (!response.ok) {
-        throw new Error("Failed to delete account");
+  
+      console.log("Delete account response status:", response.status);
+      
+      // Use a safer approach to parse JSON that won't throw an error
+      let responseData;
+      try {
+        const text = await response.text();
+        console.log("Raw response:", text);
+        responseData = text ? JSON.parse(text) : {};
+      } catch (parseError) {
+        console.error("Error parsing response:", parseError);
+        responseData = { error: "Failed to parse response" };
       }
-
-      // Clear localStorage and navigate to home
+      
+      console.log("Delete account response data:", responseData);
+  
+      if (!response.ok) {
+        throw new Error(responseData.message || "Failed to delete account");
+      }
+  
+      // Clear localStorage data
       localStorage.removeItem("userData");
+      localStorage.removeItem("userInsights");
+      localStorage.removeItem("token"); // Clear any auth token if present
+      
+      // Clear any other client-side storage
+      sessionStorage.clear();
+      
+      // Clear any in-memory state related to the user
+      // If you're using any state management like Redux or Zustand, clear the user state
+      
+      // Show success message
+      alert("Your account has been successfully deleted");
+      
+      // Close the confirmation dialog
+      setShowDeleteConfirm(false);
+      
+      // Redirect to home/login page
       router.push("/");
     } catch (error) {
       console.error("Error deleting account:", error);
-      alert("Failed to delete account. Please try again.");
+      alert(`Failed to delete account: ${error.message}`);
+      // Close the confirmation dialog if there's an error
+      setShowDeleteConfirm(false);
     }
   };
-
+  
   // Set up theme-specific gradient based on user preference
   const getThemeGradient = (type, theme = "primary") => {
     const themeColor = THEME_COLORS[theme] || THEME_COLORS.primary;
