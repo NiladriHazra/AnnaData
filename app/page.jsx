@@ -157,6 +157,8 @@ export default function HomePage() {
   const [diarySuccess, setDiarySuccess] = useState(false);
   const [mealTypeDialogOpen, setMealTypeDialogOpen] = useState(false);
 
+  const [diaryData, setDiaryData] = useState(null);
+
   // New state for notifications
   const [notifications, setNotifications] = useState([]);
   const [showNotifications, setShowNotifications] = useState(false);
@@ -569,6 +571,61 @@ export default function HomePage() {
       }
     };
   }, [loadDiaryItems]);
+
+  useEffect(() => {
+    // Load food diary data from localStorage if available
+    try {
+      const savedDiaryData = localStorage.getItem("foodDiaryData");
+      if (savedDiaryData) {
+        const parsedData = JSON.parse(savedDiaryData);
+        
+        // Calculate today's nutrition totals
+        const today = generateTodayDate();
+        const todayEntries = parsedData.entries?.filter(entry => entry.date === today) || [];
+        
+        if (todayEntries.length > 0) {
+          // Sum up nutrition values for today
+          const nutritionTotals = {
+            calories: 0,
+            protein: 0,
+            carbs: 0,
+            fat: 0
+          };
+          
+          todayEntries.forEach(entry => {
+            nutritionTotals.calories += entry.calories || 0;
+            nutritionTotals.protein += entry.protein || 0;
+            nutritionTotals.carbs += entry.carbs || 0;
+            nutritionTotals.fat += entry.fat || 0;
+          });
+          
+          setDiaryData({
+            ...parsedData,
+            todayNutrition: nutritionTotals,
+            todayEntries
+          });
+        } else {
+          setDiaryData({
+            ...parsedData,
+            todayNutrition: { calories: 0, protein: 0, carbs: 0, fat: 0 },
+            todayEntries: []
+          });
+        }
+      } else {
+        // Initialize with default values if no diary data exists
+        setDiaryData({
+          goalCalories: 2000,
+          goalProtein: 80,
+          goalCarbs: 200,
+          goalFat: 65,
+          todayNutrition: { calories: 0, protein: 0, carbs: 0, fat: 0 },
+          todayEntries: []
+        });
+      }
+    } catch (error) {
+      console.error("Error loading food diary data:", error);
+    }
+  }, []);
 
   // Generate new notifications when food is saved to diary
   useEffect(() => {

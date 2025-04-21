@@ -1085,44 +1085,53 @@ export default function ProfilePage() {
       // Show a loading message
       console.log("Logging out from all devices...");
       
-      const response = await fetch("/api/auth/logoutEverywhere", {
+      // Instead of using the custom endpoint, use the built-in NextAuth signOut function
+      const response = await fetch("/api/auth/signout", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
+        credentials: "same-origin"
       });
   
-      console.log("Logout response status:", response.status);
+      console.log("Signout response status:", response.status);
       
-      // Use a safer approach to parse JSON that won't throw an error
-      let responseData;
-      try {
-        const text = await response.text();
-        console.log("Raw response:", text); // Log the raw response
-        responseData = text ? JSON.parse(text) : {};
-      } catch (parseError) {
-        console.error("Error parsing response:", parseError);
-        responseData = { error: "Failed to parse response" };
-      }
+      // Now call our custom endpoint to handle additional logout logic
+      const customLogoutResponse = await fetch("/api/auth/logoutEverywhere", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "same-origin"
+      });
+  
+      console.log("Logout response status:", customLogoutResponse.status);
       
-      console.log("Logout response data:", responseData);
-  
-      if (!response.ok) {
-        throw new Error(responseData.message || "Failed to log out all sessions");
-      }
-  
-      // After successful logout everywhere, clean up client data
+      // Clear client-side storage regardless of server response
       localStorage.removeItem("userData");
       localStorage.removeItem("userInsights");
+      localStorage.removeItem("token");
+      localStorage.removeItem("fitnessMetrics");
+      localStorage.removeItem("fitnessWorkouts");
+      localStorage.removeItem("fitnessAICoach");
+      localStorage.removeItem("foodDiaryData");
+      
+      // Clear any session storage
+      sessionStorage.clear();
   
       // Show success message
       alert("Successfully logged out from all devices");
   
       // Redirect to login page
-      router.push("/login");
+      window.location.href = "/login";
     } catch (error) {
       console.error("Error logging out everywhere:", error);
       alert(`Failed to log out: ${error.message}`);
+      
+      // Even if there's an error, still clear local data and redirect
+      localStorage.clear();
+      sessionStorage.clear();
+      window.location.href = "/login";
     }
   };
 
