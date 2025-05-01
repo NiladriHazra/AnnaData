@@ -671,11 +671,11 @@ export default function HomePage() {
           setAiInsights(insights);
           return;
         } catch (jsonError) {
-          console.error("Error parsing Gemini response:", jsonError);
+          console.error("Error parsing response:", jsonError);
           // Continue to fallback
         }
       } catch (geminiError) {
-        console.error("Gemini API error:", geminiError);
+        console.error(" API error:", geminiError);
         // Continue to fallback
       }
 
@@ -764,7 +764,7 @@ export default function HomePage() {
 
       return foodData;
     } catch (error) {
-      console.error("Error getting food info from Gemini:", error);
+      console.error("Error getting food info:", error);
       throw error;
     }
   };
@@ -815,7 +815,7 @@ export default function HomePage() {
           }
         }
 
-        console.log("API returned no results or error, using Gemini instead");
+        console.log("API returned no results or error, ");
       } catch (apiError) {
         console.error("API Error:", apiError);
       }
@@ -825,7 +825,7 @@ export default function HomePage() {
         const foodData = await getFoodInfoFromGemini(searchTerm);
         setResults([foodData]);
       } catch (geminiError) {
-        console.error("Gemini API error:", geminiError);
+        console.error(" API error:", geminiError);
         setError(
           "Sorry, we couldn't find information for that food. Please try another search."
         );
@@ -893,7 +893,7 @@ export default function HomePage() {
               // Now search with identified food name
               await searchFoodAPI(searchTerm);
             } catch (directApiError) {
-              console.error("Error with Gemini API:", directApiError);
+              console.error("Error with :", directApiError);
               setError(
                 "Sorry, we couldn't identify the food in your image. Please try a text search instead."
               );
