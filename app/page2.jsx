@@ -228,7 +228,7 @@ export default function HomePage() {
       `;
       
       // Call Gemini API
-      const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+      const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
       const result = await model.generateContent(prompt);
       const response = await result.response;
       const text = response.text();
@@ -421,7 +421,7 @@ export default function HomePage() {
       }
       
       // Call Gemini API for fresh data
-      const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+      const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
       const prompt = `
         Generate a comprehensive list of 12 seasonal whole foods that are nutritious and typically in season during ${season}.
         

@@ -231,7 +231,7 @@ export default function HomePage() {
       `;
 
       // Call Gemini API
-      const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+      const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
       const result = await model.generateContent(prompt);
       const response = await result.response;
       const text = response.text();
@@ -439,7 +439,7 @@ export default function HomePage() {
       }
 
       // Call Gemini API for fresh data
-      const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+      const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
       const prompt = `
         Generate a comprehensive list of 12 seasonal whole foods that are nutritious and typically in season during ${season}.
         
@@ -643,7 +643,7 @@ export default function HomePage() {
   // Generate AI insights for a food item
   const generateInsights = async (food) => {
     try {
-      const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+      const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 
       const prompt = `
         Provide 3 short health insights about ${food.food_name} with these nutritional facts:
@@ -726,7 +726,7 @@ export default function HomePage() {
   // Function to get nutrition info using Gemini API
   const getFoodInfoFromGemini = async (searchTerm) => {
     try {
-      const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+      const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
       const prompt = `
         Given the food "${searchTerm}", generate realistic nutritional information.
         Return ONLY a valid JSON object with this structure:
@@ -866,7 +866,7 @@ export default function HomePage() {
 
               // Try with direct Gemini API
               const model = genAI.getGenerativeModel({
-                model: "gemini-1.5-flash",
+                model: "gemini-2.5-flash",
               });
 
               // Create parts with text prompt and image

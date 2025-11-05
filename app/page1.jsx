@@ -365,7 +365,7 @@ useEffect(() => {
   // Fallback: Search YouTube videos using Gemini
   const searchYouTubeWithGemini = async (recipeName) => {
     try {
-      const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+      const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 
       const prompt = `
         Find a good YouTube video for cooking "${recipeName}".
@@ -427,7 +427,7 @@ useEffect(() => {
   // Function to generate related recipes
   const generateRelatedRecipes = async (recipeName) => {
     try {
-      const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+      const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 
       const prompt = `
         Generate 4 related recipes to "${recipeName}" that people might also like.
@@ -610,7 +610,7 @@ const togglePlay = () => {
     }
 
     try {
-      const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+      const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 
       const prompt = `
         Give me a detailed recipe for "${searchQuery}".
@@ -656,7 +656,7 @@ const togglePlay = () => {
       ) {
         try {
           const imageModel = genAI.getGenerativeModel({
-            model: "gemini-1.5-flash",
+            model: "gemini-2.5-flash",
           });
           const imagePrompt = `
             Create a professional food photography description of ${recipeData.name}. 
@@ -828,7 +828,7 @@ const togglePlay = () => {
         try {
           const base64Image = reader.result.split(",")[1];
 
-          const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+          const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 
           const parts = [
             {
@@ -881,7 +881,7 @@ const togglePlay = () => {
     setChatLoading(true);
 
     try {
-      const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+      const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 
       // Create context for the AI
       let context = `You are Anna AI Cook, a cooking assistant. `;

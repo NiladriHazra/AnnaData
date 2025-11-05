@@ -651,7 +651,7 @@ const useAIInsights = () => {
       setError(null);
 
       // Use Gemini to generate insights based on user data
-      const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+      const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 
       // Prepare user data for prompt, excluding sensitive data
       const userDataForPrompt = {
