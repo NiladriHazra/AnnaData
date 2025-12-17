@@ -17,7 +17,7 @@
     "framer-motion": "^12.7.4",
     "lucide-react": "^0.492.0",
     "mongoose": "^8.13.2",
-    "next": "15.3.1",
+    "next": "16.0.0",
     "next-auth": "^4.24.11",
     "next-navigation": "^1.0.6",
     "react": "^19.0.0",
@@ -29,7 +29,7 @@
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4",
     "eslint": "^9",
-    "eslint-config-next": "15.3.1",
+    "eslint-config-next": "16.0.3",
     "tailwindcss": "^4"
   }
 }
