@@ -16,7 +16,7 @@ export default function Navigation() {
     return (
       <Link href={href}>
         <motion.span 
-          className={`px-4 py-2 rounded-md text-lg font-medium ${isActive ? 'text-white bg-blue-700' : 'text-blue-200 hover:bg-blue-700 hover:text-white'}`}
+          className={`px-4 py-2 rounded-md text-lg font-medium ${isActive ? 'text-white bg-teal-500' : 'text-gray-600 hover:bg-teal-50 hover:text-teal-600'}`}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
         >
@@ -27,14 +27,14 @@ export default function Navigation() {
   };
 
   return (
-    <nav className="bg-gradient-to-r from-blue-600 to-purple-700 shadow-md">
+    <nav className="bg-white border-b border-gray-100 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center">
             <div className="flex-shrink-0">
               <Link href="/">
                 <motion.span 
-                  className="text-white font-bold text-xl cursor-pointer"
+                  className="text-teal-600 font-bold text-xl cursor-pointer"
                   whileHover={{ scale: 1.05 }}
                 >
                   AnnaData
@@ -52,10 +52,10 @@ export default function Navigation() {
           
           {session && (
             <div className="flex items-center">
-              <span className="text-white mr-4">Hello, {session.user.name}</span>
+              <span className="text-gray-600 mr-4">Hello, {session.user.name}</span>
               <motion.button
                 onClick={() => signOut({ callbackUrl: '/login' })}
-                className="px-3 py-1 rounded-md text-sm bg-red-600 text-white hover:bg-red-700"
+                className="px-3 py-1 rounded-md text-sm bg-red-500 text-white hover:bg-red-600"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >

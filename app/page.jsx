@@ -43,33 +43,52 @@ const genAI = new GoogleGenerativeAI(
   process.env.NEXT_PUBLIC_GEMINI_API_KEY || ""
 );
 
-// Card Components
+// Generate today's date in YYYY-MM-DD format
+const generateTodayDate = () => {
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, "0");
+  const day = String(today.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+};
+
+// Card Components - Light Theme
 const NutritionCard = ({ nutrient, value, color, percentage, icon }) => {
+  const colorMap = {
+    'bg-gradient-to-r from-orange-500 to-red-500': 'bg-gradient-to-r from-rose-400 to-orange-400',
+    'bg-gradient-to-r from-blue-500 to-cyan-500': 'bg-gradient-to-r from-teal-400 to-cyan-400',
+    'bg-gradient-to-r from-green-500 to-emerald-500': 'bg-gradient-to-r from-amber-400 to-yellow-400',
+    'bg-gradient-to-r from-purple-500 to-pink-500': 'bg-gradient-to-r from-violet-400 to-purple-400',
+  };
+  const mappedColor = colorMap[color] || color;
+  
   return (
     <motion.div
-      whileHover={{ y: -5 }}
-      className="bg-gradient-to-br from-slate-900/80 to-black/60 backdrop-blur-lg border border-slate-700/50 p-5 rounded-xl shadow-lg transition-all hover:border-slate-600 hover:shadow-xl"
+      whileHover={{ y: -4, boxShadow: '0 12px 24px rgba(0,0,0,0.08)' }}
+      className="bg-white border border-gray-100 p-5 rounded-2xl shadow-sm transition-all"
     >
       <div className="flex items-center mb-3">
         <div
-          className={`w-12 h-12 ${color} rounded-lg flex items-center justify-center shadow-lg mr-4`}
+          className={`w-11 h-11 ${mappedColor} rounded-xl flex items-center justify-center mr-3`}
         >
-          <span className="text-white text-xl">{icon}</span>
+          <span className="text-white text-lg">{icon}</span>
         </div>
-        <h3 className="text-lg font-medium text-white">{nutrient}</h3>
+        <h3 className="text-base font-medium text-gray-700">{nutrient}</h3>
       </div>
       <div className="flex justify-between items-center">
-        <span className="text-2xl font-bold text-white">{value}</span>
-        {percentage && (
-          <span className="text-sm text-white/70">{percentage}%</span>
+        <span className="text-2xl font-semibold text-gray-900">{value}</span>
+        {percentage !== undefined && (
+          <span className="text-sm text-gray-500">{Math.min(percentage, 100)}%</span>
         )}
       </div>
-      {percentage && (
-        <div className="w-full h-2 bg-slate-700/40 rounded-full mt-2 overflow-hidden">
-          <div
-            className={`h-full rounded-full ${color}`}
-            style={{ width: `${percentage}%` }}
-          ></div>
+      {percentage !== undefined && (
+        <div className="w-full h-2 bg-gray-100 rounded-full mt-3 overflow-hidden">
+          <motion.div
+            initial={{ width: 0 }}
+            animate={{ width: `${Math.min(percentage, 100)}%` }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            className={`h-full rounded-full ${mappedColor}`}
+          ></motion.div>
         </div>
       )}
     </motion.div>
@@ -79,54 +98,50 @@ const NutritionCard = ({ nutrient, value, color, percentage, icon }) => {
 const AIInsightCard = ({ insight, icon }) => {
   return (
     <motion.div
-      whileHover={{ y: -5 }}
-      className="bg-gradient-to-br from-slate-900/80 to-black/60 backdrop-blur-lg border border-slate-700/50 p-5 rounded-xl shadow-lg hover:border-slate-600 hover:shadow-xl transition-all"
+      whileHover={{ y: -4, boxShadow: '0 12px 24px rgba(0,0,0,0.08)' }}
+      className="bg-white border border-gray-100 p-5 rounded-2xl shadow-sm transition-all"
     >
       <div className="flex items-center gap-3 mb-3">
-        <div className="w-10 h-10 flex items-center justify-center rounded-lg bg-gradient-to-br from-purple-600 to-indigo-700 text-white shadow-md">
+        <div className="w-10 h-10 flex items-center justify-center rounded-xl bg-gradient-to-r from-teal-400 to-cyan-400 text-white">
           {icon}
         </div>
-        <h3 className="text-lg font-medium text-white">AI Insight</h3>
+        <h3 className="text-base font-medium text-gray-700">AI Insight</h3>
       </div>
-      <p className="text-white/80">{insight}</p>
+      <p className="text-gray-600 text-sm leading-relaxed">{insight}</p>
     </motion.div>
   );
 };
 
-// Loading Spinner Component
+// Loading Spinner Component - Light Theme
 const LoadingSpinner = () => {
   return (
     <div className="flex flex-col items-center justify-center py-10">
-      <div className="relative w-20 h-20">
-        <div className="w-20 h-20 rounded-full border-4 border-slate-700/50 absolute top-0 left-0"></div>
-        <div className="w-20 h-20 rounded-full border-4 border-t-indigo-600 border-r-purple-600 border-transparent absolute top-0 left-0 animate-spin"></div>
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className="w-10 h-10 rounded-full bg-gradient-to-r from-indigo-600 to-purple-600 animate-pulse"></div>
-        </div>
+      <div className="relative w-16 h-16">
+        <div className="w-16 h-16 rounded-full border-3 border-gray-200 absolute top-0 left-0"></div>
+        <div className="w-16 h-16 rounded-full border-3 border-t-teal-500 border-r-teal-400 border-transparent absolute top-0 left-0 animate-spin"></div>
       </div>
-      <p className="mt-5 text-slate-300 text-xl font-medium bg-gradient-to-r from-indigo-400 to-purple-500 text-transparent bg-clip-text">
+      <p className="mt-5 text-gray-600 text-lg font-medium">
         Analyzing your food...
       </p>
     </div>
   );
 };
 
-// Feature Card Component
+// Feature Card Component - Light Theme
 const FeatureCard = ({ icon, title, description }) => {
   return (
     <motion.div
       whileHover={{
-        y: -8,
-        boxShadow:
-          "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
+        y: -6,
+        boxShadow: "0 16px 32px rgba(0, 0, 0, 0.08)",
       }}
-      className="bg-gradient-to-br from-slate-900/80 to-black/60 backdrop-blur-lg border border-slate-700/50 p-6 rounded-xl shadow-lg transition-all hover:border-slate-600"
+      className="bg-white border border-gray-100 p-6 rounded-2xl shadow-sm transition-all"
     >
-      <div className="bg-gradient-to-br from-purple-600 to-indigo-700 w-16 h-16 rounded-xl flex items-center justify-center mb-5 shadow-md">
+      <div className="bg-gradient-to-r from-teal-400 to-cyan-400 w-14 h-14 rounded-xl flex items-center justify-center mb-5">
         {icon}
       </div>
-      <h3 className="text-xl font-bold text-white mb-3">{title}</h3>
-      <p className="text-slate-300">{description}</p>
+      <h3 className="text-xl font-semibold text-gray-900 mb-2" style={{ fontFamily: 'Georgia, serif' }}>{title}</h3>
+      <p className="text-gray-600 text-sm leading-relaxed">{description}</p>
     </motion.div>
   );
 };
@@ -147,10 +162,10 @@ export default function HomePage() {
   const [searchHistory, setSearchHistory] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [dailyNutrition, setDailyNutrition] = useState({
-    calories: { consumed: 620, goal: 2000 },
-    protein: { consumed: 28, goal: 80 },
-    carbs: { consumed: 72, goal: 200 },
-    fat: { consumed: 18, goal: 60 },
+    calories: { consumed: 0, goal: 2000 },
+    protein: { consumed: 0, goal: 80 },
+    carbs: { consumed: 0, goal: 200 },
+    fat: { consumed: 0, goal: 60 },
   });
   const [error, setError] = useState(null);
   const [savingToDiary, setSavingToDiary] = useState(false);
@@ -572,7 +587,47 @@ export default function HomePage() {
     };
   }, [loadDiaryItems]);
 
+  // Calculate daily nutrition from savedFoods in localStorage
+  const calculateDailyNutrition = useCallback(() => {
+    try {
+      const savedFoods = JSON.parse(localStorage.getItem('savedFoods') || '[]');
+      const today = new Date().toDateString();
+      
+      // Filter foods logged today
+      const todayFoods = savedFoods.filter(item => {
+        const itemDate = new Date(item.date).toDateString();
+        return itemDate === today;
+      });
+      
+      // Calculate totals
+      const totals = todayFoods.reduce((acc, item) => {
+        const nutrients = item.food?.nutrients || {};
+        return {
+          calories: acc.calories + (nutrients.calories || 0),
+          protein: acc.protein + (nutrients.protein || 0),
+          carbs: acc.carbs + (nutrients.carbs || 0),
+          fat: acc.fat + (nutrients.fats || nutrients.fat || 0)
+        };
+      }, { calories: 0, protein: 0, carbs: 0, fat: 0 });
+      
+      // Load goals from localStorage or use defaults
+      const savedGoals = JSON.parse(localStorage.getItem('nutritionGoals') || '{}');
+      
+      setDailyNutrition({
+        calories: { consumed: Math.round(totals.calories), goal: savedGoals.calories || 2000 },
+        protein: { consumed: Math.round(totals.protein), goal: savedGoals.protein || 80 },
+        carbs: { consumed: Math.round(totals.carbs), goal: savedGoals.carbs || 200 },
+        fat: { consumed: Math.round(totals.fat), goal: savedGoals.fat || 60 },
+      });
+    } catch (error) {
+      console.error("Error calculating daily nutrition:", error);
+    }
+  }, []);
+
   useEffect(() => {
+    // Calculate daily nutrition on mount
+    calculateDailyNutrition();
+    
     // Load food diary data from localStorage if available
     try {
       const savedDiaryData = localStorage.getItem("foodDiaryData");
@@ -625,20 +680,23 @@ export default function HomePage() {
     } catch (error) {
       console.error("Error loading food diary data:", error);
     }
-  }, []);
+  }, [calculateDailyNutrition]);
 
   // Generate new notifications when food is saved to diary
   useEffect(() => {
     if (diarySuccess) {
       // Refresh diary items
       loadDiaryItems();
+      
+      // Recalculate daily nutrition
+      calculateDailyNutrition();
 
       // Wait a bit after saving to diary to generate new notifications
       setTimeout(() => {
         generateNotifications();
       }, 1000);
     }
-  }, [diarySuccess, loadDiaryItems]);
+  }, [diarySuccess, loadDiaryItems, calculateDailyNutrition]);
 
   // Generate AI insights for a food item
   const generateInsights = async (food) => {
@@ -856,62 +914,246 @@ export default function HomePage() {
       // If there's an image, use Gemini to identify the food
       if (image) {
         try {
-          // Convert image to base64
-          const reader = new FileReader();
-          reader.readAsDataURL(image);
+          // Helper function to convert image to JPEG base64
+          const convertToJpegBase64 = (file) => {
+            return new Promise((resolve, reject) => {
+              const reader = new FileReader();
+              reader.onload = (e) => {
+                const img = new window.Image();
+                img.onload = () => {
+                  const canvas = document.createElement("canvas");
+                  canvas.width = img.width;
+                  canvas.height = img.height;
+                  const ctx = canvas.getContext("2d");
+                  ctx.drawImage(img, 0, 0);
+                  // Convert to JPEG base64
+                  const jpegBase64 = canvas.toDataURL("image/jpeg", 0.9);
+                  resolve(jpegBase64.split(",")[1]);
+                };
+                img.onerror = reject;
+                img.src = e.target.result;
+              };
+              reader.onerror = reject;
+              reader.readAsDataURL(file);
+            });
+          };
 
-          reader.onload = async () => {
+          // Convert image to JPEG base64 (handles AVIF, WebP, etc.)
+          const base64Image = await convertToJpegBase64(image);
+
+          // Create the prompt for multi-food detection
+          const prompt = `Identify ALL food items in this image. For each food, estimate nutrition.
+
+Return ONLY this JSON format (no other text):
+{"items":[{"food_name":"Food Name","serving_type":"1 serving","calories_calculated_for":100,"nutrients":{"calories":200,"protein":10,"carbs":20,"fats":8}}]}
+
+List every visible food item separately.`;
+
+          // Try models in order (fallback if rate limited)
+          const models = ["gemini-2.5-flash", "gemini-2.5-flash", "gemini-2.5-flash"];
+          let responseText = null;
+          let lastError = null;
+
+          for (const modelName of models) {
             try {
-              const base64Image = reader.result.split(",")[1];
-
-              // Try with direct Gemini API
-              const model = genAI.getGenerativeModel({
-                model: "gemini-2.5-flash",
-              });
-
-              // Create parts with text prompt and image
-              const parts = [
-                {
-                  text: "What food is in this image? Return only the food name without any additional text, markdown, or explanations.",
-                },
+              console.log(`Trying model: ${modelName}`);
+              const model = genAI.getGenerativeModel({ model: modelName });
+              const result = await model.generateContent([
+                prompt,
                 {
                   inlineData: {
-                    mimeType: image.type || "image/jpeg",
+                    mimeType: "image/jpeg",
                     data: base64Image,
                   },
                 },
-              ];
-
-              const result = await model.generateContent({
-                contents: [{ role: "user", parts }],
-              });
+              ]);
               const response = await result.response;
-              searchTerm = response.text().trim();
+              responseText = response.text().trim();
+              console.log(`${modelName} response:`, responseText);
+              break; // Success, exit loop
+            } catch (modelError) {
+              console.warn(`${modelName} failed:`, modelError.message);
+              lastError = modelError;
+              // If rate limited, try next model
+              if (modelError.message?.includes("429") || modelError.message?.includes("quota")) {
+                continue;
+              }
+              // For other errors, also try next model
+              continue;
+            }
+          }
 
-              console.log("Gemini identified food:", searchTerm);
+          if (!responseText) {
+            throw lastError || new Error("All models failed");
+          }
 
-              // Now search with identified food name
+          // Parse the JSON response
+          try {
+            const cleanedText = responseText.replace(/```json|```/g, "").trim();
+            const parsedData = JSON.parse(cleanedText);
+
+            if (parsedData.items && parsedData.items.length > 0) {
+              // Add unique IDs to each item
+              const foodItems = parsedData.items.map((item, index) => ({
+                ...item,
+                food_unique_id: `image-${Date.now()}-${index}`,
+                food_id: Date.now() + index,
+                common_names: item.food_name,
+                basic_unit_measure: item.calories_calculated_for,
+              }));
+
+              console.log(
+                `Detected ${foodItems.length} food items:`,
+                foodItems.map((f) => f.food_name)
+              );
+
+              setResults(foodItems);
+              setLoading(false);
+
+              // If only one item, auto-select it
+              if (foodItems.length === 1) {
+                showFoodDetails(foodItems[0]);
+              }
+            } else {
+              // Fallback to single food search
+              searchTerm = parsedData.food_name || responseText;
               await searchFoodAPI(searchTerm);
-            } catch (directApiError) {
-              console.error("Error with :", directApiError);
+            }
+          } catch (parseError) {
+            console.log(
+              "Could not parse as JSON, trying to extract food name:",
+              responseText
+            );
+            // Try to extract just the food name and search
+            const foodMatch = responseText.match(
+              /food_name["\s:]+["']?([^"'\n,}]+)/i
+            );
+            if (foodMatch) {
+              searchTerm = foodMatch[1].trim();
+            } else {
+              // Use the whole response as search term
+              searchTerm = responseText
+                .replace(/[{}\[\]"]/g, "")
+                .split(",")[0]
+                .trim();
+            }
+            if (searchTerm) {
+              await searchFoodAPI(searchTerm);
+            } else {
+              setError("Could not identify food. Please try a text search.");
+              setLoading(false);
+            }
+          }
+        } catch (directApiError) {
+          console.error("Error with image analysis:", directApiError);
+          // Try a simpler prompt as fallback
+          try {
+            // Re-convert image for fallback
+            const fallbackConvert = (file) => {
+              return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                  const img = new window.Image();
+                  img.onload = () => {
+                    const canvas = document.createElement("canvas");
+                    canvas.width = img.width;
+                    canvas.height = img.height;
+                    const ctx = canvas.getContext("2d");
+                    ctx.drawImage(img, 0, 0);
+                    resolve(canvas.toDataURL("image/jpeg", 0.9).split(",")[1]);
+                  };
+                  img.onerror = reject;
+                  img.src = e.target.result;
+                };
+                reader.onerror = reject;
+                reader.readAsDataURL(file);
+              });
+            };
+
+            const fallbackBase64 = await fallbackConvert(image);
+            
+            // Try models in order for fallback too
+            const fallbackModels = ["gemini-2.5-flash", "gemini-2.5-flash", "gemini-2.5-flash"];
+            let foodNames = null;
+            
+            for (const modelName of fallbackModels) {
+              try {
+                const simpleModel = genAI.getGenerativeModel({ model: modelName });
+                const simpleResult = await simpleModel.generateContent([
+                  "What foods are in this image? List all food items you see, separated by commas.",
+                  {
+                    inlineData: {
+                      mimeType: "image/jpeg",
+                      data: fallbackBase64,
+                    },
+                  },
+                ]);
+                const simpleResponse = await simpleResult.response;
+                foodNames = simpleResponse.text().trim();
+                console.log(`Fallback ${modelName} result:`, foodNames);
+                break;
+              } catch (e) {
+                console.warn(`Fallback ${modelName} failed:`, e.message);
+                continue;
+              }
+            }
+            
+            console.log("Simple detection result:", foodNames);
+
+            if (foodNames && foodNames.length > 0) {
+              // Get all food names and create results for each
+              const foods = foodNames
+                .split(",")
+                .map((f) => f.trim())
+                .filter((f) => f.length > 0);
+
+              if (foods.length > 1) {
+                // Multiple foods detected - get nutrition for each
+                const foodItems = await Promise.all(
+                  foods.slice(0, 5).map(async (foodName, index) => {
+                    try {
+                      const nutritionData = await getFoodInfoFromGemini(foodName);
+                      return {
+                        ...nutritionData,
+                        food_unique_id: `image-${Date.now()}-${index}`,
+                        food_id: Date.now() + index,
+                      };
+                    } catch {
+                      return {
+                        food_name: foodName,
+                        food_unique_id: `image-${Date.now()}-${index}`,
+                        food_id: Date.now() + index,
+                        serving_type: "1 serving",
+                        calories_calculated_for: 100,
+                        nutrients: {
+                          calories: 150,
+                          protein: 5,
+                          carbs: 20,
+                          fats: 5,
+                        },
+                      };
+                    }
+                  })
+                );
+                setResults(foodItems);
+                setLoading(false);
+              } else {
+                // Single food - search for it
+                await searchFoodAPI(foods[0]);
+              }
+            } else {
               setError(
-                "Sorry, we couldn't identify the food in your image. Please try a text search instead."
+                "Sorry, we couldn't identify the food. Please try a text search."
               );
               setLoading(false);
             }
-          };
-
-          reader.onerror = () => {
-            console.error("Error reading image file");
-            setShowModal(true);
+          } catch (fallbackError) {
+            console.error("Fallback also failed:", fallbackError);
+            setError(
+              "Sorry, we couldn't identify the food in your image. Please try a text search instead."
+            );
             setLoading(false);
-          };
-        } catch (fileReadError) {
-          console.error("Error reading file:", fileReadError);
-          setError(
-            "There was a problem processing your image. Please try again or use text search."
-          );
-          setLoading(false);
+          }
         }
       } else {
         // If no image, just search by text
@@ -1168,33 +1410,28 @@ export default function HomePage() {
 
   return (
     <AuthCheck>
-      <main className="min-h-screen bg-gradient-to-b from-[#070B14] via-[#0b1120] to-[#0A0E1A] text-white">
-        <div className="absolute inset-0 bg-[url('/noise.png')] opacity-[0.03] mix-blend-overlay pointer-events-none"></div>
-        <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center opacity-[0.03] mix-blend-overlay pointer-events-none"></div>
+      <main className="min-h-screen bg-[#FAF9F6] text-gray-900">
+        {/* Subtle decorative elements */}
+        <div className="fixed top-20 right-10 w-64 h-64 bg-teal-200/20 rounded-full blur-3xl pointer-events-none"></div>
+        <div className="fixed bottom-20 left-10 w-48 h-48 bg-amber-200/20 rounded-full blur-3xl pointer-events-none"></div>
 
-        {/* Animated glowing orb */}
-        <div className="fixed top-1/4 -right-28 w-96 h-96 bg-indigo-600/20 rounded-full blur-3xl animate-pulse pointer-events-none"></div>
-        <div className="fixed top-3/4 -left-28 w-96 h-96 bg-purple-600/20 rounded-full blur-3xl animate-pulse pointer-events-none"></div>
-
-        {/* Navbar */}
-        <nav className="sticky top-0 z-50 backdrop-blur-xl bg-gradient-to-r from-black/80 via-black/70 to-black/80 border-b border-slate-800/60 shadow-lg">
+        {/* Navbar - Light Theme */}
+        <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200/60">
           <div className="container mx-auto px-4">
             <div className="flex items-center justify-between h-16">
               <div className="flex items-center">
-                <h1 className="font-bold">
-                  <span className="text-2xl md:text-3xl bg-gradient-to-r from-indigo-400 to-purple-600 text-transparent bg-clip-text font-devanagari">
-                    अन्ना - Data
-                  </span>
+                <h1 style={{ fontFamily: 'Georgia, serif' }} className="text-2xl md:text-3xl text-gray-900">
+                  अन्ना<span className="text-teal-500">Data</span>
                 </h1>
               </div>
 
-              <div className="hidden md:flex items-center space-x-6">
+              <div className="hidden md:flex items-center space-x-2">
                 <button
                   onClick={() => setActiveSection("home")}
-                  className={`flex items-center px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                  className={`flex items-center px-4 py-2 rounded-full text-sm font-medium transition-all ${
                     activeSection === "home"
-                      ? "bg-slate-800/80 text-white"
-                      : "text-slate-300 hover:text-white hover:bg-slate-800/50"
+                      ? "bg-teal-50 text-teal-600"
+                      : "text-gray-600 hover:text-gray-900 hover:bg-gray-100"
                   }`}
                 >
                   <HomeIcon className="mr-2 h-4 w-4" />
@@ -1202,35 +1439,35 @@ export default function HomePage() {
                 </button>
                 <button
                   onClick={() => router.push("/fitness")}
-                  className="flex items-center px-3 py-2 rounded-md text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-800/50 transition-colors"
+                  className="flex items-center px-4 py-2 rounded-full text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 transition-all"
                 >
                   <Dumbbell className="mr-2 h-4 w-4" />
                   Fitness
                 </button>
                 <button
                   onClick={() => router.push("/recipe")}
-                  className="flex items-center px-3 py-2 rounded-md text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-800/50 transition-colors"
+                  className="flex items-center px-4 py-2 rounded-full text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 transition-all"
                 >
                   <ChefHat className="mr-2 h-4 w-4" />
                   Recipes
                 </button>
                 <button
                   onClick={() => setShowDiaryView(true)}
-                  className="flex items-center px-3 py-2 rounded-md text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-800/50 transition-colors"
+                  className="flex items-center px-4 py-2 rounded-full text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 transition-all"
                 >
                   <Calendar className="mr-2 h-4 w-4" />
                   Food Diary
                 </button>
 
                 {/* Notification bell */}
-                <div className="relative">
+                <div className="relative ml-2">
                   <button
                     onClick={() => setShowNotifications(!showNotifications)}
-                    className="flex items-center px-2 py-2 rounded-md text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-800/50 transition-colors relative"
+                    className="flex items-center p-2 rounded-full text-gray-600 hover:text-gray-900 hover:bg-gray-100 transition-all relative"
                   >
                     <Bell className="h-5 w-5" />
                     {unreadCount > 0 && (
-                      <span className="absolute -top-1 -right-1 bg-red-500 text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                      <span className="absolute -top-0.5 -right-0.5 bg-rose-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-medium">
                         {unreadCount}
                       </span>
                     )}
@@ -1240,15 +1477,15 @@ export default function HomePage() {
                     <motion.div
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
-                      className="absolute right-0 mt-2 w-80 bg-slate-900/90 backdrop-blur-lg border border-slate-700/50 rounded-lg shadow-xl py-2 z-50"
+                      className="absolute right-0 mt-2 w-80 bg-white border border-gray-200 rounded-2xl shadow-xl py-2 z-50"
                     >
-                      <div className="px-3 py-2 border-b border-slate-700/50 flex justify-between items-center">
-                        <h4 className="font-medium text-white">
+                      <div className="px-4 py-3 border-b border-gray-100 flex justify-between items-center">
+                        <h4 className="font-semibold text-gray-900">
                           Notifications
                         </h4>
                         <button
                           onClick={markAllAsRead}
-                          className="text-xs text-indigo-400 hover:text-indigo-300 px-2 py-1 rounded hover:bg-indigo-900/30"
+                          className="text-xs text-teal-600 hover:text-teal-700 px-2 py-1 rounded-full hover:bg-teal-50 transition-colors"
                         >
                           Mark all as read
                         </button>
@@ -1256,7 +1493,7 @@ export default function HomePage() {
 
                       {isLoadingNotifications ? (
                         <div className="flex items-center justify-center py-6">
-                          <div className="w-6 h-6 border-2 border-indigo-500 border-t-transparent rounded-full animate-spin"></div>
+                          <div className="w-6 h-6 border-2 border-teal-500 border-t-transparent rounded-full animate-spin"></div>
                         </div>
                       ) : notifications.length > 0 ? (
                         <>
@@ -1267,33 +1504,33 @@ export default function HomePage() {
                                 onClick={() =>
                                   markNotificationAsRead(notification.id)
                                 }
-                                className={`px-3 py-2 hover:bg-slate-800/50 border-b border-slate-700/30 cursor-pointer ${
-                                  !notification.read ? "bg-slate-800/20" : ""
+                                className={`px-4 py-3 hover:bg-gray-50 border-b border-gray-100 cursor-pointer transition-colors ${
+                                  !notification.read ? "bg-teal-50/50" : ""
                                 }`}
                               >
                                 <div className="flex gap-3">
-                                  <div className="mt-1 flex-shrink-0 text-lg">
+                                  <div className="mt-0.5 flex-shrink-0 text-lg">
                                     {notification.icon || "📝"}
                                   </div>
-                                  <div>
+                                  <div className="flex-1">
                                     <p
                                       className={`text-sm ${
                                         !notification.read
-                                          ? "text-white"
-                                          : "text-slate-300"
+                                          ? "text-gray-900 font-medium"
+                                          : "text-gray-600"
                                       }`}
                                     >
                                       {notification.message}
                                     </p>
-                                    <div className="flex justify-between items-center mt-1">
+                                    <div className="flex justify-between items-center mt-1.5">
                                       <span
-                                        className={`text-xs ${getPriorityColor(
+                                        className={`text-xs px-2 py-0.5 rounded-full ${getPriorityColor(
                                           notification.priority
                                         )}`}
                                       >
                                         {notification.category}
                                       </span>
-                                      <span className="text-xs text-slate-400">
+                                      <span className="text-xs text-gray-400">
                                         {formatTimeAgo(notification.timestamp)}
                                       </span>
                                     </div>
@@ -1302,21 +1539,22 @@ export default function HomePage() {
                               </div>
                             ))}
                           </div>
-                          <div className="px-3 py-2 text-center border-t border-slate-700/50">
+                          <div className="px-4 py-3 text-center border-t border-gray-100">
                             <button
                               onClick={() => {
                                 setShowNotifications(false);
                                 router.push("/notifications");
                               }}
-                              className="text-xs text-indigo-400 hover:text-indigo-300"
+                              className="text-sm text-teal-600 hover:text-teal-700 font-medium"
                             >
                               View all notifications
                             </button>
                           </div>
                         </>
                       ) : (
-                        <div className="px-3 py-6 text-center">
-                          <p className="text-slate-400 text-sm">
+                        <div className="px-4 py-8 text-center">
+                          <Bell className="w-8 h-8 text-gray-300 mx-auto mb-2" />
+                          <p className="text-gray-500 text-sm">
                             No notifications yet
                           </p>
                         </div>
@@ -1326,14 +1564,14 @@ export default function HomePage() {
                 </div>
 
                 {/* User profile section with login status */}
-                <div className="relative group">
+                <div className="relative group ml-2">
                   <button
                     onClick={() => router.push("/profile")}
-                    className="flex items-center px-3 py-2 rounded-md text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-800/50 transition-colors"
+                    className="flex items-center px-4 py-2 rounded-full text-sm font-medium bg-teal-500 text-white hover:bg-teal-600 transition-all"
                   >
                     {session ? (
                       <>
-                        <div className="w-6 h-6 rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 mr-2 flex items-center justify-center text-xs font-bold overflow-hidden">
+                        <div className="w-6 h-6 rounded-full bg-white/20 mr-2 flex items-center justify-center text-xs font-bold overflow-hidden">
                           {session.user?.name?.charAt(0) ||
                             session.user?.email?.charAt(0) ||
                             "U"}
@@ -1355,7 +1593,7 @@ export default function HomePage() {
               </div>
 
               <button
-                className="md:hidden text-white"
+                className="md:hidden text-gray-700"
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               >
                 {mobileMenuOpen ? (
@@ -1380,7 +1618,7 @@ export default function HomePage() {
             </div>
           </div>
 
-          {/* Mobile Menu */}
+          {/* Mobile Menu - Light Theme */}
           {mobileMenuOpen && (
             <motion.div
               initial={{ opacity: 0, height: 0 }}
@@ -1388,13 +1626,13 @@ export default function HomePage() {
               exit={{ opacity: 0, height: 0 }}
               className="md:hidden"
             >
-              <div className="px-2 pt-2 pb-3 space-y-1 bg-slate-900/90 backdrop-blur-lg">
+              <div className="px-3 pt-2 pb-4 space-y-1 bg-white border-t border-gray-100">
                 <button
                   onClick={() => {
                     setActiveSection("home");
                     setMobileMenuOpen(false);
                   }}
-                  className="flex w-full items-center px-3 py-3 rounded-md text-base font-medium text-white hover:bg-slate-800/80"
+                  className="flex w-full items-center px-4 py-3 rounded-xl text-base font-medium text-gray-700 hover:bg-gray-50 transition-colors"
                 >
                   <HomeIcon className="mr-3 h-5 w-5" />
                   Home
@@ -1404,7 +1642,7 @@ export default function HomePage() {
                     router.push("/fitness");
                     setMobileMenuOpen(false);
                   }}
-                  className="flex w-full items-center px-3 py-3 rounded-md text-base font-medium text-white hover:bg-slate-800/80"
+                  className="flex w-full items-center px-4 py-3 rounded-xl text-base font-medium text-gray-700 hover:bg-gray-50 transition-colors"
                 >
                   <Dumbbell className="mr-3 h-5 w-5" />
                   Fitness
@@ -1414,7 +1652,7 @@ export default function HomePage() {
                     router.push("/recipe");
                     setMobileMenuOpen(false);
                   }}
-                  className="flex w-full items-center px-3 py-3 rounded-md text-base font-medium text-white hover:bg-slate-800/80"
+                  className="flex w-full items-center px-4 py-3 rounded-xl text-base font-medium text-gray-700 hover:bg-gray-50 transition-colors"
                 >
                   <ChefHat className="mr-3 h-5 w-5" />
                   Recipes
@@ -1424,7 +1662,7 @@ export default function HomePage() {
                     setShowDiaryView(true);
                     setMobileMenuOpen(false);
                   }}
-                  className="flex w-full items-center px-3 py-3 rounded-md text-base font-medium text-white hover:bg-slate-800/80"
+                  className="flex w-full items-center px-4 py-3 rounded-xl text-base font-medium text-gray-700 hover:bg-gray-50 transition-colors"
                 >
                   <Calendar className="mr-3 h-5 w-5" />
                   Food Diary
@@ -1434,11 +1672,11 @@ export default function HomePage() {
                     router.push("/profile");
                     setMobileMenuOpen(false);
                   }}
-                  className="flex w-full items-center px-3 py-3 rounded-md text-base font-medium text-white hover:bg-slate-800/80"
+                  className="flex w-full items-center px-4 py-3 rounded-xl text-base font-medium text-white bg-teal-500 hover:bg-teal-600 transition-colors mt-2"
                 >
                   {session ? (
                     <>
-                      <div className="w-6 h-6 rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 mr-3 flex items-center justify-center text-xs font-bold">
+                      <div className="w-6 h-6 rounded-full bg-white/20 mr-3 flex items-center justify-center text-xs font-bold">
                         {session.user?.name?.charAt(0) || "U"}
                       </div>
                       Profile
@@ -1455,206 +1693,190 @@ export default function HomePage() {
           )}
         </nav>
 
-        <div className="container mx-auto px-4 pt-8 pb-24">
-          {/* Hero Section */}
-          <div className="text-center mb-12 relative">
-            {/* Decorative elements */}
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-lg h-24 bg-indigo-500/20 blur-3xl rounded-full -z-10"></div>
+        <div className="container mx-auto px-4 pt-12 pb-24">
+          {/* Hero Section - Light Theme */}
+          <div className="text-center mb-16 relative">
             <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.7 }}
-              className="relative inline-block"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
             >
-              <div className="absolute -inset-2 bg-gradient-to-r from-indigo-500 via-purple-600 to-indigo-600 rounded-full blur-xl opacity-75"></div>
-              <h1 className="relative text-5xl md:text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-500 to-indigo-400 mb-4 px-2">
-                <span className="font-devanagari">अन्ना - Data</span>
+              <h1 className="text-4xl md:text-6xl lg:text-7xl text-gray-900 mb-6" style={{ fontFamily: 'Georgia, serif', fontWeight: 400 }}>
+                Your nutrition journey,
+                <br />
+                <span className="text-teal-500">simplified.</span>
               </h1>
             </motion.div>
 
-            <motion.h2
-              initial={{ opacity: 0, y: -10 }}
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.2 }}
-              className="text-xl md:text-3xl font-medium bg-gradient-to-r from-white to-slate-300 text-transparent bg-clip-text"
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto mb-8"
             >
-              Your Nutritional Intelligence Assistant
-            </motion.h2>
+              Discover the nutritional content of any food. Get Food insights tailored to your health goals.
+            </motion.p>
 
-            {/* <motion.p
-              initial={{ opacity: 0, y: -10 }}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.4 }}
-              className="mt-6 text-lg md:text-xl text-slate-300 max-w-3xl mx-auto"
+              transition={{ duration: 0.6, delay: 0.4 }}
+              className="flex flex-wrap justify-center gap-4"
             >
-              Discover the nutritional content of any food by searching or
-              uploading a photo. Get AI-powered insights tailored to your health
-              goals.
-            </motion.p> */}
+              {/* <button 
+                onClick={() => document.getElementById('search-section')?.scrollIntoView({ behavior: 'smooth' })}
+                className="px-8 py-3 bg-teal-500 text-white rounded-full font-medium hover:bg-teal-600 transition-all flex items-center gap-2 shadow-lg shadow-teal-500/20"
+              >
+                Get Started
+                <ArrowRight className="w-4 h-4" />
+              </button> */}
+            </motion.div>
           </div>
 
-          {/* Daily Nutrition Summary */}
+          {/* Daily Nutrition Summary - Light Theme */}
           <div className="mb-12">
-            <h2 className="text-2xl font-bold text-white mb-6 flex items-center">
-              <BarChart3 className="mr-2 h-6 w-6 text-indigo-500" />
+            <h2 className="text-2xl text-gray-900 mb-6 flex items-center" style={{ fontFamily: 'Georgia, serif' }}>
+              <BarChart3 className="mr-3 h-6 w-6 text-teal-500" />
               Today's Nutrition
             </h2>
 
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
               <motion.div
-                whileHover={{ y: -5 }}
-                className="bg-gradient-to-br from-slate-900/80 to-black/60 backdrop-blur-lg border border-slate-700/50 rounded-xl p-4 shadow-lg hover:border-slate-600 hover:shadow-xl transition-all"
+                whileHover={{ y: -4, boxShadow: '0 12px 24px rgba(0,0,0,0.06)' }}
+                className="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm transition-all"
               >
-                <div className="flex justify-between items-center mb-2">
+                <div className="flex justify-between items-center mb-3">
                   <div className="flex items-center">
-                    <div className="w-8 h-8 rounded-md bg-gradient-to-r from-indigo-600 to-purple-600 flex items-center justify-center mr-2">
-                      <Flame className="h-4 w-4" />
+                    <div className="w-10 h-10 rounded-xl bg-gradient-to-r from-rose-400 to-orange-400 flex items-center justify-center mr-3">
+                      <Flame className="h-5 w-5 text-white" />
                     </div>
-                    <p className="text-white font-medium">Calories</p>
+                    <p className="text-gray-700 font-medium">Calories</p>
                   </div>
-                  <span className="text-sm font-medium text-white">
-                    {dailyNutrition.calories.consumed} /{" "}
-                    {dailyNutrition.calories.goal}
+                  <span className="text-sm font-semibold text-gray-900">
+                    {dailyNutrition.calories.consumed} / {dailyNutrition.calories.goal}
                   </span>
                 </div>
-                <div className="h-3 w-full bg-slate-800/80 rounded-full overflow-hidden">
-                  <div
-                    className="h-full bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-600"
-                    style={{
-                      width: `${
-                        (dailyNutrition.calories.consumed /
-                          dailyNutrition.calories.goal) *
-                        100
-                      }%`,
-                    }}
-                  ></div>
+                <div className="h-2 w-full bg-gray-100 rounded-full overflow-hidden">
+                  <motion.div
+                    initial={{ width: 0 }}
+                    animate={{ width: `${Math.min((dailyNutrition.calories.consumed / dailyNutrition.calories.goal) * 100, 100)}%` }}
+                    transition={{ duration: 0.8, ease: "easeOut" }}
+                    className="h-full bg-gradient-to-r from-rose-400 to-orange-400 rounded-full"
+                  ></motion.div>
                 </div>
               </motion.div>
 
               <motion.div
-                whileHover={{ y: -5 }}
-                className="bg-gradient-to-br from-slate-900/80 to-black/60 backdrop-blur-lg border border-slate-700/50 rounded-xl p-4 shadow-lg hover:border-slate-600 hover:shadow-xl transition-all"
+                whileHover={{ y: -4, boxShadow: '0 12px 24px rgba(0,0,0,0.06)' }}
+                className="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm transition-all"
               >
-                <div className="flex justify-between items-center mb-2">
+                <div className="flex justify-between items-center mb-3">
                   <div className="flex items-center">
-                    <div className="w-8 h-8 rounded-md bg-gradient-to-r from-blue-600 to-cyan-600 flex items-center justify-center mr-2">
-                      <Dumbbell className="h-4 w-4" />
+                    <div className="w-10 h-10 rounded-xl bg-gradient-to-r from-teal-400 to-cyan-400 flex items-center justify-center mr-3">
+                      <Dumbbell className="h-5 w-5 text-white" />
                     </div>
-                    <p className="text-white font-medium">Protein</p>
+                    <p className="text-gray-700 font-medium">Protein</p>
                   </div>
-                  <span className="text-sm font-medium text-white">
-                    {dailyNutrition.protein.consumed}g /{" "}
-                    {dailyNutrition.protein.goal}g
+                  <span className="text-sm font-semibold text-gray-900">
+                    {dailyNutrition.protein.consumed}g / {dailyNutrition.protein.goal}g
                   </span>
                 </div>
-                <div className="h-3 w-full bg-slate-800/80 rounded-full overflow-hidden">
-                  <div
-                    className="h-full bg-gradient-to-r from-blue-600 to-cyan-600"
-                    style={{
-                      width: `${
-                        (dailyNutrition.protein.consumed /
-                          dailyNutrition.protein.goal) *
-                        100
-                      }%`,
-                    }}
-                  ></div>
+                <div className="h-2 w-full bg-gray-100 rounded-full overflow-hidden">
+                  <motion.div
+                    initial={{ width: 0 }}
+                    animate={{ width: `${Math.min((dailyNutrition.protein.consumed / dailyNutrition.protein.goal) * 100, 100)}%` }}
+                    transition={{ duration: 0.8, ease: "easeOut" }}
+                    className="h-full bg-gradient-to-r from-teal-400 to-cyan-400 rounded-full"
+                  ></motion.div>
                 </div>
               </motion.div>
 
               <motion.div
-                whileHover={{ y: -5 }}
-                className="bg-gradient-to-br from-slate-900/80 to-black/60 backdrop-blur-lg border border-slate-700/50 rounded-xl p-4 shadow-lg hover:border-slate-600 hover:shadow-xl transition-all"
+                whileHover={{ y: -4, boxShadow: '0 12px 24px rgba(0,0,0,0.06)' }}
+                className="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm transition-all"
               >
-                <div className="flex justify-between items-center mb-2">
+                <div className="flex justify-between items-center mb-3">
                   <div className="flex items-center">
-                    <div className="w-8 h-8 rounded-md bg-gradient-to-r from-teal-600 to-emerald-600 flex items-center justify-center mr-2">
-                      <Apple className="h-4 w-4" />
+                    <div className="w-10 h-10 rounded-xl bg-gradient-to-r from-amber-400 to-yellow-400 flex items-center justify-center mr-3">
+                      <Apple className="h-5 w-5 text-white" />
                     </div>
-                    <p className="text-white font-medium">Carbs</p>
+                    <p className="text-gray-700 font-medium">Carbs</p>
                   </div>
-                  <span className="text-sm font-medium text-white">
-                    {dailyNutrition.carbs.consumed}g /{" "}
-                    {dailyNutrition.carbs.goal}g
+                  <span className="text-sm font-semibold text-gray-900">
+                    {dailyNutrition.carbs.consumed}g / {dailyNutrition.carbs.goal}g
                   </span>
                 </div>
-                <div className="h-3 w-full bg-slate-800/80 rounded-full overflow-hidden">
-                  <div
-                    className="h-full bg-gradient-to-r from-teal-600 to-emerald-600"
-                    style={{
-                      width: `${
-                        (dailyNutrition.carbs.consumed /
-                          dailyNutrition.carbs.goal) *
-                        100
-                      }%`,
-                    }}
-                  ></div>
+                <div className="h-2 w-full bg-gray-100 rounded-full overflow-hidden">
+                  <motion.div
+                    initial={{ width: 0 }}
+                    animate={{ width: `${Math.min((dailyNutrition.carbs.consumed / dailyNutrition.carbs.goal) * 100, 100)}%` }}
+                    transition={{ duration: 0.8, ease: "easeOut" }}
+                    className="h-full bg-gradient-to-r from-amber-400 to-yellow-400 rounded-full"
+                  ></motion.div>
                 </div>
               </motion.div>
 
               <motion.div
-                whileHover={{ y: -5 }}
-                className="bg-gradient-to-br from-slate-900/80 to-black/60 backdrop-blur-lg border border-slate-700/50 rounded-xl p-4 shadow-lg hover:border-slate-600 hover:shadow-xl transition-all"
+                whileHover={{ y: -4, boxShadow: '0 12px 24px rgba(0,0,0,0.06)' }}
+                className="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm transition-all"
               >
-                <div className="flex justify-between items-center mb-2">
+                <div className="flex justify-between items-center mb-3">
                   <div className="flex items-center">
-                    <div className="w-8 h-8 rounded-md bg-gradient-to-r from-amber-600 to-yellow-600 flex items-center justify-center mr-2">
-                      <Heart className="h-4 w-4" />
+                    <div className="w-10 h-10 rounded-xl bg-gradient-to-r from-violet-400 to-purple-400 flex items-center justify-center mr-3">
+                      <Heart className="h-5 w-5 text-white" />
                     </div>
-                    <p className="text-white font-medium">Fat</p>
+                    <p className="text-gray-700 font-medium">Fat</p>
                   </div>
-                  <span className="text-sm font-medium text-white">
+                  <span className="text-sm font-semibold text-gray-900">
                     {dailyNutrition.fat.consumed}g / {dailyNutrition.fat.goal}g
                   </span>
                 </div>
-                <div className="h-3 w-full bg-slate-800/80 rounded-full overflow-hidden">
-                  <div
-                    className="h-full bg-gradient-to-r from-amber-600 to-yellow-600"
-                    style={{
-                      width: `${
-                        (dailyNutrition.fat.consumed /
-                          dailyNutrition.fat.goal) *
-                        100
-                      }%`,
-                    }}
-                  ></div>
+                <div className="h-2 w-full bg-gray-100 rounded-full overflow-hidden">
+                  <motion.div
+                    initial={{ width: 0 }}
+                    animate={{ width: `${Math.min((dailyNutrition.fat.consumed / dailyNutrition.fat.goal) * 100, 100)}%` }}
+                    transition={{ duration: 0.8, ease: "easeOut" }}
+                    className="h-full bg-gradient-to-r from-violet-400 to-purple-400 rounded-full"
+                  ></motion.div>
                 </div>
               </motion.div>
             </div>
           </div>
 
-          {/* Search Section */}
+          {/* Search Section - Light Theme */}
           <motion.div
+            id="search-section"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.6 }}
             className="mb-12"
           >
-            <div className="bg-gradient-to-br from-slate-900/80 to-black/60 backdrop-blur-lg border border-slate-700/50 rounded-xl overflow-hidden shadow-xl">
+            <div className="bg-white border border-gray-100 rounded-2xl overflow-hidden shadow-sm">
               {/* Search Tabs */}
-              <div className="flex border-b border-slate-700/50">
+              <div className="flex border-b border-gray-100">
                 <button
-                  className={`flex items-center px-6 py-4 ${
+                  className={`flex items-center px-6 py-4 text-sm font-medium transition-colors ${
                     !image
-                      ? "bg-gradient-to-r from-indigo-900/60 to-purple-900/60 text-white"
-                      : "text-slate-300 hover:text-white hover:bg-slate-800/30 transition-colors"
+                      ? "bg-teal-50 text-teal-600 border-b-2 border-teal-500"
+                      : "text-gray-500 hover:text-gray-700 hover:bg-gray-50"
                   }`}
                   onClick={() => {
                     setImage(null);
                     setImagePreview(null);
                   }}
                 >
-                  <Search className="mr-2 h-5 w-5" />
+                  <Search className="mr-2 h-4 w-4" />
                   Search
                 </button>
                 <button
-                  className={`flex items-center px-6 py-4 ${
+                  className={`flex items-center px-6 py-4 text-sm font-medium transition-colors ${
                     image
-                      ? "bg-gradient-to-r from-indigo-900/60 to-purple-900/60 text-white"
-                      : "text-slate-300 hover:text-white hover:bg-slate-800/30 transition-colors"
+                      ? "bg-teal-50 text-teal-600 border-b-2 border-teal-500"
+                      : "text-gray-500 hover:text-gray-700 hover:bg-gray-50"
                   }`}
                   onClick={() => document.getElementById("food-image").click()}
                 >
-                  <Upload className="mr-2 h-5 w-5" />
+                  <Upload className="mr-2 h-4 w-4" />
                   Upload Image
                 </button>
               </div>
@@ -1668,12 +1890,12 @@ export default function HomePage() {
                         value={query}
                         onChange={(e) => setQuery(e.target.value)}
                         onKeyPress={(e) => e.key === "Enter" && handleSearch()}
-                        className="w-full bg-gradient-to-br from-slate-900/80 to-black/60 border border-slate-700/50 rounded-full py-4 pl-6 pr-12 text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent shadow-lg"
+                        className="w-full bg-gray-50 border border-gray-200 rounded-full py-4 pl-6 pr-14 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-teal-500/30 focus:border-teal-500 transition-all"
                         placeholder="Search for any food..."
                       />
                       <button
                         onClick={handleSearch}
-                        className="absolute right-1 top-1 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-full p-3 hover:opacity-90 shadow-lg transition-transform hover:scale-105"
+                        className="absolute right-2 top-2 bg-teal-500 hover:bg-teal-600 rounded-full p-2.5 transition-all"
                       >
                         <Search className="h-5 w-5 text-white" />
                       </button>
@@ -1681,18 +1903,18 @@ export default function HomePage() {
 
                     {/* Search History */}
                     {searchHistory.length > 0 && !selectedFood && !loading && (
-                      <div className="flex flex-wrap gap-2 justify-center">
-                        <span className="text-slate-400">Recent:</span>
+                      <div className="flex flex-wrap gap-2 justify-center items-center">
+                        <span className="text-gray-400 text-sm">Recent:</span>
                         {searchHistory.map((term, index) => (
                           <motion.button
                             key={index}
-                            whileHover={{ y: -2, scale: 1.05 }}
+                            whileHover={{ y: -2 }}
                             whileTap={{ scale: 0.95 }}
                             onClick={() => {
                               setQuery(term);
                               searchFoodAPI(term);
                             }}
-                            className="px-4 py-1 bg-gradient-to-r from-slate-800/60 to-slate-900/60 hover:from-indigo-900/40 hover:to-purple-900/40 border border-slate-700/50 hover:border-indigo-500/50 rounded-full text-white text-sm transition-all shadow-md"
+                            className="px-4 py-1.5 bg-gray-50 hover:bg-teal-50 border border-gray-200 hover:border-teal-300 rounded-full text-gray-600 hover:text-teal-600 text-sm transition-all"
                           >
                             {term}
                           </motion.button>
@@ -1701,7 +1923,7 @@ export default function HomePage() {
                     )}
 
                     <div className="text-center">
-                      <p className="text-slate-400 mb-3">OR</p>
+                      <p className="text-gray-400 mb-3">OR</p>
                       <div className="flex flex-wrap justify-center gap-3">
                         <motion.button
                           whileHover={{ y: -2, scale: 1.05 }}
@@ -1709,7 +1931,7 @@ export default function HomePage() {
                           onClick={() =>
                             document.getElementById("food-image").click()
                           }
-                          className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-slate-800/60 to-slate-900/60 hover:from-indigo-900/40 hover:to-purple-900/40 border border-slate-700/50 hover:border-indigo-500/50 rounded-full text-white text-sm transition-all shadow-md"
+                          className="inline-flex items-center px-4 py-2 bg-gray-50 hover:bg-teal-50 border border-gray-200 hover:border-teal-300 rounded-full text-gray-600 hover:text-teal-600 text-sm transition-all"
                         >
                           <Upload className="mr-2 h-4 w-4" />
                           Upload Image
@@ -1718,7 +1940,7 @@ export default function HomePage() {
                           whileHover={{ y: -2, scale: 1.05 }}
                           whileTap={{ scale: 0.95 }}
                           onClick={handleCameraCapture}
-                          className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-slate-800/60 to-slate-900/60 hover:from-indigo-900/40 hover:to-purple-900/40 border border-slate-700/50 hover:border-indigo-500/50 rounded-full text-white text-sm transition-all shadow-md"
+                          className="inline-flex items-center px-4 py-2 bg-gray-50 hover:bg-teal-50 border border-gray-200 hover:border-teal-300 rounded-full text-gray-600 hover:text-teal-600 text-sm transition-all"
                         >
                           <Camera className="mr-2 h-4 w-4" />
                           Take Photo
@@ -1734,12 +1956,12 @@ export default function HomePage() {
                         alt="Food"
                         className="w-full h-64 object-cover"
                       />
-                      <div className="absolute inset-0 flex items-center justify-center bg-black/60 backdrop-blur-sm">
+                      <div className="absolute inset-0 flex items-center justify-center bg-white/80 backdrop-blur-sm">
                         <div className="text-center p-4">
-                          <h3 className="text-lg font-medium text-white mb-2">
+                          <h3 className="text-lg font-medium text-gray-900 mb-2">
                             Analyzing Image
                           </h3>
-                          <p className="text-slate-300 mb-4">
+                          <p className="text-gray-500 mb-4">
                             AI is identifying your food
                           </p>
                           <motion.button
@@ -1749,7 +1971,7 @@ export default function HomePage() {
                               setImage(null);
                               setImagePreview(null);
                             }}
-                            className="px-4 py-2 bg-gradient-to-r from-slate-800/80 to-slate-900/80 hover:from-indigo-900/40 hover:to-purple-900/40 border border-slate-700/50 hover:border-indigo-500/50 rounded-full text-white text-sm transition-all shadow-lg"
+                            className="px-4 py-2 bg-gray-100 hover:bg-gray-200 border border-gray-200 rounded-full text-gray-700 text-sm transition-all"
                           >
                             Remove Image
                           </motion.button>
@@ -1761,7 +1983,7 @@ export default function HomePage() {
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
                       onClick={handleSearch}
-                      className="w-full py-3 bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-600 rounded-xl text-white font-medium hover:opacity-90 shadow-lg transition-all"
+                      className="w-full py-3 bg-teal-500 hover:bg-teal-600 rounded-xl text-white font-medium shadow-lg shadow-teal-500/20 transition-all"
                     >
                       Analyze Now
                     </motion.button>
@@ -1784,7 +2006,7 @@ export default function HomePage() {
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              className="bg-gradient-to-r from-red-900/30 to-rose-900/30 backdrop-blur-lg border border-red-500/30 text-white rounded-lg p-4 mb-6 shadow-lg"
+              className="bg-rose-50 border border-rose-200 text-rose-700 rounded-xl p-4 mb-6"
             >
               <div className="flex items-center">
                 <svg
@@ -1810,15 +2032,15 @@ export default function HomePage() {
               <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
-                className="bg-gradient-to-br from-slate-900 to-black rounded-2xl overflow-hidden shadow-2xl max-w-2xl w-full border border-slate-700/50"
+                className="bg-white rounded-2xl overflow-hidden shadow-2xl max-w-2xl w-full border border-gray-200"
               >
-                <div className="p-4 flex justify-between items-center border-b border-slate-700/50 bg-black/50">
-                  <h3 className="text-lg font-medium text-white">
+                <div className="p-4 flex justify-between items-center border-b border-gray-100 bg-gray-50">
+                  <h3 className="text-lg font-medium text-gray-900">
                     Take a photo of your food
                   </h3>
                   <button
                     onClick={handleCameraCapture}
-                    className="text-slate-300 hover:text-white transition-colors"
+                    className="text-gray-400 hover:text-gray-600 transition-colors"
                   >
                     <X className="h-6 w-6" />
                   </button>
@@ -1837,14 +2059,14 @@ export default function HomePage() {
                     onClick={takePhoto}
                     className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-white rounded-full p-4 shadow-lg hover:bg-gray-100 transition-all hover:scale-105"
                   >
-                    <div className="w-10 h-10 border-4 border-slate-900 rounded-full relative">
-                      <div className="absolute inset-0 m-1 bg-slate-900 rounded-full"></div>
+                    <div className="w-10 h-10 border-4 border-teal-500 rounded-full relative">
+                      <div className="absolute inset-0 m-1 bg-teal-500 rounded-full"></div>
                     </div>
                   </button>
                 </div>
 
                 <div className="p-4 text-center">
-                  <p className="text-slate-300 text-sm">
+                  <p className="text-gray-500 text-sm">
                     Position your food clearly in the frame for the best results
                   </p>
                 </div>
@@ -1854,21 +2076,21 @@ export default function HomePage() {
 
           {/* Empty Search Modal */}
           {showModal && (
-            <div className="fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-4">
+            <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4">
               <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
-                className="bg-gradient-to-br from-slate-900/80 to-black/80 backdrop-blur-xl rounded-2xl p-8 max-w-sm w-full shadow-2xl border border-slate-700/50"
+                className="bg-white rounded-2xl p-8 max-w-sm w-full shadow-xl border border-gray-100"
               >
                 <div className="text-center mb-6">
-                  <span className="inline-flex items-center justify-center h-16 w-16 rounded-full bg-indigo-900/60 text-indigo-400">
+                  <span className="inline-flex items-center justify-center h-16 w-16 rounded-full bg-teal-50 text-teal-500">
                     <Info className="h-8 w-8" />
                   </span>
                 </div>
-                <h3 className="text-xl font-medium text-white mb-3 text-center">
+                <h3 className="text-xl font-medium text-gray-900 mb-3 text-center" style={{ fontFamily: 'Georgia, serif' }}>
                   Search Input Required
                 </h3>
-                <p className="text-slate-300 mb-6 text-center">
+                <p className="text-gray-500 mb-6 text-center">
                   Please enter a food name or upload a food image to search.
                 </p>
                 <div className="flex justify-center">
@@ -1876,7 +2098,7 @@ export default function HomePage() {
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     onClick={() => setShowModal(false)}
-                    className="px-5 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg shadow-lg hover:shadow-xl transition-all"
+                    className="px-5 py-2 bg-teal-500 hover:bg-teal-600 text-white rounded-lg shadow-md transition-all"
                   >
                     Got it
                   </motion.button>
@@ -1896,9 +2118,9 @@ export default function HomePage() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
                 transition={{ duration: 0.5 }}
-                className="bg-gradient-to-br from-slate-900/80 to-black/60 backdrop-blur-lg border border-slate-700/50 rounded-xl overflow-hidden mb-12 shadow-2xl"
+                className="bg-white border border-gray-100 rounded-2xl overflow-hidden mb-12 shadow-lg"
               >
-                <div className="relative h-48 bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-600">
+                <div className="relative h-48 bg-gradient-to-r from-teal-400 via-cyan-400 to-teal-500">
                   {/* Animated particles */}
                   <div className="absolute inset-0 overflow-hidden">
                     {[...Array(20)].map((_, i) => (
@@ -1926,7 +2148,7 @@ export default function HomePage() {
                   </button>
 
                   <div className="absolute -bottom-12 left-8">
-                    <div className="bg-gradient-to-br from-slate-900/80 to-black/60 backdrop-blur-xl border border-slate-700/50 w-24 h-24 rounded-xl flex items-center justify-center shadow-xl">
+                    <div className="bg-white border border-gray-100 w-24 h-24 rounded-2xl flex items-center justify-center shadow-lg">
                       <span className="text-4xl">
                         {getFoodEmoji(selectedFood.food_name)}
                       </span>
@@ -1935,18 +2157,18 @@ export default function HomePage() {
                 </div>
 
                 <div className="pt-16 px-8 pb-8">
-                  <h2 className="text-3xl font-bold text-white mb-1">
+                  <h2 className="text-3xl font-semibold text-gray-900 mb-1" style={{ fontFamily: 'Georgia, serif' }}>
                     {selectedFood.food_name}
                   </h2>
-                  <p className="text-slate-300 mb-6">
+                  <p className="text-gray-500 mb-6">
                     {selectedFood.serving_type} (
                     {selectedFood.calories_calculated_for}g)
                   </p>
 
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                     <div>
-                      <h3 className="text-xl font-semibold text-white mb-4 flex items-center">
-                        <BarChart3 className="mr-2 h-5 w-5 text-indigo-500" />
+                      <h3 className="text-xl font-semibold text-gray-900 mb-4 flex items-center" style={{ fontFamily: 'Georgia, serif' }}>
+                        <BarChart3 className="mr-2 h-5 w-5 text-teal-500" />
                         Nutrition Overview
                       </h3>
 
@@ -1999,15 +2221,15 @@ export default function HomePage() {
 
                       <motion.div
                         whileHover={{ y: -5 }}
-                        className="bg-gradient-to-br from-slate-900/80 to-black/60 backdrop-blur-lg border border-slate-700/50 rounded-xl p-5 mb-6 shadow-lg
-                        hover:border-slate-600 hover:shadow-xl transition-all"
+                        className="bg-gray-50 border border-gray-100 rounded-xl p-5 mb-6 shadow-sm
+                        hover:shadow-md transition-all"
                       >
-                        <h4 className="text-lg font-semibold text-white mb-4 flex items-center">
-                          <BarChart3 className="mr-2 h-5 w-5 text-indigo-500" />
+                        <h4 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+                          <BarChart3 className="mr-2 h-5 w-5 text-teal-500" />
                           Calorie Distribution
                         </h4>
 
-                        <div className="h-10 w-full flex rounded-lg overflow-hidden mb-2 bg-slate-800/70">
+                        <div className="h-10 w-full flex rounded-lg overflow-hidden mb-2 bg-gray-200">
                           <div
                             className="bg-gradient-to-r from-blue-600 to-cyan-600 flex items-center justify-center text-xs font-medium text-white transition-all"
                             style={{
@@ -2063,17 +2285,17 @@ export default function HomePage() {
                           </div>
                         </div>
 
-                        <div className="flex justify-between text-xs text-slate-300">
+                        <div className="flex justify-between text-xs text-gray-600">
                           <div className="flex items-center">
-                            <div className="w-3 h-3 rounded-full bg-gradient-to-r from-blue-600 to-cyan-600 mr-1"></div>
+                            <div className="w-3 h-3 rounded-full bg-gradient-to-r from-blue-500 to-cyan-500 mr-1"></div>
                             <span>Protein</span>
                           </div>
                           <div className="flex items-center">
-                            <div className="w-3 h-3 rounded-full bg-gradient-to-r from-teal-600 to-emerald-600 mr-1"></div>
+                            <div className="w-3 h-3 rounded-full bg-gradient-to-r from-teal-500 to-emerald-500 mr-1"></div>
                             <span>Carbs</span>
                           </div>
                           <div className="flex items-center">
-                            <div className="w-3 h-3 rounded-full bg-gradient-to-r from-amber-600 to-yellow-600 mr-1"></div>
+                            <div className="w-3 h-3 rounded-full bg-gradient-to-r from-amber-500 to-yellow-500 mr-1"></div>
                             <span>Fat</span>
                           </div>
                         </div>
@@ -2083,7 +2305,7 @@ export default function HomePage() {
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
                         onClick={() => setShowFullAnalysis(true)}
-                        className="w-full py-3 px-4 bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-600 rounded-xl text-white flex items-center justify-center hover:opacity-90 transition-all shadow-lg"
+                        className="w-full py-3 px-4 bg-teal-500 hover:bg-teal-600 rounded-xl text-white flex items-center justify-center transition-all shadow-md"
                       >
                         <Info className="mr-2 h-5 w-5" />
                         View Full Nutrition Facts
@@ -2091,9 +2313,9 @@ export default function HomePage() {
                     </div>
 
                     <div>
-                      <h3 className="text-xl font-semibold text-white mb-4 flex items-center">
-                        <Sparkles className="mr-2 h-5 w-5 text-indigo-500" />
-                        AI-Powered Insights
+                      <h3 className="text-xl font-semibold text-gray-900 mb-4 flex items-center" style={{ fontFamily: 'Georgia, serif' }}>
+                        <Sparkles className="mr-2 h-5 w-5 text-teal-500" />
+                        Food Insights
                       </h3>
 
                       <div className="space-y-4 mb-6">
@@ -2108,10 +2330,10 @@ export default function HomePage() {
                         ) : (
                           <div className="flex justify-center py-12">
                             <div className="relative w-12 h-12">
-                              <div className="absolute inset-0 rounded-full border-4 border-slate-700/50"></div>
-                              <div className="absolute inset-0 rounded-full border-t-4 border-indigo-600 animate-spin"></div>
+                              <div className="absolute inset-0 rounded-full border-4 border-gray-200"></div>
+                              <div className="absolute inset-0 rounded-full border-t-4 border-teal-500 animate-spin"></div>
                               <div className="absolute inset-0 flex items-center justify-center">
-                                <div className="w-3 h-3 rounded-full bg-indigo-600 animate-pulse"></div>
+                                <div className="w-3 h-3 rounded-full bg-teal-500 animate-pulse"></div>
                               </div>
                             </div>
                           </div>
@@ -2119,16 +2341,16 @@ export default function HomePage() {
 
                         <motion.div
                           whileHover={{ y: -5 }}
-                          className="bg-gradient-to-br from-slate-900/80 to-black/60 backdrop-blur-lg border border-slate-700/50 rounded-xl p-5 shadow-lg hover:border-slate-600 hover:shadow-xl transition-all"
+                          className="bg-gray-50 border border-gray-100 rounded-xl p-5 shadow-sm hover:shadow-md transition-all"
                         >
-                          <h4 className="flex items-center gap-2 text-lg font-semibold text-white mb-4">
-                            <Heart className="h-5 w-5 text-indigo-500" />
+                          <h4 className="flex items-center gap-2 text-lg font-semibold text-gray-900 mb-4">
+                            <Heart className="h-5 w-5 text-teal-500" />
                             Diet Compatibility
                           </h4>
 
                           <div className="space-y-4">
                             <div className="flex items-center justify-between">
-                              <span className="text-white">Vegetarian</span>
+                              <span className="text-gray-700">Vegetarian</span>
                               <div
                                 className={`px-3 py-1 rounded-full text-sm ${
                                   selectedFood.food_name
@@ -2140,8 +2362,8 @@ export default function HomePage() {
                                   selectedFood.food_name
                                     .toLowerCase()
                                     .includes("meat")
-                                    ? "bg-red-900/40 text-red-300 border border-red-800/30"
-                                    : "bg-emerald-900/40 text-emerald-300 border border-emerald-800/30"
+                                    ? "bg-red-100 text-red-600 border border-red-200"
+                                    : "bg-emerald-100 text-emerald-600 border border-emerald-200"
                                 }`}
                               >
                                 {selectedFood.food_name
@@ -2159,7 +2381,7 @@ export default function HomePage() {
                             </div>
 
                             <div className="flex items-center justify-between">
-                              <span className="text-white">Vegan</span>
+                              <span className="text-gray-700">Vegan</span>
                               <div
                                 className={`px-3 py-1 rounded-full text-sm ${
                                   selectedFood.food_name
@@ -2174,8 +2396,8 @@ export default function HomePage() {
                                   selectedFood.food_name
                                     .toLowerCase()
                                     .includes("meat")
-                                    ? "bg-red-900/40 text-red-300 border border-red-800/30"
-                                    : "bg-emerald-900/40 text-emerald-300 border border-emerald-800/30"
+                                    ? "bg-red-100 text-red-600 border border-red-200"
+                                    : "bg-emerald-100 text-emerald-600 border border-emerald-200"
                                 }`}
                               >
                                 {selectedFood.food_name
@@ -2196,12 +2418,12 @@ export default function HomePage() {
                             </div>
 
                             <div className="flex items-center justify-between">
-                              <span className="text-white">Keto</span>
+                              <span className="text-gray-700">Keto</span>
                               <div
                                 className={`px-3 py-1 rounded-full text-sm ${
                                   selectedFood.nutrients.carbs < 15
-                                    ? "bg-emerald-900/40 text-emerald-300 border border-emerald-800/30"
-                                    : "bg-red-900/40 text-red-300 border border-red-800/30"
+                                    ? "bg-emerald-100 text-emerald-600 border border-emerald-200"
+                                    : "bg-red-100 text-red-600 border border-red-200"
                                 }`}
                               >
                                 {selectedFood.nutrients.carbs < 15
@@ -2217,7 +2439,7 @@ export default function HomePage() {
                         <motion.button
                           whileHover={{ scale: 1.02 }}
                           whileTap={{ scale: 0.98 }}
-                          className="relative overflow-hidden py-3 px-4 bg-gradient-to-r from-indigo-600 via-blue-600 to-indigo-600 rounded-xl text-white flex items-center justify-center hover:opacity-90 transition-all shadow-lg"
+                          className="relative overflow-hidden py-3 px-4 bg-teal-500 hover:bg-teal-600 rounded-xl text-white flex items-center justify-center transition-all shadow-md"
                           onClick={() => {
                             if (!session) {
                               // Redirect to sign-in if not authenticated
@@ -2257,7 +2479,7 @@ export default function HomePage() {
                         <motion.button
                           whileHover={{ scale: 1.02 }}
                           whileTap={{ scale: 0.98 }}
-                          className="py-3 px-4 bg-gradient-to-r from-purple-600 via-indigo-600 to-purple-600 rounded-xl text-white flex items-center justify-center hover:opacity-90 transition-all shadow-lg"
+                          className="py-3 px-4 bg-cyan-500 hover:bg-cyan-600 rounded-xl text-white flex items-center justify-center transition-all shadow-md"
                           onClick={() => {
                             router.push(
                               `/recipe?query=${encodeURIComponent(
@@ -2277,7 +2499,7 @@ export default function HomePage() {
                           whileHover={{ scale: 1.02 }}
                           whileTap={{ scale: 0.98 }}
                           onClick={() => shareFood(selectedFood)}
-                          className="w-full py-2 px-4 bg-gradient-to-r from-slate-800 to-slate-900 rounded-xl text-white flex items-center justify-center hover:bg-slate-700 transition-all border border-slate-700/50"
+                          className="w-full py-2 px-4 bg-gray-100 hover:bg-gray-200 rounded-xl text-gray-700 flex items-center justify-center transition-all border border-gray-200"
                         >
                           <Share2 className="mr-2 h-4 w-4" />
                           Share This Food Info
@@ -2298,10 +2520,17 @@ export default function HomePage() {
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.5 }}
             >
-              <h2 className="text-2xl font-bold text-white mb-6 flex items-center">
-                <Utensils className="mr-2 h-6 w-6 text-indigo-500" />
-                Search Results ({results.length})
-              </h2>
+              <div className="mb-6">
+                <h2 className="text-2xl text-gray-900 flex items-center" style={{ fontFamily: 'Georgia, serif' }}>
+                  <Utensils className="mr-2 h-6 w-6 text-teal-500" />
+                  {imagePreview ? `Detected ${results.length} Food Item${results.length > 1 ? 's' : ''}` : `Search Results (${results.length})`}
+                </h2>
+                {imagePreview && results.length > 1 && (
+                  <p className="text-gray-500 mt-2 text-sm">
+                    AI detected multiple items in your image. Click on each to see detailed nutrition info.
+                  </p>
+                )}
+              </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {results.map((food) => (
@@ -2310,12 +2539,12 @@ export default function HomePage() {
                     whileHover={{
                       y: -8,
                       scale: 1.02,
-                      boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
+                      boxShadow: "0 20px 40px rgba(0, 0, 0, 0.08)",
                     }}
-                    className="group bg-gradient-to-br from-slate-900/80 to-black/60 backdrop-blur-lg border border-slate-700/50 rounded-xl overflow-hidden cursor-pointer transition-all hover:border-indigo-500/40"
+                    className="group bg-white border border-gray-100 rounded-2xl overflow-hidden cursor-pointer transition-all hover:border-teal-300"
                     onClick={() => showFoodDetails(food)}
                   >
-                    <div className="h-24 bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-600 flex items-center justify-center relative overflow-hidden">
+                    <div className="h-24 bg-gradient-to-r from-teal-400 via-cyan-400 to-teal-500 flex items-center justify-center relative overflow-hidden">
                       {/* Animated particles */}
                       <div className="absolute inset-0 overflow-hidden">
                         {[...Array(10)].map((_, i) => (
@@ -2341,26 +2570,26 @@ export default function HomePage() {
                     </div>
 
                     <div className="p-5">
-                      <h3 className="text-xl font-medium text-white mb-1 line-clamp-2">
+                      <h3 className="text-xl font-medium text-gray-900 mb-1 line-clamp-2">
                         {food.food_name}
                       </h3>
-                      <p className="text-slate-300 mb-4">
+                      <p className="text-gray-500 mb-4">
                         {food.serving_type} ({food.calories_calculated_for}g)
                       </p>
 
-                      <div className="bg-gradient-to-br from-slate-900/50 to-black/40 rounded-lg p-3 mb-4 border border-slate-700/40">
+                      <div className="bg-gray-50 rounded-lg p-3 mb-4 border border-gray-100">
                         <div className="flex justify-between mb-1">
-                          <span className="text-white font-medium">
+                          <span className="text-gray-700 font-medium">
                             Calories
                           </span>
-                          <span className="text-white font-bold">
+                          <span className="text-gray-900 font-bold">
                             {Math.round(food.nutrients.calories)} kcal
                           </span>
                         </div>
 
-                        <div className="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden">
+                        <div className="w-full h-1.5 bg-gray-200 rounded-full overflow-hidden">
                           <div
-                            className="h-full bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-600"
+                            className="h-full bg-gradient-to-r from-teal-400 to-cyan-400"
                             style={{
                               width: `${Math.min(
                                 Math.round(
@@ -2374,29 +2603,29 @@ export default function HomePage() {
                       </div>
 
                       <div className="grid grid-cols-3 gap-2 mb-4">
-                        <div className="bg-gradient-to-br from-slate-900/50 to-black/40 p-2 rounded-lg text-center border border-slate-700/40">
-                          <div className="text-blue-400 font-medium text-xs">
+                        <div className="bg-blue-50 p-2 rounded-lg text-center border border-blue-100">
+                          <div className="text-blue-600 font-medium text-xs">
                             Protein
                           </div>
-                          <div className="text-white font-bold">
+                          <div className="text-gray-900 font-bold">
                             {food.nutrients.protein}g
                           </div>
                         </div>
 
-                        <div className="bg-gradient-to-br from-slate-900/50 to-black/40 p-2 rounded-lg text-center border border-slate-700/40">
-                          <div className="text-emerald-400 font-medium text-xs">
+                        <div className="bg-emerald-50 p-2 rounded-lg text-center border border-emerald-100">
+                          <div className="text-emerald-600 font-medium text-xs">
                             Carbs
                           </div>
-                          <div className="text-white font-bold">
+                          <div className="text-gray-900 font-bold">
                             {food.nutrients.carbs}g
                           </div>
                         </div>
 
-                        <div className="bg-gradient-to-br from-slate-900/50 to-black/40 p-2 rounded-lg text-center border border-slate-700/40">
-                          <div className="text-amber-400 font-medium text-xs">
+                        <div className="bg-amber-50 p-2 rounded-lg text-center border border-amber-100">
+                          <div className="text-amber-600 font-medium text-xs">
                             Fat
                           </div>
-                          <div className="text-white font-bold">
+                          <div className="text-gray-900 font-bold">
                             {food.nutrients.fats}g
                           </div>
                         </div>
@@ -2405,7 +2634,7 @@ export default function HomePage() {
                       <motion.button
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
-                        className="w-full py-2 text-sm bg-gradient-to-r from-indigo-900/50 to-purple-900/50 hover:from-indigo-600/80 hover:to-purple-600/80 text-white rounded-lg transition-colors flex items-center justify-center border border-slate-700/50 hover:border-indigo-500/50 shadow-md"
+                        className="w-full py-2 text-sm bg-teal-500 hover:bg-teal-600 text-white rounded-lg transition-colors flex items-center justify-center shadow-sm"
                       >
                         <Info className="h-4 w-4 mr-1" />
                         View Details
@@ -2420,212 +2649,165 @@ export default function HomePage() {
           {/* Featured Sections (when no results or selected food) */}
           {!selectedFood && !loading && results.length === 0 && !error && (
             <div>
+              {/* Discover More Section - Light Theme */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.8 }}
                 className="mb-16"
               >
-                <h2 className="text-2xl font-bold text-white mb-8 text-center">
+                <h2 className="text-2xl text-gray-900 mb-8 text-center" style={{ fontFamily: 'Georgia, serif' }}>
                   Discover More with{" "}
-                  <span className="font-devanagari bg-gradient-to-r from-indigo-400 to-purple-500 text-transparent bg-clip-text">
-                    अन्ना - Data
-                  </span>
+                  <span className="text-teal-500">अन्ना Data</span>
                 </h2>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                   {/* Fitness Card */}
                   <motion.div
-                    whileHover={{
-                      y: -10,
-                      scale: 1.02,
-                      boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.5)",
-                    }}
-                    className="group bg-gradient-to-br from-teal-900 to-emerald-900 rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all cursor-pointer relative"
+                    whileHover={{ y: -6, boxShadow: "0 20px 40px rgba(0, 0, 0, 0.08)" }}
+                    className="group bg-white border border-gray-100 rounded-2xl overflow-hidden transition-all cursor-pointer"
                     onClick={() => router.push("/fitness")}
                   >
-                    <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/20 to-black/50 opacity-70 group-hover:opacity-90 transition-opacity"></div>
-                    <div className="absolute inset-0 bg-[url('/noise.png')] opacity-[0.03] mix-blend-overlay"></div>
-                    <div className="relative z-10 p-6">
-                      <div className="w-16 h-16 rounded-xl bg-black/30 backdrop-blur-md flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 border border-teal-600/30 shadow-lg">
-                        <Dumbbell className="h-8 w-8 text-white" />
+                    <div className="h-3 bg-gradient-to-r from-emerald-400 to-teal-500"></div>
+                    <div className="p-6">
+                      <div className="w-14 h-14 rounded-xl bg-gradient-to-r from-emerald-400 to-teal-500 flex items-center justify-center mb-5 group-hover:scale-105 transition-transform">
+                        <Dumbbell className="h-7 w-7 text-white" />
                       </div>
-
-                      <h3 className="text-2xl font-bold text-white mb-2">
+                      <h3 className="text-xl font-semibold text-gray-900 mb-2" style={{ fontFamily: 'Georgia, serif' }}>
                         Fitness Tracking
                       </h3>
-                      <p className="text-teal-100 mb-6 group-hover:text-white transition-colors">
-                        Track your workouts and monitor your progress toward
-                        your health goals.
+                      <p className="text-gray-600 text-sm mb-5 leading-relaxed">
+                        Track your workouts and monitor your progress toward your health goals.
                       </p>
-
-                      <div className="flex justify-end">
-                        <motion.span
-                          initial={{ x: 0 }}
-                          whileHover={{ x: 5 }}
-                          className="text-white text-sm flex items-center"
-                        >
-                          Explore
-                          <ArrowRight className="h-4 w-4 ml-1" />
-                        </motion.span>
-                      </div>
+                      <span className="text-teal-500 text-sm font-medium flex items-center group-hover:text-teal-600">
+                        Explore
+                        <ArrowRight className="h-4 w-4 ml-1 group-hover:translate-x-1 transition-transform" />
+                      </span>
                     </div>
                   </motion.div>
 
                   {/* Recipe Card */}
                   <motion.div
-                    whileHover={{
-                      y: -10,
-                      scale: 1.02,
-                      boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.5)",
-                    }}
-                    className="group bg-gradient-to-br from-indigo-900 to-purple-900 rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all cursor-pointer relative"
+                    whileHover={{ y: -6, boxShadow: "0 20px 40px rgba(0, 0, 0, 0.08)" }}
+                    className="group bg-white border border-gray-100 rounded-2xl overflow-hidden transition-all cursor-pointer"
                     onClick={() => router.push("/recipe")}
                   >
-                    <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/20 to-black/50 opacity-70 group-hover:opacity-90 transition-opacity"></div>
-                    <div className="absolute inset-0 bg-[url('/noise.png')] opacity-[0.03] mix-blend-overlay"></div>
-                    <div className="relative z-10 p-6">
-                      <div className="w-16 h-16 rounded-xl bg-black/30 backdrop-blur-md flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 border border-indigo-500/30 shadow-lg">
-                        <ChefHat className="h-8 w-8 text-white" />
+                    <div className="h-3 bg-gradient-to-r from-orange-400 to-rose-500"></div>
+                    <div className="p-6">
+                      <div className="w-14 h-14 rounded-xl bg-gradient-to-r from-orange-400 to-rose-500 flex items-center justify-center mb-5 group-hover:scale-105 transition-transform">
+                        <ChefHat className="h-7 w-7 text-white" />
                       </div>
-
-                      <h3 className="text-2xl font-bold text-white mb-2">
+                      <h3 className="text-xl font-semibold text-gray-900 mb-2" style={{ fontFamily: 'Georgia, serif' }}>
                         Healthy Recipes
                       </h3>
-                      <p className="text-indigo-100 mb-6 group-hover:text-white transition-colors">
-                        Discover delicious recipes tailored to your nutritional
-                        preferences.
+                      <p className="text-gray-600 text-sm mb-5 leading-relaxed">
+                        Discover delicious recipes tailored to your nutritional preferences.
                       </p>
-
-                      <div className="flex justify-end">
-                        <motion.span
-                          initial={{ x: 0 }}
-                          whileHover={{ x: 5 }}
-                          className="text-white text-sm flex items-center"
-                        >
-                          Explore
-                          <ArrowRight className="h-4 w-4 ml-1" />
-                        </motion.span>
-                      </div>
+                      <span className="text-teal-500 text-sm font-medium flex items-center group-hover:text-teal-600">
+                        Explore
+                        <ArrowRight className="h-4 w-4 ml-1 group-hover:translate-x-1 transition-transform" />
+                      </span>
                     </div>
                   </motion.div>
 
-                  {/* Nutrition Plan Card */}
+                  {/* Profile Card */}
                   <motion.div
-                    whileHover={{
-                      y: -10,
-                      scale: 1.02,
-                      boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.5)",
-                    }}
-                    className="group bg-gradient-to-br from-blue-900 to-indigo-900 rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all cursor-pointer relative"
+                    whileHover={{ y: -6, boxShadow: "0 20px 40px rgba(0, 0, 0, 0.08)" }}
+                    className="group bg-white border border-gray-100 rounded-2xl overflow-hidden transition-all cursor-pointer"
                     onClick={() => router.push("/profile")}
                   >
-                    <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/20 to-black/50 opacity-70 group-hover:opacity-90 transition-opacity"></div>
-                    <div className="absolute inset-0 bg-[url('/noise.png')] opacity-[0.03] mix-blend-overlay"></div>
-                    <div className="relative z-10 p-6">
-                      <div className="w-16 h-16 rounded-xl bg-black/30 backdrop-blur-md flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300 border border-blue-500/30 shadow-lg">
-                        <User className="h-8 w-8 text-white" />
+                    <div className="h-3 bg-gradient-to-r from-violet-400 to-purple-500"></div>
+                    <div className="p-6">
+                      <div className="w-14 h-14 rounded-xl bg-gradient-to-r from-violet-400 to-purple-500 flex items-center justify-center mb-5 group-hover:scale-105 transition-transform">
+                        <User className="h-7 w-7 text-white" />
                       </div>
-
-                      <h3 className="text-2xl font-bold text-white mb-2">
-                        Personalized Plan
+                      <h3 className="text-xl font-semibold text-gray-900 mb-2" style={{ fontFamily: 'Georgia, serif' }}>
+                        Your Profile
                       </h3>
-                      <p className="text-blue-100 mb-6 group-hover:text-white transition-colors">
-                        Create a customized nutrition plan aligned with your
-                        health goals.
+                      <p className="text-gray-600 text-sm mb-5 leading-relaxed">
+                        Create a customized nutrition plan aligned with your health goals.
                       </p>
-
-                      <div className="flex justify-end">
-                        <motion.span
-                          initial={{ x: 0 }}
-                          whileHover={{ x: 5 }}
-                          className="text-white text-sm flex items-center"
-                        >
-                          Explore
-                          <ArrowRight className="h-4 w-4 ml-1" />
-                        </motion.span>
-                      </div>
+                      <span className="text-teal-500 text-sm font-medium flex items-center group-hover:text-teal-600">
+                        Explore
+                        <ArrowRight className="h-4 w-4 ml-1 group-hover:translate-x-1 transition-transform" />
+                      </span>
                     </div>
                   </motion.div>
                 </div>
               </motion.div>
 
-              {/* Features Section */}
+              {/* Features Section - Light Theme */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 1 }}
               >
-                <h2 className="text-2xl font-bold text-white text-center mb-8">
+                <h2 className="text-2xl text-gray-900 text-center mb-8" style={{ fontFamily: 'Georgia, serif' }}>
                   Features That Make{" "}
-                  <span className="font-devanagari bg-gradient-to-r from-indigo-400 to-purple-500 text-transparent bg-clip-text">
-                    अन्ना - Data
-                  </span>{" "}
+                  <span className="text-teal-500">अन्ना Data</span>{" "}
                   Special
                 </h2>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                   <FeatureCard
-                    icon={<Camera className="h-8 w-8 text-white" />}
+                    icon={<Camera className="h-7 w-7 text-white" />}
                     title="Image Recognition"
                     description="Simply take a photo of your meal and our AI will identify the food and provide detailed nutritional information."
                   />
 
                   <FeatureCard
-                    icon={<BarChart3 className="h-8 w-8 text-white" />}
+                    icon={<BarChart3 className="h-7 w-7 text-white" />}
                     title="Comprehensive Analysis"
                     description="Get detailed breakdowns of macronutrients, calories, and dietary information for any food item."
                   />
 
-                  <FeatureCard
-                    icon={<Sparkles className="h-8 w-8 text-white" />}
-                    title="AI-Powered Insights"
-                    description="Receive personalized nutrition advice and health insights based on your food choices and dietary goals."
-                  />
-                </div>
-              </motion.div>
+                   <FeatureCard
+                                      
+                                      title="Food Insights"
+                                      description="Receive personalized nutrition advice and health insights based on your food choices and dietary goals."
+                                    />
+                                  </div>
+                                </motion.div>
 
-              {/* Trending Foods */}
+              {/* Trending Foods - Light Theme */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 1.2 }}
                 className="mt-16"
               >
-                <h2 className="text-2xl font-bold text-white mb-6 flex items-center">
-                  <TrendingUp className="mr-2 h-6 w-6 text-indigo-500" />
+                <h2 className="text-2xl text-gray-900 mb-6 flex items-center" style={{ fontFamily: 'Georgia, serif' }}>
+                  <TrendingUp className="mr-3 h-6 w-6 text-teal-500" />
                   Trending Foods
                 </h2>
 
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                   {[
-                    { name: "Avocado Toast", calories: 240, emoji: "🥑" },
-                    { name: "Greek Yogurt", calories: 120, emoji: "🥛" },
-                    { name: "Quinoa Bowl", calories: 350, emoji: "🥗" },
-                    { name: "Smoothie Bowl", calories: 280, emoji: "🥤" },
+                    { name: "Avocado Toast", calories: 240, emoji: "🥑", color: "from-emerald-400 to-green-500" },
+                    { name: "Greek Yogurt", calories: 120, emoji: "🥛", color: "from-blue-400 to-cyan-500" },
+                    { name: "Quinoa Bowl", calories: 350, emoji: "🥗", color: "from-amber-400 to-orange-500" },
+                    { name: "Smoothie Bowl", calories: 280, emoji: "🥤", color: "from-pink-400 to-rose-500" },
                   ].map((food, index) => (
                     <motion.div
                       key={index}
                       whileHover={{
-                        y: -8,
-                        scale: 1.05,
-                        boxShadow:
-                          "0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)",
+                        y: -6,
+                        boxShadow: "0 16px 32px rgba(0, 0, 0, 0.08)",
                       }}
-                      className="bg-gradient-to-br from-slate-900/80 to-black/60 backdrop-blur-lg border border-slate-700/50 rounded-xl overflow-hidden cursor-pointer transition-all hover:border-indigo-500/40"
+                      className="bg-white border border-gray-100 rounded-2xl overflow-hidden cursor-pointer transition-all hover:border-teal-300"
                       onClick={() => {
                         setQuery(food.name);
                         searchFoodAPI(food.name);
                       }}
                     >
                       <div className="p-5 flex flex-col items-center text-center">
-                        <div className="w-16 h-16 bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-600 rounded-full flex items-center justify-center text-3xl mb-4 shadow-lg">
+                        <div className={`w-14 h-14 bg-gradient-to-r ${food.color} rounded-xl flex items-center justify-center text-2xl mb-4 shadow-md`}>
                           {food.emoji}
                         </div>
-                        <h3 className="font-medium text-white mb-1">
+                        <h3 className="font-medium text-gray-900 mb-1">
                           {food.name}
                         </h3>
-                        <p className="text-sm text-slate-300">
+                        <p className="text-sm text-gray-500">
                           {food.calories} calories
                         </p>
                       </div>
@@ -2634,93 +2816,79 @@ export default function HomePage() {
                 </div>
               </motion.div>
 
-              {/* New Seasonal Recommendations Section */}
+              {/* Seasonal Recommendations - Light Theme */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 1.4 }}
                 className="mt-16"
               >
-                <h2 className="text-2xl font-bold text-white mb-6 flex items-center">
-                  <Award className="mr-2 h-6 w-6 text-indigo-500" />
+                <h2 className="text-2xl text-gray-900 mb-6 flex items-center" style={{ fontFamily: 'Georgia, serif' }}>
+                  <Award className="mr-3 h-6 w-6 text-teal-500" />
                   Seasonal Recommendations
                 </h2>
 
-                <div className="relative overflow-hidden rounded-xl bg-gradient-to-br from-indigo-900/40 to-purple-900/40 border border-indigo-500/30 p-6 shadow-xl">
-                  {/* Animated particles */}
-                  <div className="absolute inset-0 overflow-hidden">
-                    {[...Array(15)].map((_, i) => (
-                      <div
-                        key={i}
-                        className="absolute rounded-full bg-white/10"
-                        style={{
-                          width: `${Math.random() * 8 + 3}px`,
-                          height: `${Math.random() * 8 + 3}px`,
-                          top: `${Math.random() * 100}%`,
-                          left: `${Math.random() * 100}%`,
-                          animation: `float ${
-                            Math.random() * 10 + 5
-                          }s linear infinite`,
-                        }}
-                      ></div>
-                    ))}
-                  </div>
-
+                <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-teal-50 to-cyan-50 border border-teal-100 p-8">
                   <div className="relative z-10">
-                    <h3 className="text-xl font-bold text-white mb-4">
-                      Spring Superfoods to Boost Your Health
+                    <h3 className="text-xl font-semibold text-gray-900 mb-6" style={{ fontFamily: 'Georgia, serif' }}>
+                      {currentSeason} Superfoods to Boost Your Health
                     </h3>
 
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
                       {[
                         {
                           name: "Fresh Berries",
                           benefit: "Rich in antioxidants and vitamins",
                           emoji: "🫐",
                           query: "mixed berries",
+                          color: "from-blue-400 to-indigo-500"
                         },
                         {
                           name: "Leafy Greens",
                           benefit: "High in fiber and essential nutrients",
                           emoji: "🥬",
                           query: "spinach",
+                          color: "from-emerald-400 to-green-500"
                         },
                         {
                           name: "Asparagus",
                           benefit: "Excellent source of folate and vitamin K",
                           emoji: "🌱",
                           query: "asparagus",
+                          color: "from-lime-400 to-green-500"
                         },
                       ].map((item, index) => (
                         <motion.div
                           key={index}
-                          whileHover={{ y: -5, scale: 1.03 }}
-                          className="bg-black/30 backdrop-blur-sm rounded-lg p-4 flex flex-col items-center text-center cursor-pointer border border-indigo-500/20 hover:border-indigo-500/50 transition-all"
+                          whileHover={{ y: -4, boxShadow: '0 12px 24px rgba(0,0,0,0.06)' }}
+                          className="bg-white rounded-xl p-5 flex flex-col items-center text-center cursor-pointer border border-gray-100 hover:border-teal-300 transition-all shadow-sm"
                           onClick={() => {
                             setQuery(item.query);
                             searchFoodAPI(item.query);
                           }}
                         >
-                          <span className="text-4xl mb-3">{item.emoji}</span>
-                          <h4 className="font-medium text-white mb-1">
+                          <div className={`w-12 h-12 bg-gradient-to-r ${item.color} rounded-xl flex items-center justify-center mb-3`}>
+                            <span className="text-2xl">{item.emoji}</span>
+                          </div>
+                          <h4 className="font-medium text-gray-900 mb-1">
                             {item.name}
                           </h4>
-                          <p className="text-sm text-slate-300">
+                          <p className="text-sm text-gray-500">
                             {item.benefit}
                           </p>
                         </motion.div>
                       ))}
                     </div>
 
-                    <div className="mt-6 text-center">
+                    <div className="mt-8 text-center">
                       <motion.button
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
                         onClick={() => {
                           generateSeasonalFoods(currentSeason);
                           setShowSeasonalFoods(true);
                         }}
-                        className="px-6 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-full font-medium hover:shadow-lg transition-all flex items-center mx-auto"
+                        className="px-6 py-3 bg-teal-500 hover:bg-teal-600 text-white rounded-full font-medium shadow-lg shadow-teal-500/20 transition-all inline-flex items-center"
                       >
                         <span>View All Seasonal Foods</span>
                         <ArrowRight className="ml-2 h-4 w-4" />
@@ -2734,13 +2902,13 @@ export default function HomePage() {
 
           {/* Meal Type Selection Dialog */}
           {mealTypeDialogOpen && (
-            <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+            <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4">
               <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
-                className="bg-gradient-to-br from-slate-900/90 to-black/90 backdrop-blur-xl rounded-xl p-6 max-w-md w-full border border-slate-700/50 shadow-2xl"
+                className="bg-white rounded-2xl p-6 max-w-md w-full border border-gray-100 shadow-xl"
               >
-                <h3 className="text-xl font-bold text-white mb-4 text-center">
+                <h3 className="text-xl font-semibold text-gray-900 mb-4 text-center" style={{ fontFamily: 'Georgia, serif' }}>
                   Select Meal Type
                 </h3>
                 <div className="grid grid-cols-2 gap-3">
@@ -2753,16 +2921,16 @@ export default function HomePage() {
                       }}
                       whileHover={{ scale: 1.05, y: -2 }}
                       whileTap={{ scale: 0.97 }}
-                      className="p-4 bg-gradient-to-br from-slate-800/80 to-slate-900/80 border border-slate-700/50 hover:border-indigo-500/50 rounded-lg text-white capitalize hover:shadow-lg transition-all"
+                      className="p-4 bg-gray-50 border border-gray-200 hover:border-teal-400 hover:bg-teal-50 rounded-xl text-gray-700 capitalize hover:shadow-md transition-all"
                     >
                       {meal}
                     </motion.button>
                   ))}
                 </div>
                 <motion.button
-                  whileHover={{ backgroundColor: "rgba(60, 60, 70, 0.5)" }}
+                  whileHover={{ backgroundColor: "#f3f4f6" }}
                   onClick={() => setMealTypeDialogOpen(false)}
-                  className="w-full mt-4 p-2 border border-slate-600 rounded-lg text-slate-300 hover:bg-slate-800/50 transition-colors"
+                  className="w-full mt-4 p-2 border border-gray-200 rounded-xl text-gray-500 hover:bg-gray-100 transition-colors"
                 >
                   Cancel
                 </motion.button>
@@ -2772,22 +2940,22 @@ export default function HomePage() {
 
           {/* Full Analysis Modal */}
           {showFullAnalysis && (
-            <div className="fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto">
+            <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
               <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.95 }}
                 transition={{ duration: 0.3 }}
-                className="bg-gradient-to-br from-slate-900/80 to-black/70 backdrop-blur-xl rounded-2xl shadow-2xl w-full max-w-4xl border border-slate-700/50 overflow-hidden"
+                className="bg-white rounded-2xl shadow-xl w-full max-w-4xl border border-gray-100 overflow-hidden"
                 style={{ maxHeight: "85vh" }}
               >
-                <div className="sticky top-0 z-10 bg-black/80 backdrop-blur-lg px-6 py-4 border-b border-slate-700/50 flex justify-between items-center">
-                  <h2 className="text-2xl font-bold text-white">
+                <div className="sticky top-0 z-10 bg-white/95 backdrop-blur-lg px-6 py-4 border-b border-gray-100 flex justify-between items-center">
+                  <h2 className="text-2xl font-semibold text-gray-900" style={{ fontFamily: 'Georgia, serif' }}>
                     Full Nutrition Analysis
                   </h2>
                   <button
                     onClick={() => setShowFullAnalysis(false)}
-                    className="text-slate-300 hover:text-white transition-colors"
+                    className="text-gray-400 hover:text-gray-600 transition-colors"
                   >
                     <X className="h-6 w-6" />
                   </button>
@@ -2801,33 +2969,33 @@ export default function HomePage() {
                     <div className="w-full md:w-1/3">
                       <motion.div
                         whileHover={{ y: -5 }}
-                        className="bg-gradient-to-br from-slate-900/80 to-black/60 backdrop-blur-md border border-slate-700/50 rounded-xl p-5 shadow-xl hover:border-slate-600"
+                        className="bg-gray-50 border border-gray-100 rounded-xl p-5 shadow-sm hover:shadow-md transition-all"
                       >
                         <div className="text-center mb-4">
                           <span className="text-4xl">
                             {getFoodEmoji(selectedFood.food_name)}
                           </span>
                         </div>
-                        <h3 className="text-xl font-bold text-white text-center mb-1">
+                        <h3 className="text-xl font-semibold text-gray-900 text-center mb-1" style={{ fontFamily: 'Georgia, serif' }}>
                           {selectedFood.food_name}
                         </h3>
-                        <p className="text-slate-300 text-center mb-4">
+                        <p className="text-gray-500 text-center mb-4">
                           {selectedFood.serving_type} (
                           {selectedFood.calories_calculated_for}g)
                         </p>
 
-                        <div className="bg-gradient-to-br from-slate-900/80 to-black/40 rounded-lg p-4 mb-4 border border-slate-700/50">
+                        <div className="bg-white rounded-lg p-4 mb-4 border border-gray-100">
                           <div className="flex justify-between items-center">
-                            <span className="text-slate-300 font-medium">
+                            <span className="text-gray-600 font-medium">
                               Calories
                             </span>
-                            <span className="text-2xl font-bold text-white">
+                            <span className="text-2xl font-bold text-gray-900">
                               {Math.round(selectedFood.nutrients.calories)}
                             </span>
                           </div>
-                          <div className="w-full h-2 bg-slate-800 rounded-full overflow-hidden mt-2">
+                          <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden mt-2">
                             <div
-                              className="h-full bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-600"
+                              className="h-full bg-gradient-to-r from-teal-400 to-cyan-400"
                               style={{
                                 width: `${Math.min(
                                   Math.round(
@@ -2840,7 +3008,7 @@ export default function HomePage() {
                             ></div>
                           </div>
                           <div className="flex justify-end mt-1">
-                            <span className="text-xs text-slate-400">
+                            <span className="text-xs text-gray-500">
                               {Math.round(
                                 (selectedFood.nutrients.calories / 2000) * 100
                               )}
@@ -2849,11 +3017,11 @@ export default function HomePage() {
                           </div>
                         </div>
 
-                        <div className="bg-gradient-to-br from-slate-900/80 to-black/40 rounded-lg p-4 border border-slate-700/50">
-                          <h4 className="text-lg font-semibold text-white mb-3">
+                        <div className="bg-white rounded-lg p-4 border border-gray-100">
+                          <h4 className="text-lg font-semibold text-gray-900 mb-3">
                             Quick Facts
                           </h4>
-                          <ul className="space-y-2 text-slate-300">
+                          <ul className="space-y-2 text-gray-600">
                             <li className="flex items-center">
                               <div className="w-5 h-5 rounded-full bg-gradient-to-r from-blue-600 to-cyan-600 mr-2 flex items-center justify-center text-white text-xs">
                                 ✓
@@ -2901,38 +3069,38 @@ export default function HomePage() {
                     <div className="w-full md:w-2/3">
                       <motion.div
                         whileHover={{ y: -5 }}
-                        className="bg-gradient-to-br from-slate-900/80 to-black/60 backdrop-blur-md border border-slate-700/50 rounded-xl p-6 shadow-xl hover:border-slate-600"
+                        className="bg-gray-50 border border-gray-100 rounded-xl p-6 shadow-sm hover:shadow-md transition-all"
                       >
-                        <h3 className="text-xl font-bold border-b-2 border-indigo-500/30 pb-2 mb-4 text-white">
+                        <h3 className="text-xl font-semibold border-b-2 border-teal-400 pb-2 mb-4 text-gray-900" style={{ fontFamily: 'Georgia, serif' }}>
                           Nutrition Facts
                         </h3>
-                        <p className="text-sm mb-2 text-slate-400">
+                        <p className="text-sm mb-2 text-gray-500">
                           Serving Size: {selectedFood.serving_type} (
                           {selectedFood.calories_calculated_for}g)
                         </p>
 
-                        <div className="border-t-8 border-b-4 border-slate-300/30 py-2 mb-2">
+                        <div className="border-t-8 border-b-4 border-gray-300 py-2 mb-2">
                           <div className="flex justify-between">
-                            <span className="font-bold text-xl text-white">
+                            <span className="font-bold text-xl text-gray-900">
                               Calories
                             </span>
-                            <span className="font-bold text-xl text-white">
+                            <span className="font-bold text-xl text-gray-900">
                               {Math.round(selectedFood.nutrients.calories)}
                             </span>
                           </div>
                         </div>
 
                         {/* Detailed Nutrient Breakdown */}
-                        <div className="border-b border-slate-700/50 py-1">
+                        <div className="border-b border-gray-200 py-1">
                           <div className="flex justify-between">
-                            <span className="font-bold text-white">
+                            <span className="font-bold text-gray-900">
                               Total Fat
                             </span>
-                            <span className="text-white">
+                            <span className="text-gray-900">
                               {selectedFood.nutrients.fats}g
                             </span>
                           </div>
-                          <div className="pl-4 text-sm text-slate-400">
+                          <div className="pl-4 text-sm text-gray-500">
                             <div className="flex justify-between">
                               <span>Saturated Fat</span>
                               <span>
@@ -2965,22 +3133,22 @@ export default function HomePage() {
                           </div>
                         </div>
 
-                        <div className="border-b border-slate-700/50 py-1">
+                        <div className="border-b border-gray-200 py-1">
                           <div className="flex justify-between">
-                            <span className="font-bold text-white">
+                            <span className="font-bold text-gray-900">
                               Cholesterol
                             </span>
-                            <span className="text-white">
+                            <span className="text-gray-900">
                               {Math.round(selectedFood.nutrients.protein * 2.5)}
                               mg
                             </span>
                           </div>
                         </div>
 
-                        <div className="border-b border-slate-700/50 py-1">
+                        <div className="border-b border-gray-200 py-1">
                           <div className="flex justify-between">
-                            <span className="font-bold text-white">Sodium</span>
-                            <span className="text-white">
+                            <span className="font-bold text-gray-900">Sodium</span>
+                            <span className="text-gray-900">
                               {Math.round(
                                 selectedFood.calories_calculated_for * 5
                               )}
@@ -2989,16 +3157,16 @@ export default function HomePage() {
                           </div>
                         </div>
 
-                        <div className="border-b border-slate-700/50 py-1">
+                        <div className="border-b border-gray-200 py-1">
                           <div className="flex justify-between">
-                            <span className="font-bold text-white">
+                            <span className="font-bold text-gray-900">
                               Total Carbohydrate
                             </span>
-                            <span className="text-white">
+                            <span className="text-gray-900">
                               {selectedFood.nutrients.carbs}g
                             </span>
                           </div>
-                          <div className="pl-4 text-sm text-slate-400">
+                          <div className="pl-4 text-sm text-gray-500">
                             <div className="flex justify-between">
                               <span>Dietary Fiber</span>
                               <span>
@@ -3020,12 +3188,12 @@ export default function HomePage() {
                           </div>
                         </div>
 
-                        <div className="border-b border-slate-700/50 py-1 mb-4">
+                        <div className="border-b border-gray-200 py-1 mb-4">
                           <div className="flex justify-between">
-                            <span className="font-bold text-white">
+                            <span className="font-bold text-gray-900">
                               Protein
                             </span>
-                            <span className="text-white">
+                            <span className="text-gray-900">
                               {selectedFood.nutrients.protein}g
                             </span>
                           </div>
@@ -3034,19 +3202,19 @@ export default function HomePage() {
                         {/* Vitamins and Minerals */}
                         <div className="grid grid-cols-2 gap-4">
                           <div>
-                            <div className="border-b border-slate-700/50 py-1">
+                            <div className="border-b border-gray-200 py-1">
                               <div className="flex justify-between">
-                                <span className="text-slate-400">
+                                <span className="text-gray-500">
                                   Vitamin D
                                 </span>
-                                <span className="text-white">-</span>
+                                <span className="text-gray-900">-</span>
                               </div>
                             </div>
 
-                            <div className="border-b border-slate-700/50 py-1">
+                            <div className="border-b border-gray-200 py-1">
                               <div className="flex justify-between">
-                                <span className="text-slate-400">Calcium</span>
-                                <span className="text-white">
+                                <span className="text-gray-500">Calcium</span>
+                                <span className="text-gray-900">
                                   {Math.round(
                                     selectedFood.calories_calculated_for * 0.5
                                   )}
@@ -3055,10 +3223,10 @@ export default function HomePage() {
                               </div>
                             </div>
 
-                            <div className="border-b border-slate-700/50 py-1">
+                            <div className="border-b border-gray-200 py-1">
                               <div className="flex justify-between">
-                                <span className="text-slate-400">Iron</span>
-                                <span className="text-white">
+                                <span className="text-gray-500">Iron</span>
+                                <span className="text-gray-900">
                                   {(
                                     selectedFood.calories_calculated_for * 0.01
                                   ).toFixed(2)}
@@ -3069,12 +3237,12 @@ export default function HomePage() {
                           </div>
 
                           <div>
-                            <div className="border-b border-slate-700/50 py-1">
+                            <div className="border-b border-gray-200 py-1">
                               <div className="flex justify-between">
-                                <span className="text-slate-400">
+                                <span className="text-gray-500">
                                   Potassium
                                 </span>
-                                <span className="text-white">
+                                <span className="text-gray-900">
                                   {Math.round(
                                     selectedFood.calories_calculated_for * 3
                                   )}
@@ -3083,12 +3251,12 @@ export default function HomePage() {
                               </div>
                             </div>
 
-                            <div className="border-b border-slate-700/50 py-1">
+                            <div className="border-b border-gray-200 py-1">
                               <div className="flex justify-between">
-                                <span className="text-slate-400">
+                                <span className="text-gray-500">
                                   Vitamin A
                                 </span>
-                                <span className="text-white">
+                                <span className="text-gray-900">
                                   {Math.round(
                                     selectedFood.calories_calculated_for * 0.6
                                   )}
@@ -3097,12 +3265,12 @@ export default function HomePage() {
                               </div>
                             </div>
 
-                            <div className="border-b border-slate-700/50 py-1">
+                            <div className="border-b border-gray-200 py-1">
                               <div className="flex justify-between">
-                                <span className="text-slate-400">
+                                <span className="text-gray-500">
                                   Vitamin C
                                 </span>
-                                <span className="text-white">
+                                <span className="text-gray-900">
                                   {(
                                     selectedFood.calories_calculated_for * 0.05
                                   ).toFixed(1)}
@@ -3113,7 +3281,7 @@ export default function HomePage() {
                           </div>
                         </div>
 
-                        <p className="text-xs text-slate-400 mt-4">
+                        <p className="text-xs text-gray-500 mt-4">
                           * The % Daily Value (DV) tells you how much a nutrient
                           in a serving of food contributes to a daily diet.
                           2,000 calories a day is used for general nutrition
@@ -3124,15 +3292,15 @@ export default function HomePage() {
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
                         <motion.div
                           whileHover={{ y: -5 }}
-                          className="bg-gradient-to-br from-slate-900/80 to-black/60 backdrop-blur-md border border-slate-700/50 rounded-xl p-5 shadow-xl hover:border-slate-600"
+                          className="bg-gray-50 border border-gray-100 rounded-xl p-5 shadow-sm hover:shadow-md transition-all"
                         >
-                          <h4 className="text-lg font-semibold text-white mb-3 flex items-center">
-                            <Info className="h-5 w-5 mr-2 text-indigo-500" />
+                          <h4 className="text-lg font-semibold text-gray-900 mb-3 flex items-center">
+                            <Info className="h-5 w-5 mr-2 text-teal-500" />
                             Allergen Information
                           </h4>
                           <div className="space-y-2">
-                            <div className="bg-gradient-to-br from-slate-900/50 to-black/30 p-3 rounded-lg border border-slate-700/50">
-                              <h5 className="font-medium text-white mb-2">
+                            <div className="bg-white p-3 rounded-lg border border-gray-100">
+                              <h5 className="font-medium text-gray-900 mb-2">
                                 May contain:
                               </h5>
                               <div className="flex flex-wrap gap-2">
@@ -3142,21 +3310,21 @@ export default function HomePage() {
                                   (selectedFood.food_name
                                     .toLowerCase()
                                     .includes("butter") && (
-                                    <span className="px-2 py-1 bg-gradient-to-r from-amber-900/40 to-yellow-900/40 text-amber-300 rounded-full text-xs border border-amber-800/40">
+                                    <span className="px-2 py-1 bg-amber-50 text-amber-600 rounded-full text-xs border border-amber-200">
                                       Dairy
                                     </span>
                                   ))}
                                 {selectedFood.food_name
                                   .toLowerCase()
                                   .includes("gluten") && (
-                                  <span className="px-2 py-1 bg-gradient-to-r from-amber-900/40 to-yellow-900/40 text-amber-300 rounded-full text-xs border border-amber-800/40">
+                                  <span className="px-2 py-1 bg-amber-50 text-amber-600 rounded-full text-xs border border-amber-200">
                                     Gluten
                                   </span>
                                 )}
                                 {selectedFood.food_name
                                   .toLowerCase()
                                   .includes("chicken") && (
-                                  <span className="px-2 py-1 bg-gradient-to-r from-amber-900/40 to-yellow-900/40 text-amber-300 rounded-full text-xs border border-amber-800/40">
+                                  <span className="px-2 py-1 bg-amber-50 text-amber-600 rounded-full text-xs border border-amber-200">
                                     Poultry
                                   </span>
                                 )}
@@ -3167,14 +3335,14 @@ export default function HomePage() {
 
                         <motion.div
                           whileHover={{ y: -5 }}
-                          className="bg-gradient-to-br from-slate-900/80 to-black/60 backdrop-blur-md border border-slate-700/50 rounded-xl p-5 shadow-xl hover:border-slate-600"
+                          className="bg-gray-50 border border-gray-100 rounded-xl p-5 shadow-sm hover:shadow-md transition-all"
                         >
-                          <h4 className="text-lg font-semibold text-white mb-3 flex items-center">
-                            <Heart className="h-5 w-5 mr-2 text-indigo-500" />
+                          <h4 className="text-lg font-semibold text-gray-900 mb-3 flex items-center">
+                            <Heart className="h-5 w-5 mr-2 text-teal-500" />
                             Health Benefits
                           </h4>
 
-                          <div className="space-y-2 text-slate-300 text-sm">
+                          <div className="space-y-2 text-gray-600 text-sm">
                             <p className="flex items-start">
                               <span className="text-emerald-400 mr-2 flex-shrink-0">
                                 ✓
@@ -3207,7 +3375,7 @@ export default function HomePage() {
                   </div>
 
                   <div className="mt-8">
-                    <h3 className="text-xl font-bold text-white mb-4">
+                    <h3 className="text-xl font-semibold text-gray-900 mb-4" style={{ fontFamily: 'Georgia, serif' }}>
                       Similar Foods
                     </h3>
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -3221,28 +3389,28 @@ export default function HomePage() {
                           <motion.div
                             key={food.food_unique_id}
                             whileHover={{ scale: 1.05, y: -5 }}
-                            className="bg-gradient-to-br from-slate-900/80 to-black/60 backdrop-blur-md border border-slate-700/50 rounded-lg overflow-hidden cursor-pointer hover:border-indigo-500/50 transition-all"
+                            className="bg-white border border-gray-100 rounded-lg overflow-hidden cursor-pointer hover:border-teal-300 hover:shadow-md transition-all"
                             onClick={() => {
                               setSelectedFood(food);
                               setShowFullAnalysis(false);
                               generateInsights(food);
                             }}
                           >
-                            <div className="h-16 bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-600 flex items-center justify-center">
+                            <div className="h-16 bg-gradient-to-r from-teal-400 via-cyan-400 to-teal-500 flex items-center justify-center">
                               <span className="text-2xl">
                                 {getFoodEmoji(food.food_name)}
                               </span>
                             </div>
 
                             <div className="p-3">
-                              <h4 className="text-white font-medium text-sm line-clamp-1">
+                              <h4 className="text-gray-900 font-medium text-sm line-clamp-1">
                                 {food.food_name}
                               </h4>
                               <div className="flex justify-between mt-1 text-xs">
-                                <span className="text-slate-400">
+                                <span className="text-gray-500">
                                   {Math.round(food.nutrients.calories)} kcal
                                 </span>
-                                <span className="text-slate-400">
+                                <span className="text-gray-500">
                                   {food.serving_type}
                                 </span>
                               </div>
@@ -3258,23 +3426,23 @@ export default function HomePage() {
 
           {/* Diary View Modal */}
           {showDiaryView && (
-            <div className="fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto">
+            <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
               <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.95 }}
                 transition={{ duration: 0.3 }}
-                className="bg-gradient-to-br from-slate-900/80 to-black/70 backdrop-blur-xl rounded-2xl shadow-2xl w-full max-w-5xl border border-slate-700/50 overflow-hidden"
+                className="bg-white rounded-2xl shadow-xl w-full max-w-5xl border border-gray-100 overflow-hidden"
                 style={{ maxHeight: "90vh" }}
               >
-                <div className="sticky top-0 z-10 bg-black/80 backdrop-blur-lg px-6 py-4 border-b border-slate-700/50 flex justify-between items-center">
-                  <h2 className="text-2xl font-bold text-white flex items-center">
-                    <Calendar className="h-6 w-6 mr-2 text-indigo-500" />
+                <div className="sticky top-0 z-10 bg-white/95 backdrop-blur-lg px-6 py-4 border-b border-gray-100 flex justify-between items-center">
+                  <h2 className="text-2xl font-semibold text-gray-900 flex items-center" style={{ fontFamily: 'Georgia, serif' }}>
+                    <Calendar className="h-6 w-6 mr-2 text-teal-500" />
                     Food Diary
                   </h2>
                   <button
                     onClick={() => setShowDiaryView(false)}
-                    className="text-slate-300 hover:text-white transition-colors"
+                    className="text-gray-400 hover:text-gray-600 transition-colors"
                   >
                     <X className="h-6 w-6" />
                   </button>
@@ -3294,7 +3462,7 @@ export default function HomePage() {
                           )
                         )
                       }
-                      className="p-2 bg-slate-800 text-slate-300 rounded-full hover:bg-indigo-700 transition-colors"
+                      className="p-2 bg-gray-100 text-gray-600 rounded-full hover:bg-teal-100 hover:text-teal-600 transition-colors"
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -3310,7 +3478,7 @@ export default function HomePage() {
                       </svg>
                     </button>
 
-                    <h3 className="text-xl font-medium text-white mx-6">
+                    <h3 className="text-xl font-medium text-gray-900 mx-6">
                       {selectedDate.toLocaleDateString("en-US", {
                         weekday: "short",
                         month: "short",
@@ -3326,7 +3494,7 @@ export default function HomePage() {
                           )
                         )
                       }
-                      className="p-2 bg-slate-800 text-slate-300 rounded-full hover:bg-indigo-700 transition-colors"
+                      className="p-2 bg-gray-100 text-gray-600 rounded-full hover:bg-teal-100 hover:text-teal-600 transition-colors"
                       disabled={
                         new Date(selectedDate).toDateString() ===
                         new Date().toDateString()
@@ -3358,8 +3526,8 @@ export default function HomePage() {
                           onClick={() => setActiveMealFilter(mealType)}
                           className={`px-4 py-2 rounded-full text-sm transition-all ${
                             activeMealFilter === mealType
-                              ? "bg-gradient-to-r from-indigo-600 to-purple-600 text-white"
-                              : "bg-slate-800 text-slate-300"
+                              ? "bg-teal-500 text-white"
+                              : "bg-gray-100 text-gray-600 hover:bg-gray-200"
                           }`}
                         >
                           {mealType.charAt(0).toUpperCase() + mealType.slice(1)}
@@ -3371,8 +3539,8 @@ export default function HomePage() {
                   {/* Daily totals */}
                   {getDiaryItemsByDate(selectedDate, activeMealFilter).length >
                     0 && (
-                    <div className="bg-gradient-to-br from-slate-900/50 to-black/30 rounded-xl p-4 mb-6 border border-slate-700/50">
-                      <h3 className="text-lg font-medium text-white mb-4">
+                    <div className="bg-gray-50 rounded-xl p-4 mb-6 border border-gray-100">
+                      <h3 className="text-lg font-medium text-gray-900 mb-4">
                         Daily Totals
                       </h3>
 
@@ -3384,12 +3552,12 @@ export default function HomePage() {
                         ).map(([key, value]) => (
                           <div
                             key={key}
-                            className="bg-slate-800/50 rounded-lg p-3 border border-slate-700/30"
+                            className="bg-white rounded-lg p-3 border border-gray-100"
                           >
-                            <div className="text-xs text-slate-400 mb-1">
+                            <div className="text-xs text-gray-500 mb-1">
                               {key.charAt(0).toUpperCase() + key.slice(1)}
                             </div>
-                            <div className="text-lg font-bold text-white">
+                            <div className="text-lg font-bold text-gray-900">
                               {Math.round(value)}
                               {key === "calories" ? "" : "g"}
                             </div>
@@ -3478,9 +3646,9 @@ export default function HomePage() {
                                     initial={{ opacity: 0, y: 10 }}
                                     animate={{ opacity: 1, y: 0 }}
                                     exit={{ opacity: 0, y: -10 }}
-                                    className="bg-gradient-to-br from-slate-900/80 to-black/60 backdrop-blur-lg border border-slate-700/50 rounded-lg overflow-hidden flex flex-col md:flex-row"
+                                    className="bg-white border border-gray-100 rounded-lg overflow-hidden flex flex-col md:flex-row shadow-sm"
                                   >
-                                    <div className="bg-gradient-to-r from-indigo-600/40 to-purple-600/40 p-4 flex items-center justify-center md:w-20">
+                                    <div className="bg-gradient-to-r from-teal-50 to-cyan-50 p-4 flex items-center justify-center md:w-20">
                                       <span className="text-3xl">
                                         {getFoodEmoji(item.food.food_name)}
                                       </span>
@@ -3489,10 +3657,10 @@ export default function HomePage() {
                                     <div className="p-4 flex-grow">
                                       <div className="flex justify-between items-start">
                                         <div>
-                                          <h4 className="text-lg font-medium text-white">
+                                          <h4 className="text-lg font-medium text-gray-900">
                                             {item.food.food_name}
                                           </h4>
-                                          <p className="text-sm text-slate-300">
+                                          <p className="text-sm text-gray-500">
                                             {item.food.serving_type} •{" "}
                                             {formatTimeAgo(item.date)}
                                           </p>
@@ -3504,7 +3672,7 @@ export default function HomePage() {
                                               new Date(item.date).getTime()
                                             )
                                           }
-                                          className="p-1 rounded-full text-slate-400 hover:bg-red-900/30 hover:text-red-300"
+                                          className="p-1 rounded-full text-gray-400 hover:bg-red-50 hover:text-red-500"
                                         >
                                           <svg
                                             xmlns="http://www.w3.org/2000/svg"
@@ -3522,19 +3690,19 @@ export default function HomePage() {
                                       </div>
 
                                       <div className="flex mt-3 space-x-3">
-                                        <div className="px-2 py-1 bg-indigo-900/40 rounded text-xs font-medium text-indigo-200 border border-indigo-500/30">
+                                        <div className="px-2 py-1 bg-teal-50 rounded text-xs font-medium text-teal-600 border border-teal-100">
                                           {Math.round(
                                             item.food.nutrients.calories
                                           )}{" "}
                                           kcal
                                         </div>
-                                        <div className="px-2 py-1 bg-blue-900/40 rounded text-xs font-medium text-blue-200 border border-blue-500/30">
+                                        <div className="px-2 py-1 bg-blue-50 rounded text-xs font-medium text-blue-600 border border-blue-100">
                                           P: {item.food.nutrients.protein}g
                                         </div>
-                                        <div className="px-2 py-1 bg-emerald-900/40 rounded text-xs font-medium text-emerald-200 border border-emerald-500/30">
+                                        <div className="px-2 py-1 bg-emerald-50 rounded text-xs font-medium text-emerald-600 border border-emerald-100">
                                           C: {item.food.nutrients.carbs}g
                                         </div>
-                                        <div className="px-2 py-1 bg-amber-900/40 rounded text-xs font-medium text-amber-200 border border-amber-500/30">
+                                        <div className="px-2 py-1 bg-amber-50 rounded text-xs font-medium text-amber-600 border border-amber-100">
                                           F: {item.food.nutrients.fats}g
                                         </div>
                                       </div>
@@ -3549,13 +3717,13 @@ export default function HomePage() {
                     </div>
                   ) : (
                     <div className="py-12 text-center">
-                      <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-slate-800/50 flex items-center justify-center">
-                        <Calendar className="h-10 w-10 text-slate-500" />
+                      <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-gray-100 flex items-center justify-center">
+                        <Calendar className="h-10 w-10 text-gray-400" />
                       </div>
-                      <h3 className="text-xl font-medium text-white mb-2">
+                      <h3 className="text-xl font-medium text-gray-900 mb-2" style={{ fontFamily: 'Georgia, serif' }}>
                         No food entries yet
                       </h3>
-                      <p className="text-slate-400 max-w-md mx-auto">
+                      <p className="text-gray-500 max-w-md mx-auto">
                         Search for foods and use the "Save to Diary" button to
                         keep track of your meals.
                       </p>
@@ -3563,7 +3731,7 @@ export default function HomePage() {
                   )}
                 </div>
 
-                <div className="sticky bottom-0 bg-black/80 backdrop-blur-lg p-4 border-t border-slate-700/50">
+                <div className="sticky bottom-0 bg-white/95 backdrop-blur-lg p-4 border-t border-gray-100">
                   <motion.button
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
@@ -3572,7 +3740,7 @@ export default function HomePage() {
                       setQuery("");
                       setSelectedFood(null);
                     }}
-                    className="w-full py-3 bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-600 rounded-xl text-white font-medium hover:opacity-90 shadow-lg transition-all"
+                    className="w-full py-3 bg-teal-500 hover:bg-teal-600 rounded-xl text-white font-medium shadow-md transition-all"
                   >
                     Find and Add More Foods
                   </motion.button>
@@ -3583,27 +3751,27 @@ export default function HomePage() {
 
           {/* Share Success Modal */}
           {shareModalOpen && (
-            <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+            <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4">
               <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
-                className="bg-gradient-to-br from-slate-900/90 to-black/90 backdrop-blur-xl rounded-xl p-6 max-w-md w-full border border-slate-700/50 shadow-2xl"
+                className="bg-white rounded-2xl p-6 max-w-md w-full border border-gray-100 shadow-xl"
               >
                 <div className="text-center mb-4">
-                  <div className="w-16 h-16 mx-auto bg-gradient-to-br from-indigo-600 to-purple-600 rounded-full flex items-center justify-center">
+                  <div className="w-16 h-16 mx-auto bg-gradient-to-br from-teal-400 to-cyan-400 rounded-full flex items-center justify-center">
                     <Share2 className="h-8 w-8 text-white" />
                   </div>
-                  <h3 className="text-xl font-bold text-white mt-4 mb-2">
+                  <h3 className="text-xl font-semibold text-gray-900 mt-4 mb-2" style={{ fontFamily: 'Georgia, serif' }}>
                     Nutrition Info Copied!
                   </h3>
-                  <p className="text-slate-300 mb-4">
+                  <p className="text-gray-500 mb-4">
                     The food information has been copied to your clipboard. You
                     can now paste it anywhere.
                   </p>
                 </div>
 
-                <div className="bg-black/30 rounded-lg p-3 border border-slate-700/50 mb-4 max-h-40 overflow-y-auto">
-                  <pre className="text-sm text-slate-300 whitespace-pre-wrap font-mono">
+                <div className="bg-gray-50 rounded-lg p-3 border border-gray-100 mb-4 max-h-40 overflow-y-auto">
+                  <pre className="text-sm text-gray-600 whitespace-pre-wrap font-mono">
                     {shareUrl}
                   </pre>
                 </div>
@@ -3613,7 +3781,7 @@ export default function HomePage() {
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                     onClick={() => setShareModalOpen(false)}
-                    className="flex-1 py-2 border border-slate-700 rounded-lg text-white hover:bg-slate-800/50"
+                    className="flex-1 py-2 border border-gray-200 rounded-xl text-gray-600 hover:bg-gray-50"
                   >
                     Close
                   </motion.button>
@@ -3624,7 +3792,7 @@ export default function HomePage() {
                       navigator.clipboard.writeText(shareUrl);
                       // Show a toast or indicator that it was copied again
                     }}
-                    className="flex-1 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-lg text-white"
+                    className="flex-1 py-2 bg-teal-500 hover:bg-teal-600 rounded-xl text-white"
                   >
                     Copy Again
                   </motion.button>
@@ -3635,23 +3803,23 @@ export default function HomePage() {
 
           {/* Seasonal Foods Modal */}
           {showSeasonalFoods && (
-            <div className="fixed inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto">
+            <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
               <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.95 }}
                 transition={{ duration: 0.3 }}
-                className="bg-gradient-to-br from-slate-900/80 to-black/70 backdrop-blur-xl rounded-2xl shadow-2xl w-full max-w-5xl border border-slate-700/50 overflow-hidden"
+                className="bg-white rounded-2xl shadow-xl w-full max-w-5xl border border-gray-100 overflow-hidden"
                 style={{ maxHeight: "90vh" }}
               >
-                <div className="sticky top-0 z-10 bg-gradient-to-r from-indigo-900/80 via-purple-900/80 to-indigo-900/80 backdrop-blur-lg px-6 py-4 border-b border-slate-700/50 flex justify-between items-center">
-                  <h2 className="text-2xl font-bold text-white flex items-center">
+                <div className="sticky top-0 z-10 bg-gradient-to-r from-teal-400 via-cyan-400 to-teal-500 px-6 py-4 flex justify-between items-center">
+                  <h2 className="text-2xl font-semibold text-white flex items-center" style={{ fontFamily: 'Georgia, serif' }}>
                     <Award className="h-6 w-6 mr-2" />
                     {currentSeason} Seasonal Foods
                   </h2>
                   <button
                     onClick={() => setShowSeasonalFoods(false)}
-                    className="text-slate-300 hover:text-white transition-colors"
+                    className="text-white/80 hover:text-white transition-colors"
                   >
                     <X className="h-6 w-6" />
                   </button>
@@ -3671,8 +3839,8 @@ export default function HomePage() {
                         onClick={() => generateSeasonalFoods(season)}
                         className={`px-6 py-2 rounded-full text-sm font-medium transition-all ${
                           currentSeason === season
-                            ? "bg-gradient-to-r from-indigo-600 to-purple-600 text-white"
-                            : "bg-slate-800 text-slate-300"
+                            ? "bg-teal-500 text-white"
+                            : "bg-gray-100 text-gray-600 hover:bg-gray-200"
                         }`}
                       >
                         {season}
@@ -3682,10 +3850,10 @@ export default function HomePage() {
 
                   {/* Season Info */}
                   <div className="text-center mb-8">
-                    <h3 className="text-xl font-medium bg-gradient-to-r from-indigo-400 to-purple-500 text-transparent bg-clip-text mb-2">
+                    <h3 className="text-xl font-medium text-teal-600 mb-2">
                       Eating with the seasons
                     </h3>
-                    <p className="text-slate-300 max-w-2xl mx-auto">
+                    <p className="text-gray-600 max-w-2xl mx-auto">
                       Seasonal foods are fresher, more nutritious, and often
                       more environmentally friendly. They're harvested at peak
                       ripeness and typically require fewer resources to grow.
@@ -3696,13 +3864,13 @@ export default function HomePage() {
                   {loadingSeasonalFoods ? (
                     <div className="flex flex-col items-center justify-center py-20">
                       <div className="relative w-20 h-20">
-                        <div className="w-20 h-20 rounded-full border-4 border-slate-700/50 absolute top-0 left-0"></div>
-                        <div className="w-20 h-20 rounded-full border-4 border-t-indigo-600 border-r-purple-600 border-transparent absolute top-0 left-0 animate-spin"></div>
+                        <div className="w-20 h-20 rounded-full border-4 border-gray-200 absolute top-0 left-0"></div>
+                        <div className="w-20 h-20 rounded-full border-4 border-t-teal-500 border-r-cyan-500 border-transparent absolute top-0 left-0 animate-spin"></div>
                         <div className="absolute inset-0 flex items-center justify-center">
-                          <div className="w-10 h-10 rounded-full bg-gradient-to-r from-indigo-600 to-purple-600 animate-pulse"></div>
+                          <div className="w-10 h-10 rounded-full bg-gradient-to-r from-teal-400 to-cyan-400 animate-pulse"></div>
                         </div>
                       </div>
-                      <p className="mt-5 text-xl font-medium bg-gradient-to-r from-indigo-400 to-purple-500 text-transparent bg-clip-text">
+                      <p className="mt-5 text-xl font-medium text-teal-600">
                         Finding seasonal foods...
                       </p>
                     </div>
@@ -3717,38 +3885,38 @@ export default function HomePage() {
                               initial={{ opacity: 0, y: 20 }}
                               animate={{ opacity: 1, y: 0 }}
                               transition={{ delay: index * 0.1 }}
-                              className="bg-gradient-to-br from-slate-900/80 to-black/60 backdrop-blur-lg border border-slate-700/50 rounded-xl overflow-hidden hover:border-indigo-500/40 transition-all"
+                              className="bg-white border border-gray-100 rounded-xl overflow-hidden hover:border-teal-300 hover:shadow-md transition-all"
                             >
-                              <div className="h-16 bg-gradient-to-r from-indigo-600/40 via-purple-600/40 to-indigo-600/40 flex items-center justify-between px-4">
+                              <div className="h-16 bg-gradient-to-r from-teal-50 via-cyan-50 to-teal-50 flex items-center justify-between px-4">
                                 <span className="text-4xl">{food.emoji}</span>
-                                <span className="px-2 py-1 bg-black/30 rounded-md text-xs uppercase tracking-wider text-slate-300 border border-slate-600/30">
+                                <span className="px-2 py-1 bg-white rounded-md text-xs uppercase tracking-wider text-gray-600 border border-gray-200">
                                   {food.category}
                                 </span>
                               </div>
 
                               <div className="p-5">
                                 <div className="flex justify-between items-start mb-2">
-                                  <h3 className="text-xl font-medium text-white">
+                                  <h3 className="text-xl font-medium text-gray-900">
                                     {food.name}
                                   </h3>
-                                  <span className="px-2 py-1 bg-indigo-900/30 rounded text-xs text-indigo-300 capitalize border border-indigo-500/20">
+                                  <span className="px-2 py-1 bg-teal-50 rounded text-xs text-teal-600 capitalize border border-teal-100">
                                     {food.mealType}
                                   </span>
                                 </div>
 
-                                <p className="text-slate-300 text-sm mb-4">
+                                <p className="text-gray-600 text-sm mb-4">
                                   {food.description}
                                 </p>
 
                                 <div className="mb-4">
-                                  <h4 className="text-xs uppercase tracking-wider text-slate-400 mb-2">
+                                  <h4 className="text-xs uppercase tracking-wider text-gray-500 mb-2">
                                     Key Nutrients
                                   </h4>
                                   <div className="flex flex-wrap gap-2">
                                     {food.keyNutrients.map((nutrient, i) => (
                                       <span
                                         key={i}
-                                        className="px-2 py-1 bg-slate-800/50 rounded-full text-xs text-slate-300 border border-slate-700/30"
+                                        className="px-2 py-1 bg-gray-50 rounded-full text-xs text-gray-600 border border-gray-100"
                                       >
                                         {nutrient}
                                       </span>
@@ -3757,10 +3925,10 @@ export default function HomePage() {
                                 </div>
 
                                 <div className="mb-4">
-                                  <h4 className="text-xs uppercase tracking-wider text-slate-400 mb-2">
+                                  <h4 className="text-xs uppercase tracking-wider text-gray-500 mb-2">
                                     Best Preparation
                                   </h4>
-                                  <p className="text-sm text-slate-300">
+                                  <p className="text-sm text-gray-600">
                                     {food.prepMethod}
                                   </p>
                                 </div>
@@ -3773,7 +3941,7 @@ export default function HomePage() {
                                     searchFoodAPI(food.name);
                                     setShowSeasonalFoods(false);
                                   }}
-                                  className="w-full py-2 bg-gradient-to-r from-indigo-600/50 to-purple-600/50 hover:from-indigo-600 hover:to-purple-600 rounded-lg text-white flex items-center justify-center transition-all"
+                                  className="w-full py-2 bg-teal-500 hover:bg-teal-600 rounded-lg text-white flex items-center justify-center transition-all"
                                 >
                                   <Search className="h-4 w-4 mr-1" />
                                   Get Nutrition Info
@@ -3783,7 +3951,7 @@ export default function HomePage() {
                           ))
                         ) : (
                           <div className="col-span-full text-center py-10">
-                            <p className="text-slate-400">
+                            <p className="text-gray-500">
                               No seasonal foods found. Try selecting a different
                               season.
                             </p>
@@ -3794,17 +3962,17 @@ export default function HomePage() {
                   )}
                 </div>
 
-                <div className="sticky bottom-0 bg-black/80 backdrop-blur-lg p-4 border-t border-slate-700/50">
+                <div className="sticky bottom-0 bg-white/95 backdrop-blur-lg p-4 border-t border-gray-100">
                   <div className="flex justify-between items-center">
-                    <p className="text-slate-400 text-sm">
-                      <span className="text-white">Tip:</span> Eating seasonally
+                    <p className="text-gray-500 text-sm">
+                      <span className="text-gray-900">Tip:</span> Eating seasonally
                       can reduce your environmental footprint
                     </p>
                     <motion.button
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
                       onClick={() => setShowSeasonalFoods(false)}
-                      className="px-4 py-2 bg-slate-800 hover:bg-slate-700 rounded-lg text-white text-sm transition-all"
+                      className="px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg text-gray-700 text-sm transition-all"
                     >
                       Close
                     </motion.button>
@@ -3816,12 +3984,12 @@ export default function HomePage() {
         </div>
 
         {/* Footer */}
-        <footer className="relative bg-gradient-to-r from-black/70 via-slate-900/70 to-black/70 backdrop-blur-lg border-t border-slate-800/80 py-10 mt-20 overflow-hidden">
+        <footer className="relative bg-white border-t border-gray-100 py-10 mt-20 overflow-hidden">
           {/* Animated background elements */}
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
-            <div className="absolute -top-10 right-10 w-80 h-80 bg-indigo-700/10 rounded-full blur-3xl"></div>
-            <div className="absolute bottom-5 -left-20 w-72 h-72 bg-purple-700/10 rounded-full blur-3xl"></div>
-            <div className="absolute -bottom-10 right-1/4 w-60 h-60 bg-blue-700/10 rounded-full blur-3xl"></div>
+            <div className="absolute -top-10 right-10 w-80 h-80 bg-teal-100/50 rounded-full blur-3xl"></div>
+            <div className="absolute bottom-5 -left-20 w-72 h-72 bg-cyan-100/50 rounded-full blur-3xl"></div>
+            <div className="absolute -bottom-10 right-1/4 w-60 h-60 bg-teal-100/30 rounded-full blur-3xl"></div>
           </div>
 
           <div className="container mx-auto px-4">
@@ -3830,10 +3998,10 @@ export default function HomePage() {
               {/* Brand Column */}
               <div className="space-y-5">
                 <div>
-                  <span className="text-3xl font-bold bg-gradient-to-r from-indigo-400 via-purple-500 to-indigo-400 text-transparent bg-clip-text font-devanagari">
+                  <span className="text-3xl font-bold text-teal-500 font-devanagari">
                     अन्ना - Data
                   </span>
-                  <p className="text-slate-400 mt-2">
+                  <p className="text-gray-500 mt-2">
                     Your personal nutrition intelligence platform
                   </p>
                 </div>
@@ -3844,11 +4012,11 @@ export default function HomePage() {
                     href="https://x.com/PixelNiladri"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-9 h-9 rounded-full bg-slate-800/90 hover:bg-indigo-600/90 flex items-center justify-center transition-colors group"
+                    className="w-9 h-9 rounded-full bg-gray-100 hover:bg-teal-500 flex items-center justify-center transition-colors group"
                     aria-label="Twitter"
                   >
                     <svg
-                      className="w-4 h-4 text-slate-400 group-hover:text-white transition-colors"
+                      className="w-4 h-4 text-gray-500 group-hover:text-white transition-colors"
                       viewBox="0 0 24 24"
                       fill="none"
                       xmlns="http://www.w3.org/2000/svg"
@@ -3861,11 +4029,11 @@ export default function HomePage() {
                   </a>
                   <a
                     href="https://github.com/NiladriHazra/AnnaData"
-                    className="w-9 h-9 rounded-full bg-slate-800/90 hover:bg-indigo-600/90 flex items-center justify-center transition-colors group"
+                    className="w-9 h-9 rounded-full bg-gray-100 hover:bg-teal-500 flex items-center justify-center transition-colors group"
                     aria-label="GitHub"
                   >
                     <svg
-                      className="w-5 h-5 text-slate-400 group-hover:text-white transition-colors"
+                      className="w-5 h-5 text-gray-500 group-hover:text-white transition-colors"
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 24 24"
                       fill="none"
@@ -3906,25 +4074,25 @@ export default function HomePage() {
               <div className="flex flex-wrap gap-8">
                 <a
                   href="#"
-                  className="text-slate-400 hover:text-indigo-400 transition-colors"
+                  className="text-gray-500 hover:text-teal-500 transition-colors"
                 >
                   About
                 </a>
                 <a
                   href="#"
-                  className="text-slate-400 hover:text-indigo-400 transition-colors"
+                  className="text-gray-500 hover:text-teal-500 transition-colors"
                 >
                   Privacy
                 </a>
                 <a
                   href="#"
-                  className="text-slate-400 hover:text-indigo-400 transition-colors"
+                  className="text-gray-500 hover:text-teal-500 transition-colors"
                 >
                   Terms
                 </a>
                 <a
                   href="#"
-                  className="text-slate-400 hover:text-indigo-400 transition-colors"
+                  className="text-gray-500 hover:text-teal-500 transition-colors"
                 >
                   Contact
                 </a>
@@ -3933,11 +4101,11 @@ export default function HomePage() {
 
             {/* Bottom bar */}
             {/* Bottom bar - Responsive version */}
-            <div className="mt-8 pt-6 border-t border-slate-800/50">
+            <div className="mt-8 pt-6 border-t border-gray-100">
               <div className="flex flex-col space-y-4">
                 {/* Copyright section */}
                 <div className="text-center md:text-left">
-                  <p className="text-slate-500 text-sm">
+                  <p className="text-gray-500 text-sm">
                     &copy; {new Date().getFullYear()} अन्ना - Data • All rights
                     reserved
                   </p>
@@ -3946,7 +4114,7 @@ export default function HomePage() {
                 {/* Creator info and version */}
                 <div className="flex flex-col md:flex-row items-center justify-center md:justify-between space-y-3 md:space-y-0">
                   {/* Creator */}
-                  <div className="text-slate-500 flex flex-wrap items-center justify-center gap-1 text-sm">
+                  <div className="text-gray-500 flex flex-wrap items-center justify-center gap-1 text-sm">
                     <span>Created by</span>
                     <a
                       href="https://x.com/PixelNiladri"
@@ -3954,27 +4122,27 @@ export default function HomePage() {
                       rel="noopener noreferrer"
                       className="relative group"
                     >
-                      <span className="bg-gradient-to-r from-indigo-400 to-purple-500 text-transparent bg-clip-text font-semibold">
+                      <span className="text-teal-500 font-semibold">
                         Niladri Hazra
                       </span>
-                      <span className="text-indigo-400/90">
+                      <span className="text-teal-400">
                         (Team अन्ना - Data)
                       </span>
-                      <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-indigo-500 to-purple-500 group-hover:w-full transition-all duration-300"></span>
+                      <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-teal-500 group-hover:w-full transition-all duration-300"></span>
                     </a>
                   </div>
 
                   {/* Divider shown only on desktop */}
-                  <span className="hidden md:inline mx-3 text-slate-700">
+                  <span className="hidden md:inline mx-3 text-gray-300">
                     •
                   </span>
 
                   {/* Version info */}
                   <div className="flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-2">
-                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-900/40 text-indigo-300 border border-indigo-800/40">
+                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-teal-50 text-teal-600 border border-teal-100">
                       v2.4.0
                     </span>
-                    <span className="text-xs text-slate-500">
+                    <span className="text-xs text-gray-400">
                       Updated: 2025-04-19 08:51:32
                     </span>
                   </div>

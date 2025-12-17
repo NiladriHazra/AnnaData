@@ -44,6 +44,15 @@ const genAI = new GoogleGenerativeAI(
     ""
 );
 
+// Generate today's date in YYYY-MM-DD format
+const generateTodayDate = () => {
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, "0");
+  const day = String(today.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+};
+
 // Card Components
 const NutritionCard = ({ nutrient, value, color, percentage, icon }) => {
   return (
@@ -148,11 +157,48 @@ export default function HomePage() {
   const [searchHistory, setSearchHistory] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [dailyNutrition, setDailyNutrition] = useState({
-    calories: { consumed: 620, goal: 2000 },
-    protein: { consumed: 28, goal: 80 },
-    carbs: { consumed: 72, goal: 200 },
-    fat: { consumed: 18, goal: 60 },
+    calories: { consumed: 0, goal: 2000 },
+    protein: { consumed: 0, goal: 80 },
+    carbs: { consumed: 0, goal: 200 },
+    fat: { consumed: 0, goal: 60 },
   });
+  
+  // Calculate daily nutrition from savedFoods in localStorage
+  const calculateDailyNutrition = useCallback(() => {
+    try {
+      const savedFoods = JSON.parse(localStorage.getItem('savedFoods') || '[]');
+      const today = new Date().toDateString();
+      
+      // Filter foods logged today
+      const todayFoods = savedFoods.filter(item => {
+        const itemDate = new Date(item.date).toDateString();
+        return itemDate === today;
+      });
+      
+      // Calculate totals
+      const totals = todayFoods.reduce((acc, item) => {
+        const nutrients = item.food?.nutrients || {};
+        return {
+          calories: acc.calories + (nutrients.calories || 0),
+          protein: acc.protein + (nutrients.protein || 0),
+          carbs: acc.carbs + (nutrients.carbs || 0),
+          fat: acc.fat + (nutrients.fats || nutrients.fat || 0)
+        };
+      }, { calories: 0, protein: 0, carbs: 0, fat: 0 });
+      
+      // Load goals from localStorage or use defaults
+      const savedGoals = JSON.parse(localStorage.getItem('nutritionGoals') || '{}');
+      
+      setDailyNutrition({
+        calories: { consumed: Math.round(totals.calories), goal: savedGoals.calories || 2000 },
+        protein: { consumed: Math.round(totals.protein), goal: savedGoals.protein || 80 },
+        carbs: { consumed: Math.round(totals.carbs), goal: savedGoals.carbs || 200 },
+        fat: { consumed: Math.round(totals.fat), goal: savedGoals.fat || 60 },
+      });
+    } catch (error) {
+      console.error("Error calculating daily nutrition:", error);
+    }
+  }, []);
   const [error, setError] = useState(null);
   const [savingToDiary, setSavingToDiary] = useState(false);
   const [diarySuccess, setDiarySuccess] = useState(false);
@@ -507,6 +553,9 @@ export default function HomePage() {
     // Dark theme by default
     document.documentElement.classList.add("dark");
 
+    // Calculate daily nutrition from localStorage
+    calculateDailyNutrition();
+
     // Load search history from localStorage
     try {
       const history = localStorage.getItem("searchHistory");
@@ -546,7 +595,7 @@ export default function HomePage() {
         streamRef.current = null;
       }
     };
-  }, [loadDiaryItems]);
+  }, [loadDiaryItems, calculateDailyNutrition]);
 
   // Generate new notifications when food is saved to diary
   useEffect(() => {
@@ -554,12 +603,15 @@ export default function HomePage() {
       // Refresh diary items
       loadDiaryItems();
       
+      // Recalculate daily nutrition
+      calculateDailyNutrition();
+      
       // Wait a bit after saving to diary to generate new notifications
       setTimeout(() => {
         generateNotifications();
       }, 1000);
     }
-  }, [diarySuccess, loadDiaryItems]);
+  }, [diarySuccess, loadDiaryItems, calculateDailyNutrition]);
 
   // Generate AI insights for a food item
   const generateInsights = async (food) => {
@@ -2462,8 +2514,8 @@ export default function HomePage() {
                   />
 
                   <FeatureCard
-                    icon={<Sparkles className="h-8 w-8 text-white" />}
-                    title="AI-Powered Insights"
+                    
+                    title="Food Insights"
                     description="Receive personalized nutrition advice and health insights based on your food choices and dietary goals."
                   />
                 </div>

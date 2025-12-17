@@ -51,13 +51,13 @@ const genAI = new GoogleGenerativeAI(
 const LoadingSpinner = () => (
   <div className="flex flex-col items-center justify-center py-20">
     <div className="relative w-16 h-16">
-      <div className="w-16 h-16 rounded-full border-4 border-slate-700/50 absolute top-0 left-0"></div>
-      <div className="w-16 h-16 rounded-full border-4 border-t-indigo-600 border-r-purple-600 border-transparent absolute top-0 left-0 animate-spin"></div>
+      <div className="w-16 h-16 rounded-full border-4 border-gray-200 absolute top-0 left-0"></div>
+      <div className="w-16 h-16 rounded-full border-4 border-t-teal-500 border-r-cyan-500 border-transparent absolute top-0 left-0 animate-spin"></div>
       <div className="absolute inset-0 flex items-center justify-center">
-        <div className="w-10 h-10 rounded-full bg-gradient-to-r from-indigo-600 to-purple-600 animate-pulse"></div>
+        <div className="w-10 h-10 rounded-full bg-gradient-to-r from-teal-400 to-cyan-400 animate-pulse"></div>
       </div>
     </div>
-    <p className="mt-5 text-xl font-medium bg-gradient-to-r from-indigo-400 to-purple-500 text-transparent bg-clip-text">
+    <p className="mt-5 text-xl font-medium text-teal-600">
       Searching for recipes...
     </p>
   </div>
@@ -69,15 +69,15 @@ const RecipeHistoryCard = ({ recipe, onClick }) => (
     whileHover={{ y: -5, scale: 1.02 }}
     whileTap={{ scale: 0.98 }}
     onClick={onClick}
-    className="bg-gradient-to-br from-slate-900/80 to-black/60 backdrop-blur-lg border border-slate-700/50 rounded-xl overflow-hidden cursor-pointer shadow-lg hover:shadow-xl hover:border-indigo-500/30 transition-all group"
+    className="bg-white border border-gray-100 rounded-xl overflow-hidden cursor-pointer shadow-md hover:shadow-lg hover:border-teal-400 transition-all group"
   >
-    <div className="h-24 bg-gradient-to-r from-indigo-600/40 via-purple-600/40 to-indigo-600/40 relative overflow-hidden">
+    <div className="h-24 bg-gradient-to-r from-teal-100 via-cyan-100 to-teal-100 relative overflow-hidden">
       {/* Animated particles background */}
       <div className="absolute inset-0">
         {[...Array(8)].map((_, i) => (
           <div
             key={i}
-            className="absolute rounded-full bg-white/20"
+            className="absolute rounded-full bg-teal-400/30"
             style={{
               width: `${Math.random() * 6 + 3}px`,
               height: `${Math.random() * 6 + 3}px`,
@@ -90,19 +90,19 @@ const RecipeHistoryCard = ({ recipe, onClick }) => (
       </div>
 
       <div className="absolute inset-0 flex items-center justify-center">
-        <ChefHat className="h-10 w-10 text-white/70 group-hover:text-white/90 transition-all" />
+        <ChefHat className="h-10 w-10 text-teal-500 group-hover:text-teal-600 transition-all" />
       </div>
     </div>
     <div className="p-4">
-      <h3 className="text-white font-medium text-base line-clamp-1">
+      <h3 className="text-gray-800 font-medium text-base line-clamp-1">
         {recipe.name}
       </h3>
       <div className="flex items-center justify-between mt-2">
-        <div className="flex items-center text-xs text-slate-400">
+        <div className="flex items-center text-xs text-gray-500">
           <Clock className="h-3 w-3 mr-1" />
           <span>{recipe.totalTime || "30"} min</span>
         </div>
-        <div className="flex items-center text-xs text-slate-400">
+        <div className="flex items-center text-xs text-gray-500">
           <Utensils className="h-3 w-3 mr-1" />
           <span>{recipe.difficulty || "Medium"}</span>
         </div>
@@ -379,7 +379,7 @@ useEffect(() => {
   // Fallback: Search YouTube videos using Gemini
   const searchYouTubeWithGemini = async (recipeName) => {
     try {
-      const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+      const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 
       const prompt = `
         Find a good YouTube video for cooking "${recipeName}".
@@ -441,7 +441,7 @@ useEffect(() => {
   // Function to generate related recipes
   const generateRelatedRecipes = async (recipeName) => {
     try {
-      const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+      const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 
       const prompt = `
         Generate 4 related recipes to "${recipeName}" that people might also like.
@@ -624,7 +624,7 @@ const togglePlay = () => {
     }
 
     try {
-      const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+      const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 
       const prompt = `
         Give me a detailed recipe for "${searchQuery}".
@@ -670,7 +670,7 @@ const togglePlay = () => {
       ) {
         try {
           const imageModel = genAI.getGenerativeModel({
-            model: "gemini-1.5-flash",
+            model: "gemini-2.5-flash",
           });
           const imagePrompt = `
             Create a professional food photography description of ${recipeData.name}. 
@@ -842,7 +842,7 @@ const togglePlay = () => {
         try {
           const base64Image = reader.result.split(",")[1];
 
-          const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+          const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 
           const parts = [
             {
@@ -895,7 +895,7 @@ const togglePlay = () => {
     setChatLoading(true);
 
     try {
-      const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+      const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 
       // Create context for the AI
       let context = `You are Anna AI Cook, a cooking assistant. `;
@@ -939,27 +939,26 @@ const togglePlay = () => {
   };
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-[#070B14] via-[#0b1120] to-[#0A0E1A] text-white">
-      <div className="absolute inset-0 bg-[url('/noise.png')] opacity-[0.03] mix-blend-overlay pointer-events-none"></div>
+    <main className="min-h-screen bg-[#FAF9F6] text-gray-900">
       <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center opacity-[0.03] mix-blend-overlay pointer-events-none"></div>
 
-      {/* Animated glowing orb */}
-      <div className="fixed top-1/4 -right-28 w-96 h-96 bg-indigo-600/20 rounded-full blur-3xl animate-pulse pointer-events-none"></div>
-      <div className="fixed top-3/4 -left-28 w-96 h-96 bg-purple-600/20 rounded-full blur-3xl animate-pulse pointer-events-none"></div>
+      {/* Decorative elements */}
+      <div className="fixed top-1/4 -right-28 w-96 h-96 bg-teal-50 rounded-full blur-3xl pointer-events-none"></div>
+      <div className="fixed top-3/4 -left-28 w-96 h-96 bg-cyan-50 rounded-full blur-3xl pointer-events-none"></div>
 
       {/* Header */}
-      <header className="sticky top-0 z-50 backdrop-blur-xl bg-gradient-to-r from-black/80 via-black/70 to-black/80 border-b border-slate-800/60 shadow-lg">
+      <header className="sticky top-0 z-50 backdrop-blur-xl bg-white/80 border-b border-gray-100 shadow-sm">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center space-x-4">
               <button
                 onClick={() => router.push("/")}
-                className="p-2 rounded-full hover:bg-slate-800/60 transition-colors"
+                className="p-2 rounded-full hover:bg-gray-100 transition-colors"
               >
-                <ArrowLeft className="h-5 w-5" />
+                <ArrowLeft className="h-5 w-5 text-gray-600" />
               </button>
               <h1 className="font-bold text-xl md:text-2xl">
-                <span className="bg-gradient-to-r from-indigo-400 to-purple-500 text-transparent bg-clip-text">
+                <span className="text-teal-600">
                   Recipe Finder
                 </span>
               </h1>
@@ -969,28 +968,28 @@ const togglePlay = () => {
             <div className="hidden md:flex items-center space-x-4">
               <button
                 onClick={() => router.push("/")}
-                className="flex items-center px-3 py-2 rounded-md text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-800/50 transition-colors"
+                className="flex items-center px-3 py-2 rounded-md text-sm font-medium text-gray-600 hover:text-teal-600 hover:bg-gray-100 transition-colors"
               >
                 <HomeIcon className="mr-2 h-4 w-4" />
                 Home
               </button>
               <button
                 onClick={() => router.push("/diary")}
-                className="flex items-center px-3 py-2 rounded-md text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-800/50 transition-colors"
+                className="flex items-center px-3 py-2 rounded-md text-sm font-medium text-gray-600 hover:text-teal-600 hover:bg-gray-100 transition-colors"
               >
                 <Calendar className="mr-2 h-4 w-4" />
                 Food Diary
               </button>
               <button
                 onClick={() => setShowHistory(!showHistory)}
-                className="flex items-center px-3 py-2 rounded-md text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-800/50 transition-colors relative"
+                className="flex items-center px-3 py-2 rounded-md text-sm font-medium text-gray-600 hover:text-teal-600 hover:bg-gray-100 transition-colors relative"
               >
                 <History className="mr-2 h-4 w-4" />
                 History
               </button>
               <button
                 onClick={() => setChatOpen(true)}
-                className="flex items-center px-3 py-2 rounded-md text-sm font-medium bg-indigo-700/50 hover:bg-indigo-700 transition-colors"
+                className="flex items-center px-3 py-2 rounded-md text-sm font-medium bg-teal-500 text-white hover:bg-teal-600 transition-colors"
               >
                 <MessageCircle className="mr-2 h-4 w-4" />
                 Ask Anna AI Cook
@@ -1001,7 +1000,7 @@ const togglePlay = () => {
             <div className="md:hidden">
               <button
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="p-2 rounded-md hover:bg-slate-800/60 transition-colors"
+                className="p-2 rounded-md hover:bg-gray-100 transition-colors"
               >
                 {mobileMenuOpen ? (
                   <X className="h-6 w-6" />
@@ -1023,19 +1022,19 @@ const togglePlay = () => {
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            className="bg-black/90 backdrop-blur-lg border-b border-slate-800/60 md:hidden"
+            className="bg-white border-b border-gray-100 md:hidden"
           >
             <div className="px-4 py-3 space-y-2">
               <button
                 onClick={() => router.push("/")}
-                className="flex items-center w-full px-3 py-2 rounded-md text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-800/50 transition-colors"
+                className="flex items-center w-full px-3 py-2 rounded-md text-sm font-medium text-gray-600 hover:text-teal-600 hover:bg-gray-100 transition-colors"
               >
                 <HomeIcon className="mr-2 h-4 w-4" />
                 Home
               </button>
               <button
                 onClick={() => router.push("/diary")}
-                className="flex items-center w-full px-3 py-2 rounded-md text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-800/50 transition-colors"
+                className="flex items-center w-full px-3 py-2 rounded-md text-sm font-medium text-gray-600 hover:text-teal-600 hover:bg-gray-100 transition-colors"
               >
                 <Calendar className="mr-2 h-4 w-4" />
                 Food Diary
@@ -1045,7 +1044,7 @@ const togglePlay = () => {
                   setShowHistory(!showHistory);
                   setMobileMenuOpen(false);
                 }}
-                className="flex items-center w-full px-3 py-2 rounded-md text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-800/50 transition-colors"
+                className="flex items-center w-full px-3 py-2 rounded-md text-sm font-medium text-gray-600 hover:text-teal-600 hover:bg-gray-100 transition-colors"
               >
                 <History className="mr-2 h-4 w-4" />
                 Search History
@@ -1055,7 +1054,7 @@ const togglePlay = () => {
                   setChatOpen(true);
                   setMobileMenuOpen(false);
                 }}
-                className="flex items-center w-full px-3 py-2 rounded-md text-sm font-medium bg-indigo-700/50 hover:bg-indigo-700 transition-colors"
+                className="flex items-center w-full px-3 py-2 rounded-md text-sm font-medium bg-teal-500 text-white hover:bg-teal-600 transition-colors"
               >
                 <MessageCircle className="mr-2 h-4 w-4" />
                 Ask Anna AI Cook
@@ -1070,13 +1069,13 @@ const togglePlay = () => {
         <motion.div
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="fixed right-4 md:right-10 top-16 md:top-16 z-40 w-64 md:w-96 bg-slate-900/95 backdrop-blur-xl border border-slate-700/50 rounded-xl shadow-2xl p-4"
+          className="fixed right-4 md:right-10 top-16 md:top-16 z-40 w-64 md:w-96 bg-white border border-gray-100 rounded-xl shadow-lg p-4"
         >
           <div className="flex justify-between items-center mb-4">
-            <h3 className="font-medium text-white">Recent Searches</h3>
+            <h3 className="font-medium text-gray-700">Recent Searches</h3>
             <button
               onClick={() => setShowHistory(false)}
-              className="text-slate-400 hover:text-white"
+              className="text-gray-400 hover:text-gray-600"
             >
               <X className="h-5 w-5" />
             </button>
@@ -1109,7 +1108,7 @@ const togglePlay = () => {
       <div className="container mx-auto px-4 py-8">
         {/* Search Bar */}
         <div className="max-w-3xl mx-auto mb-8">
-          <div className="bg-gradient-to-br from-slate-900/80 to-black/60 backdrop-blur-lg border border-slate-700/50 rounded-xl overflow-hidden shadow-xl hover:shadow-2xl transition-all">
+          <div className="bg-white border border-gray-100 rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-all">
             <div className="p-4">
               <div className="flex gap-2">
                 <div className="relative flex-1">
@@ -1119,11 +1118,11 @@ const togglePlay = () => {
                     onChange={(e) => setQuery(e.target.value)}
                     onKeyPress={(e) => e.key === "Enter" && searchRecipe(query)}
                     placeholder="Search for any recipe..."
-                    className="w-full bg-slate-900/50 border border-slate-700/50 rounded-full py-3 pl-5 pr-12 text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500/50 transition-all"
+                    className="w-full bg-gray-50 border border-gray-200 rounded-full py-3 pl-5 pr-12 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-teal-500/30 focus:border-teal-400 transition-all"
                   />
                   <button
                     onClick={() => searchRecipe(query)}
-                    className="absolute right-1 top-1 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-full p-2 hover:opacity-90 transition-all"
+                    className="absolute right-1 top-1 bg-gradient-to-r from-teal-400 to-cyan-400 rounded-full p-2 text-white hover:opacity-90 transition-all"
                     disabled={loading}
                   >
                     <Search className="h-5 w-5 text-white" />
@@ -1134,9 +1133,9 @@ const togglePlay = () => {
                   onClick={() =>
                     document.getElementById("recipe-image").click()
                   }
-                  className="p-3 bg-slate-900/50 hover:bg-slate-800/70 border border-slate-700/50 rounded-full transition-colors"
+                  className="p-3 bg-gray-50 hover:bg-gray-100 border border-gray-200 rounded-full transition-colors"
                 >
-                  <Upload className="h-5 w-5" />
+                  <Upload className="h-5 w-5 text-gray-600" />
                 </button>
 
                 <input
@@ -1160,7 +1159,7 @@ const togglePlay = () => {
                       setImage(null);
                       setImagePreview(null);
                     }}
-                    className="absolute top-2 right-2 bg-black/60 rounded-full p-1 text-white hover:bg-black/80 transition-colors"
+                    className="absolute top-2 right-2 bg-white/60 rounded-full p-1 text-gray-900 hover:bg-gray-100 transition-colors"
                   >
                     <X className="h-4 w-4" />
                   </button>
@@ -1176,11 +1175,11 @@ const togglePlay = () => {
         {/* Error Message */}
         {error && (
           <div className="max-w-3xl mx-auto">
-            <div className="bg-red-900/20 border border-red-800/40 backdrop-blur-md text-white rounded-lg p-4 mb-6">
+            <div className="bg-red-50 border border-red-200 text-red-700 rounded-lg p-4 mb-6">
               <p className="flex items-center">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5 text-red-400 mr-2"
+                  className="h-5 w-5 text-red-500 mr-2"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -1209,18 +1208,18 @@ const togglePlay = () => {
               {/* Recipe Header with Image */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
                 {/* Recipe Info */}
-                <div className="bg-gradient-to-br from-slate-900/80 to-black/60 backdrop-blur-md rounded-2xl overflow-hidden border border-slate-700/50 shadow-xl hover:shadow-2xl transition-all h-full">
+                <div className="bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-md hover:shadow-lg transition-all h-full">
                   <div className="p-6">
                     <div className="flex justify-between items-start">
-                      <h1 className="text-3xl md:text-4xl font-bold text-white mb-2">
+                      <h1 className="text-3xl md:text-4xl font-bold text-gray-800 mb-2">
                         {recipe.name}
                       </h1>
                       <button
                         onClick={toggleBookmark}
                         className={`p-2 rounded-full ${
                           bookmarked
-                            ? "bg-indigo-700/80 text-white"
-                            : "bg-slate-800/80 text-slate-300"
+                            ? "bg-teal-500 text-white"
+                            : "bg-gray-100 text-gray-500"
                         } transition-all`}
                       >
                         <Bookmark
@@ -1230,41 +1229,41 @@ const togglePlay = () => {
                         />
                       </button>
                     </div>
-                    <p className="text-white/80 mb-6">{recipe.description}</p>
+                    <p className="text-gray-600 mb-6">{recipe.description}</p>
 
                     <div className="grid grid-cols-2 gap-3 mb-6">
-                      <div className="bg-slate-900/40 p-3 rounded-xl border border-slate-700/50 flex items-center gap-3">
-                        <Clock className="h-5 w-5 text-indigo-400" />
+                      <div className="bg-gray-50 p-3 rounded-xl border border-gray-100 flex items-center gap-3">
+                        <Clock className="h-5 w-5 text-teal-500" />
                         <div>
-                          <div className="text-sm text-slate-400">
+                          <div className="text-sm text-gray-500">
                             Total Time
                           </div>
-                          <div className="font-medium">
+                          <div className="font-medium text-gray-700">
                             {recipe.totalTime} min
                           </div>
                         </div>
                       </div>
-                      <div className="bg-slate-900/40 p-3 rounded-xl border border-slate-700/50 flex items-center gap-3">
-                        <Users className="h-5 w-5 text-indigo-400" />
+                      <div className="bg-gray-50 p-3 rounded-xl border border-gray-100 flex items-center gap-3">
+                        <Users className="h-5 w-5 text-teal-500" />
                         <div>
-                          <div className="text-sm text-slate-400">Servings</div>
-                          <div className="font-medium">{recipe.servings}</div>
+                          <div className="text-sm text-gray-500">Servings</div>
+                          <div className="font-medium text-gray-700">{recipe.servings}</div>
                         </div>
                       </div>
-                      <div className="bg-slate-900/40 p-3 rounded-xl border border-slate-700/50 flex items-center gap-3">
-                        <Utensils className="h-5 w-5 text-indigo-400" />
+                      <div className="bg-gray-50 p-3 rounded-xl border border-gray-100 flex items-center gap-3">
+                        <Utensils className="h-5 w-5 text-teal-500" />
                         <div>
-                          <div className="text-sm text-slate-400">
+                          <div className="text-sm text-gray-500">
                             Difficulty
                           </div>
-                          <div className="font-medium">{recipe.difficulty}</div>
+                          <div className="font-medium text-gray-700">{recipe.difficulty}</div>
                         </div>
                       </div>
-                      <div className="bg-slate-900/40 p-3 rounded-xl border border-slate-700/50 flex items-center gap-3">
-                        <ChefHat className="h-5 w-5 text-indigo-400" />
+                      <div className="bg-gray-50 p-3 rounded-xl border border-gray-100 flex items-center gap-3">
+                        <ChefHat className="h-5 w-5 text-teal-500" />
                         <div>
-                          <div className="text-sm text-slate-400">Cuisine</div>
-                          <div className="font-medium">{recipe.cuisine}</div>
+                          <div className="text-sm text-gray-500">Cuisine</div>
+                          <div className="font-medium text-gray-700">{recipe.cuisine}</div>
                         </div>
                       </div>
                     </div>
@@ -1274,7 +1273,7 @@ const togglePlay = () => {
                       <button
                         onClick={() => setShowMealTypeDialog(true)}
                         disabled={savingToDiary}
-                        className="flex-1 py-2 px-4 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-lg text-white flex items-center justify-center hover:opacity-90 disabled:opacity-70 transition-all"
+                        className="flex-1 py-2 px-4 bg-gradient-to-r from-teal-400 to-cyan-400 rounded-lg text-white flex items-center justify-center hover:opacity-90 disabled:opacity-70 transition-all shadow-md"
                       >
                         {diarySaveSuccess ? (
                           <Check className="mr-2 h-4 w-4" />
@@ -1288,7 +1287,7 @@ const togglePlay = () => {
 
                       <button
                         onClick={shareRecipe}
-                        className="flex-1 py-2 px-4 bg-slate-800/60 hover:bg-slate-700/60 rounded-lg text-white flex items-center justify-center transition-all border border-slate-700/50"
+                        className="flex-1 py-2 px-4 bg-gray-100 hover:bg-gray-200 rounded-lg text-gray-700 flex items-center justify-center transition-all border border-gray-200"
                       >
                         <Share2 className="mr-2 h-4 w-4" />
                         Share
@@ -1298,19 +1297,19 @@ const togglePlay = () => {
                 </div>
 
                 {/* Recipe Image Section - Replace with this */}
-                <div className="bg-gradient-to-br from-slate-900/80 to-black/60 backdrop-blur-md rounded-2xl overflow-hidden border border-slate-700/50 shadow-xl hover:shadow-2xl transition-all">
+                <div className="bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-md hover:shadow-lg transition-all">
                   <div className="relative h-full min-h-[250px]">
                     {foodImageLoading ? (
-                      <div className="absolute inset-0 flex items-center justify-center bg-slate-900/60">
-                        <div className="w-10 h-10 border-4 border-indigo-600 border-t-transparent rounded-full animate-spin"></div>
+                      <div className="absolute inset-0 flex items-center justify-center bg-gray-50">
+                        <div className="w-10 h-10 border-4 border-teal-500 border-t-transparent rounded-full animate-spin"></div>
                       </div>
                     ) : (
-                      <div className="absolute inset-0 bg-gradient-to-br from-indigo-600/30 to-purple-600/30 flex items-center justify-center overflow-hidden">
+                      <div className="absolute inset-0 bg-gradient-to-br from-teal-100 to-cyan-100 flex items-center justify-center overflow-hidden">
                         {/* Animated background elements */}
                         {[...Array(15)].map((_, i) => (
                           <div
                             key={i}
-                            className="absolute rounded-full bg-white/10"
+                            className="absolute rounded-full bg-teal-100"
                             style={{
                               width: `${Math.random() * 12 + 5}px`,
                               height: `${Math.random() * 12 + 5}px`,
@@ -1324,11 +1323,11 @@ const togglePlay = () => {
                         ))}
 
                         {/* Icon based on cuisine type */}
-                        <ChefHat className="h-24 w-24 text-white/30" />
+                        <ChefHat className="h-24 w-24 text-teal-300" />
 
                         {/* Recipe name overlay */}
-                        <div className="absolute bottom-4 left-4 right-4 text-center bg-black/40 backdrop-blur-md p-3 rounded-xl border border-white/10">
-                          <h3 className="text-xl font-medium text-white">
+                        <div className="absolute bottom-4 left-4 right-4 text-center bg-white/80 backdrop-blur-md p-3 rounded-xl border border-gray-100">
+                          <h3 className="text-xl font-medium text-gray-700">
                             {recipe.name}
                           </h3>
                         </div>
@@ -1336,27 +1335,27 @@ const togglePlay = () => {
                     )}
 
                     {/* Overlay gradient for better text contrast */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent pointer-events-none"></div>
+                    <div className="absolute inset-0 bg-gradient-to-t from-white/60 via-transparent to-transparent pointer-events-none"></div>
 
                     {/* Cuisine tag */}
                     <div className="absolute top-4 right-4">
-                      <div className="bg-black/50 backdrop-blur-md px-3 py-1 rounded-full text-sm font-medium border border-slate-600/50">
+                      <div className="bg-white/90 backdrop-blur-md px-3 py-1 rounded-full text-sm font-medium border border-gray-100 text-gray-700">
                         {recipe.cuisine} Cuisine
                       </div>
                     </div>
 
                     {/* Nutrition quick info */}
                     <div className="absolute bottom-4 left-4 right-4">
-                      <div className="bg-black/50 backdrop-blur-md rounded-lg p-3 border border-slate-600/50">
+                      <div className="bg-white/90 backdrop-blur-md rounded-lg p-3 border border-gray-100">
                         <div className="flex justify-between items-center mb-1">
-                          <span className="text-sm font-medium">
+                          <span className="text-sm font-medium text-gray-700">
                             Nutrition per serving
                           </span>
-                          <span className="text-sm font-bold text-indigo-400">
+                          <span className="text-sm font-bold text-teal-600">
                             {Math.round(recipe.nutritionFacts.calories)} kcal
                           </span>
                         </div>
-                        <div className="flex justify-between text-xs text-slate-300">
+                        <div className="flex justify-between text-xs text-gray-500">
                           <span>P: {recipe.nutritionFacts.protein}g</span>
                           <span>C: {recipe.nutritionFacts.carbs}g</span>
                           <span>F: {recipe.nutritionFacts.fat}g</span>
@@ -1369,17 +1368,17 @@ const togglePlay = () => {
 
              {/* YouTube Video Section */}
 {/* {videoLoading ? (
-  <div className="mb-8 bg-gradient-to-br from-slate-900/80 to-black/60 backdrop-blur-md rounded-xl overflow-hidden border border-slate-700/50 shadow-xl p-8 flex items-center justify-center">
+  <div className="mb-8 bg-white backdrop-blur-md rounded-xl overflow-hidden border border-gray-100 shadow-md p-8 flex items-center justify-center">
     <div className="flex flex-col items-center">
       <div className="w-10 h-10 border-4 border-t-indigo-600 border-indigo-600/30 rounded-full animate-spin mb-4"></div>
-      <p className="text-slate-300">Loading video...</p>
+      <p className="text-gray-500">Loading video...</p>
     </div>
   </div>
 ) : videoInfo ? (
-  <div className="mb-8 bg-gradient-to-br from-slate-900/80 to-black/60 backdrop-blur-md rounded-xl overflow-hidden border border-slate-700/50 shadow-xl">
-    <div className="p-4 border-b border-slate-700/50">
-      <h2 className="text-xl font-bold text-white flex items-center">
-        <PlaySquare className="mr-2 h-5 w-5 text-indigo-400" />
+  <div className="mb-8 bg-white backdrop-blur-md rounded-xl overflow-hidden border border-gray-100 shadow-md">
+    <div className="p-4 border-b border-gray-100">
+      <h2 className="text-xl font-bold text-gray-800 flex items-center">
+        <PlaySquare className="mr-2 h-5 w-5 text-teal-500" />
         Watch How to Make {recipe.name}
       </h2>
     </div>
@@ -1402,14 +1401,14 @@ const togglePlay = () => {
           <div className="flex items-center space-x-4">
             <button 
               onClick={togglePlay} 
-              className="text-white hover:text-indigo-400 transition-colors bg-black/30 backdrop-blur-sm rounded-full p-2"
+              className="text-gray-900 hover:text-teal-500 transition-colors bg-white/30 backdrop-blur-sm rounded-full p-2"
             >
               {isPlaying ? <PauseCircle className="h-8 w-8" /> : <PlayCircle className="h-8 w-8" />}
             </button>
             
             <button 
               onClick={toggleMute} 
-              className="text-white hover:text-indigo-400 transition-colors bg-black/30 backdrop-blur-sm rounded-full p-2"
+              className="text-gray-900 hover:text-teal-500 transition-colors bg-white/30 backdrop-blur-sm rounded-full p-2"
             >
               <Volume2 className={`h-6 w-6 ${isMuted ? 'opacity-50' : ''}`} />
             </button>
@@ -1420,14 +1419,14 @@ const togglePlay = () => {
               href={`https://www.youtube.com/watch?v=${videoInfo.videoId}`} 
               target="_blank" 
               rel="noopener noreferrer"
-              className="text-white hover:text-indigo-400 transition-colors bg-black/30 backdrop-blur-sm rounded-full p-2"
+              className="text-gray-900 hover:text-teal-500 transition-colors bg-white/30 backdrop-blur-sm rounded-full p-2"
             >
               <ExternalLink className="h-5 w-5" />
             </a>
             
             <button 
               onClick={toggleFullscreen} 
-              className="text-white hover:text-indigo-400 transition-colors bg-black/30 backdrop-blur-sm rounded-full p-2"
+              className="text-gray-900 hover:text-teal-500 transition-colors bg-white/30 backdrop-blur-sm rounded-full p-2"
             >
               {isFullscreen ? <FullscreenExit className="h-5 w-5" /> : <Fullscreen className="h-5 w-5" />}
             </button>
@@ -1439,22 +1438,22 @@ const togglePlay = () => {
     <div className="p-4">
       <div className="flex items-center justify-between">
         <div>
-          <h3 className="text-lg font-medium text-white line-clamp-1">
+          <h3 className="text-lg font-medium text-gray-700 line-clamp-1">
             {videoInfo.title || `How to Make ${recipe.name} - Recipe Tutorial`}
           </h3>
-          <p className="text-sm text-slate-400">{videoInfo.channelName || "Cooking Channel"}</p>
+          <p className="text-sm text-gray-500">{videoInfo.channelName || "Cooking Channel"}</p>
         </div>
         
         <div className="flex items-center space-x-2">
           <Star className="h-4 w-4 text-yellow-400 fill-yellow-400" />
-          <span className="text-sm text-slate-300">Recommended</span>
+          <span className="text-sm text-gray-500">Recommended</span>
         </div>
       </div>
     </div>
   </div>
 ) : videoError ? (
-  <div className="mb-8 bg-gradient-to-br from-slate-900/80 to-black/60 backdrop-blur-md rounded-xl overflow-hidden border border-slate-700/50 shadow-xl p-6 flex items-center justify-center">
-    <p className="text-slate-300">No video available for this recipe.</p>
+  <div className="mb-8 bg-white backdrop-blur-md rounded-xl overflow-hidden border border-gray-100 shadow-md p-6 flex items-center justify-center">
+    <p className="text-gray-500">No video available for this recipe.</p>
   </div>
 ) : null} */}
               {/* Section navigation */}
@@ -1466,8 +1465,8 @@ const togglePlay = () => {
                       onClick={() => setActiveSection(section.id)}
                       className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
                         activeSection === section.id
-                          ? "bg-gradient-to-r from-indigo-600 to-purple-600 text-white"
-                          : "bg-slate-900/40 text-slate-300 hover:bg-slate-800/60 border border-slate-700/50"
+                          ? "bg-gradient-to-r from-teal-400 to-cyan-400 text-white shadow-md"
+                          : "bg-white text-gray-600 hover:bg-gray-50 border border-gray-200"
                       }`}
                     >
                       {section.label}
@@ -1484,10 +1483,10 @@ const togglePlay = () => {
                     <motion.div
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
-                      className="bg-gradient-to-br from-slate-900/80 to-black/60 backdrop-blur-md rounded-xl border border-slate-700/50 p-5 shadow-lg"
+                      className="bg-white rounded-xl border border-gray-100 p-5 shadow-md"
                     >
-                      <h2 className="text-xl font-bold flex items-center mb-4">
-                        <Utensils className="mr-2 h-5 w-5 text-indigo-400" />
+                      <h2 className="text-xl font-bold flex items-center mb-4 text-gray-900">
+                        <Utensils className="mr-2 h-5 w-5 text-teal-500" />
                         Key Ingredients
                       </h2>
 
@@ -1503,9 +1502,9 @@ const togglePlay = () => {
                                 duration: 0.3,
                                 delay: index * 0.05,
                               }}
-                              className="flex items-baseline gap-3 text-white/80"
+                              className="flex items-baseline gap-3 text-gray-600"
                             >
-                              <div className="w-1.5 h-1.5 rounded-full bg-indigo-500 mt-1.5 flex-shrink-0"></div>
+                              <div className="w-1.5 h-1.5 rounded-full bg-teal-500 mt-1.5 flex-shrink-0"></div>
                               <span>{ingredient}</span>
                             </motion.li>
                           ))}
@@ -1514,7 +1513,7 @@ const togglePlay = () => {
                       {recipe.ingredients.length > 6 && (
                         <button
                           onClick={() => setActiveSection("ingredients")}
-                          className="mt-4 text-indigo-400 hover:text-indigo-300 text-sm flex items-center"
+                          className="mt-4 text-teal-600 hover:text-teal-500 text-sm flex items-center"
                         >
                           View all {recipe.ingredients.length} ingredients
                           <svg
@@ -1539,10 +1538,10 @@ const togglePlay = () => {
                     <motion.div
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
-                      className="bg-gradient-to-br from-slate-900/80 to-black/60 backdrop-blur-md rounded-xl border border-slate-700/50 p-5 shadow-lg"
+                      className="bg-white rounded-xl border border-gray-100 p-5 shadow-md"
                     >
-                      <h2 className="text-xl font-bold flex items-center mb-4">
-                        <ChefHat className="mr-2 h-5 w-5 text-indigo-400" />
+                      <h2 className="text-xl font-bold flex items-center mb-4 text-gray-900">
+                        <ChefHat className="mr-2 h-5 w-5 text-teal-500" />
                         Quick Guide
                       </h2>
 
@@ -1553,13 +1552,13 @@ const togglePlay = () => {
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.4, delay: index * 0.1 }}
-                            className="bg-slate-900/30 rounded-lg p-4 border border-slate-700/30"
+                            className="bg-gray-50 rounded-lg p-4 border border-gray-100"
                           >
                             <div className="flex gap-4">
-                              <div className="w-8 h-8 rounded-full bg-gradient-to-r from-indigo-600 to-purple-600 flex items-center justify-center text-white font-medium flex-shrink-0">
+                              <div className="w-8 h-8 rounded-full bg-gradient-to-r from-teal-400 to-cyan-400 flex items-center justify-center font-medium flex-shrink-0">
                                 {index + 1}
                               </div>
-                              <p className="text-white/90">{step}</p>
+                              <p className="text-gray-700">{step}</p>
                             </div>
                           </motion.div>
                         ))}
@@ -1568,7 +1567,7 @@ const togglePlay = () => {
                       {recipe.instructions.length > 3 && (
                         <button
                           onClick={() => setActiveSection("instructions")}
-                          className="mt-4 text-indigo-400 hover:text-indigo-300 text-sm flex items-center"
+                          className="mt-4 text-teal-500 hover:text-teal-400 text-sm flex items-center"
                         >
                           View all {recipe.instructions.length} steps
                           <svg
@@ -1594,12 +1593,12 @@ const togglePlay = () => {
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.2 }}
-                      className="bg-gradient-to-br from-slate-900/80 to-black/60 backdrop-blur-md rounded-xl border border-slate-700/50 p-5 shadow-lg h-full"
+                      className="bg-white backdrop-blur-md rounded-xl border border-gray-100 p-5 shadow-lg h-full"
                     >
                       <h2 className="text-xl font-bold flex items-center mb-4">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
-                          className="h-5 w-5 mr-2 text-indigo-400"
+                          className="h-5 w-5 mr-2 text-teal-500"
                           viewBox="0 0 20 20"
                           fill="currentColor"
                         >
@@ -1617,9 +1616,9 @@ const togglePlay = () => {
                         <h3 className="text-md font-medium mb-2">
                           Macronutrient Distribution
                         </h3>
-                        <div className="h-6 bg-slate-800/50 rounded-full overflow-hidden flex">
+                        <div className="h-6 bg-gray-100 rounded-full overflow-hidden flex">
                           <div
-                            className="h-full bg-blue-600 flex items-center justify-center text-xs font-medium text-white"
+                            className="h-full bg-blue-600 flex items-center justify-center text-xs font-medium text-gray-700"
                             style={{
                               width: `${Math.round(
                                 ((recipe.nutritionFacts.protein * 4) /
@@ -1636,7 +1635,7 @@ const togglePlay = () => {
                             %
                           </div>
                           <div
-                            className="h-full bg-teal-600 flex items-center justify-center text-xs font-medium text-white"
+                            className="h-full bg-teal-600 flex items-center justify-center text-xs font-medium text-gray-700"
                             style={{
                               width: `${Math.round(
                                 ((recipe.nutritionFacts.carbs * 4) /
@@ -1653,7 +1652,7 @@ const togglePlay = () => {
                             %
                           </div>
                           <div
-                            className="h-full bg-amber-600 flex items-center justify-center text-xs font-medium text-white"
+                            className="h-full bg-amber-600 flex items-center justify-center text-xs font-medium text-gray-700"
                             style={{
                               width: `${Math.round(
                                 ((recipe.nutritionFacts.fat * 9) /
@@ -1687,36 +1686,36 @@ const togglePlay = () => {
                       </div>
 
                       <div className="grid grid-cols-2 gap-3">
-                        <div className="bg-slate-900/30 p-3 rounded-lg border border-slate-700/30">
-                          <div className="text-sm text-slate-400 mb-1">
+                        <div className="bg-gray-50 p-3 rounded-lg border border-gray-100">
+                          <div className="text-sm text-gray-500 mb-1">
                             Calories
                           </div>
-                          <div className="text-xl font-bold text-white">
+                          <div className="text-xl font-bold text-gray-800">
                             {recipe.nutritionFacts.calories}{" "}
                             <span className="text-sm font-normal">kcal</span>
                           </div>
                         </div>
-                        <div className="bg-slate-900/30 p-3 rounded-lg border border-slate-700/30">
-                          <div className="text-sm text-slate-400 mb-1">
+                        <div className="bg-gray-50 p-3 rounded-lg border border-gray-100">
+                          <div className="text-sm text-gray-500 mb-1">
                             Protein
                           </div>
-                          <div className="text-xl font-bold text-white">
+                          <div className="text-xl font-bold text-gray-800">
                             {recipe.nutritionFacts.protein}{" "}
                             <span className="text-sm font-normal">g</span>
                           </div>
                         </div>
-                        <div className="bg-slate-900/30 p-3 rounded-lg border border-slate-700/30">
-                          <div className="text-sm text-slate-400 mb-1">
+                        <div className="bg-gray-50 p-3 rounded-lg border border-gray-100">
+                          <div className="text-sm text-gray-500 mb-1">
                             Carbs
                           </div>
-                          <div className="text-xl font-bold text-white">
+                          <div className="text-xl font-bold text-gray-800">
                             {recipe.nutritionFacts.carbs}{" "}
                             <span className="text-sm font-normal">g</span>
                           </div>
                         </div>
-                        <div className="bg-slate-900/30 p-3 rounded-lg border border-slate-700/30">
-                          <div className="text-sm text-slate-400 mb-1">Fat</div>
-                          <div className="text-xl font-bold text-white">
+                        <div className="bg-gray-50 p-3 rounded-lg border border-gray-100">
+                          <div className="text-sm text-gray-500 mb-1">Fat</div>
+                          <div className="text-xl font-bold text-gray-800">
                             {recipe.nutritionFacts.fat}{" "}
                             <span className="text-sm font-normal">g</span>
                           </div>
@@ -1725,7 +1724,7 @@ const togglePlay = () => {
 
                       <button
                         onClick={() => setActiveSection("nutrition")}
-                        className="mt-4 text-indigo-400 hover:text-indigo-300 text-sm flex items-center"
+                        className="mt-4 text-teal-500 hover:text-teal-400 text-sm flex items-center"
                       >
                         View detailed nutrition
                         <svg
@@ -1750,12 +1749,12 @@ const togglePlay = () => {
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.3 }}
-                      className="bg-gradient-to-br from-indigo-900/20 to-purple-900/20 backdrop-blur-md rounded-xl border border-indigo-500/20 p-5 shadow-lg h-full"
+                      className="bg-gradient-to-br from-teal-50 to-cyan-50 backdrop-blur-md rounded-xl border border-teal-200 p-5 shadow-lg h-full"
                     >
                       <h2 className="text-xl font-bold flex items-center mb-4">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
-                          className="h-5 w-5 mr-2 text-indigo-400"
+                          className="h-5 w-5 mr-2 text-teal-500"
                           fill="none"
                           viewBox="0 0 24 24"
                           stroke="currentColor"
@@ -1777,11 +1776,11 @@ const togglePlay = () => {
                             initial={{ opacity: 0, x: -10 }}
                             animate={{ opacity: 1, x: 0 }}
                             transition={{ duration: 0.3, delay: index * 0.1 }}
-                            className="flex items-start gap-3 text-white/90"
+                            className="flex items-start gap-3 text-gray-700"
                           >
                             <svg
                               xmlns="http://www.w3.org/2000/svg"
-                              className="h-5 w-5 text-indigo-400 flex-shrink-0 mt-0.5"
+                              className="h-5 w-5 text-teal-500 flex-shrink-0 mt-0.5"
                               fill="none"
                               viewBox="0 0 24 24"
                               stroke="currentColor"
@@ -1801,7 +1800,7 @@ const togglePlay = () => {
                       {recipe.tips.length > 3 && (
                         <button
                           onClick={() => setActiveSection("tips")}
-                          className="mt-4 text-indigo-400 hover:text-indigo-300 text-sm flex items-center"
+                          className="mt-4 text-teal-500 hover:text-teal-400 text-sm flex items-center"
                         >
                           View all {recipe.tips.length} tips
                           <svg
@@ -1828,10 +1827,10 @@ const togglePlay = () => {
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="bg-gradient-to-br from-slate-900/80 to-black/60 backdrop-blur-md rounded-xl border border-slate-700/50 p-6 shadow-lg"
+                  className="bg-white backdrop-blur-md rounded-xl border border-gray-100 p-6 shadow-lg"
                 >
                   <h2 className="text-xl font-bold flex items-center mb-6">
-                    <Utensils className="mr-2 h-5 w-5 text-indigo-400" />
+                    <Utensils className="mr-2 h-5 w-5 text-teal-500" />
                     Ingredients ({recipe.ingredients.length})
                   </h2>
 
@@ -1842,9 +1841,9 @@ const togglePlay = () => {
                         initial={{ opacity: 0, x: -20 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ duration: 0.3, delay: index * 0.03 }}
-                        className="flex items-baseline gap-3 text-white/80 bg-slate-900/30 p-3 rounded-lg border border-slate-700/30 hover:border-indigo-500/30 transition-all"
+                        className="flex items-baseline gap-3 text-gray-600 bg-gray-50 p-3 rounded-lg border border-gray-100 hover:border-teal-400 transition-all"
                       >
-                        <div className="w-1.5 h-1.5 rounded-full bg-indigo-500 mt-1.5 flex-shrink-0"></div>
+                        <div className="w-1.5 h-1.5 rounded-full bg-teal-500 mt-1.5 flex-shrink-0"></div>
                         <span>{ingredient}</span>
                       </motion.div>
                     ))}
@@ -1853,7 +1852,7 @@ const togglePlay = () => {
                   <div className="mt-8 text-center">
                     <button
                       onClick={() => setShowMealTypeDialog(true)}
-                      className="px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-lg text-white font-medium hover:opacity-90 inline-flex items-center"
+                      className="px-6 py-3 bg-gradient-to-r from-teal-400 to-cyan-400 rounded-lg text-white font-medium hover:opacity-90 inline-flex items-center"
                     >
                       <Plus className="mr-2 h-5 w-5" />
                       Add to Food Diary
@@ -1867,10 +1866,10 @@ const togglePlay = () => {
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="bg-gradient-to-br from-slate-900/80 to-black/60 backdrop-blur-md rounded-xl border border-slate-700/50 p-6 shadow-lg"
+                  className="bg-white backdrop-blur-md rounded-xl border border-gray-100 p-6 shadow-lg"
                 >
                   <h2 className="text-xl font-bold flex items-center mb-6">
-                    <ChefHat className="mr-2 h-5 w-5 text-indigo-400" />
+                    <ChefHat className="mr-2 h-5 w-5 text-teal-500" />
                     Instructions
                   </h2>
 
@@ -1881,16 +1880,16 @@ const togglePlay = () => {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.4, delay: index * 0.1 }}
-                        className="bg-slate-900/30 rounded-lg p-5 border border-slate-700/30 hover:border-indigo-500/30 transition-all"
+                        className="bg-gray-50 rounded-lg p-5 border border-gray-100 hover:border-teal-400 transition-all"
                       >
                         <div className="flex gap-4">
-                          <div className="w-10 h-10 rounded-full bg-gradient-to-r from-indigo-600 to-purple-600 flex items-center justify-center text-white font-medium flex-shrink-0">
+                          <div className="w-10 h-10 rounded-full bg-gradient-to-r from-teal-400 to-cyan-400 flex items-center justify-center font-medium flex-shrink-0">
                             {index + 1}
                           </div>
-                          <p className="text-white/90 mt-1.5">{step}</p>
+                          <p className="text-gray-700 mt-1.5">{step}</p>
                         </div>
                         {index < recipe.instructions.length - 1 && (
-                          <div className="ml-5 h-8 border-l border-dashed border-slate-700/50"></div>
+                          <div className="ml-5 h-8 border-l border-dashed border-gray-100"></div>
                         )}
                       </motion.div>
                     ))}
@@ -1898,7 +1897,7 @@ const togglePlay = () => {
                     <div className="mt-8 flex flex-wrap gap-4 justify-center">
                       <button
                         onClick={() => setChatOpen(true)}
-                        className="px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-lg text-white font-medium hover:opacity-90 inline-flex items-center"
+                        className="px-6 py-3 bg-gradient-to-r from-teal-400 to-cyan-400 rounded-lg text-white font-medium hover:opacity-90 inline-flex items-center"
                       >
                         <MessageCircle className="mr-2 h-5 w-5" />
                         Ask Anna AI About This Recipe
@@ -1906,7 +1905,7 @@ const togglePlay = () => {
 
                       <button
                         onClick={shareRecipe}
-                        className="px-6 py-3 bg-slate-800/60 hover:bg-slate-700/60 rounded-lg text-white font-medium transition-all border border-slate-700/50 inline-flex items-center"
+                        className="px-6 py-3 bg-gray-100 hover:bg-gray-200 rounded-lg text-gray-900 font-medium transition-all border border-gray-100 inline-flex items-center"
                       >
                         <Share2 className="mr-2 h-5 w-5" />
                         Share Recipe
@@ -1925,11 +1924,11 @@ const togglePlay = () => {
                 >
                   {/* Detailed nutritional info */}
                   <div className="md:col-span-7">
-                    <div className="bg-gradient-to-br from-slate-900/80 to-black/60 backdrop-blur-md rounded-xl border border-slate-700/50 p-6 shadow-lg">
+                    <div className="bg-white backdrop-blur-md rounded-xl border border-gray-100 p-6 shadow-lg">
                       <h2 className="text-xl font-bold flex items-center mb-6">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
-                          className="h-5 w-5 mr-2 text-indigo-400"
+                          className="h-5 w-5 mr-2 text-teal-500"
                           viewBox="0 0 20 20"
                           fill="currentColor"
                         >
@@ -1942,7 +1941,7 @@ const togglePlay = () => {
                         Nutrition Facts
                       </h2>
 
-                      <p className="text-sm text-slate-300 mb-4">
+                      <p className="text-sm text-gray-500 mb-4">
                         Nutritional values per serving. This recipe makes{" "}
                         {recipe.servings} servings.
                       </p>
@@ -1950,10 +1949,10 @@ const togglePlay = () => {
                       {/* Nutrition label styling */}
                       <div className="border-t-8 border-b-4 border-slate-300/30 py-2 mb-2">
                         <div className="flex justify-between">
-                          <span className="font-bold text-xl text-white">
+                          <span className="font-bold text-xl text-gray-800">
                             Calories
                           </span>
-                          <span className="font-bold text-xl text-white">
+                          <span className="font-bold text-xl text-gray-800">
                             {recipe.nutritionFacts.calories}
                           </span>
                         </div>
@@ -1961,16 +1960,16 @@ const togglePlay = () => {
 
                       {/* Detailed Nutrient Breakdown */}
                       <div className="space-y-3">
-                        <div className="border-b border-slate-700/50 py-1">
+                        <div className="border-b border-gray-100 py-1">
                           <div className="flex justify-between">
-                            <span className="font-bold text-white">
+                            <span className="font-bold text-gray-800">
                               Total Fat
                             </span>
-                            <span className="text-white">
+                            <span className="text-gray-900">
                               {recipe.nutritionFacts.fat}g
                             </span>
                           </div>
-                          <div className="pl-4 text-sm text-slate-400">
+                          <div className="pl-4 text-sm text-gray-500">
                             <div className="flex justify-between">
                               <span>Saturated Fat</span>
                               <span>
@@ -1984,16 +1983,16 @@ const togglePlay = () => {
                           </div>
                         </div>
 
-                        <div className="border-b border-slate-700/50 py-1">
+                        <div className="border-b border-gray-100 py-1">
                           <div className="flex justify-between">
-                            <span className="font-bold text-white">
+                            <span className="font-bold text-gray-800">
                               Total Carbohydrates
                             </span>
-                            <span className="text-white">
+                            <span className="text-gray-900">
                               {recipe.nutritionFacts.carbs}g
                             </span>
                           </div>
-                          <div className="pl-4 text-sm text-slate-400">
+                          <div className="pl-4 text-sm text-gray-500">
                             <div className="flex justify-between">
                               <span>Dietary Fiber</span>
                               <span>
@@ -2009,12 +2008,12 @@ const togglePlay = () => {
                           </div>
                         </div>
 
-                        <div className="border-b border-slate-700/50 py-1">
+                        <div className="border-b border-gray-100 py-1">
                           <div className="flex justify-between">
-                            <span className="font-bold text-white">
+                            <span className="font-bold text-gray-800">
                               Protein
                             </span>
-                            <span className="text-white">
+                            <span className="text-gray-900">
                               {recipe.nutritionFacts.protein}g
                             </span>
                           </div>
@@ -2026,9 +2025,9 @@ const togglePlay = () => {
                         <h3 className="text-lg font-medium mb-3">
                           Macronutrient Breakdown
                         </h3>
-                        <div className="h-8 bg-slate-800/50 rounded-full overflow-hidden flex">
+                        <div className="h-8 bg-gray-100 rounded-full overflow-hidden flex">
                           <div
-                            className="h-full bg-blue-600 flex items-center justify-center text-xs font-medium text-white"
+                            className="h-full bg-blue-600 flex items-center justify-center text-xs font-medium text-gray-700"
                             style={{
                               width: `${Math.round(
                                 ((recipe.nutritionFacts.protein * 4) /
@@ -2045,7 +2044,7 @@ const togglePlay = () => {
                             %
                           </div>
                           <div
-                            className="h-full bg-teal-600 flex items-center justify-center text-xs font-medium text-white"
+                            className="h-full bg-teal-600 flex items-center justify-center text-xs font-medium text-gray-700"
                             style={{
                               width: `${Math.round(
                                 ((recipe.nutritionFacts.carbs * 4) /
@@ -2062,7 +2061,7 @@ const togglePlay = () => {
                             %
                           </div>
                           <div
-                            className="h-full bg-amber-600 flex items-center justify-center text-xs font-medium text-white"
+                            className="h-full bg-amber-600 flex items-center justify-center text-xs font-medium text-gray-700"
                             style={{
                               width: `${Math.round(
                                 ((recipe.nutritionFacts.fat * 9) /
@@ -2101,11 +2100,11 @@ const togglePlay = () => {
 
                   {/* Nutritional insights */}
                   <div className="md:col-span-5">
-                    <div className="bg-gradient-to-br from-indigo-900/20 to-purple-900/20 backdrop-blur-md rounded-xl border border-indigo-500/20 p-6 shadow-lg">
+                    <div className="bg-gradient-to-br from-teal-50 to-cyan-50 backdrop-blur-md rounded-xl border border-teal-200 p-6 shadow-lg">
                       <h2 className="text-xl font-bold flex items-center mb-6">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
-                          className="h-5 w-5 mr-2 text-indigo-400"
+                          className="h-5 w-5 mr-2 text-teal-500"
                           fill="none"
                           viewBox="0 0 24 24"
                           stroke="currentColor"
@@ -2121,11 +2120,11 @@ const togglePlay = () => {
                       </h2>
 
                       <div className="space-y-4">
-                        <div className="bg-slate-900/30 rounded-lg p-4 border border-indigo-500/20 hover:border-indigo-500/40 transition-all">
-                          <h3 className="font-medium text-indigo-400 mb-2">
+                        <div className="bg-gray-50 rounded-lg p-4 border border-teal-200 hover:border-teal-400 transition-all">
+                          <h3 className="font-medium text-teal-500 mb-2">
                             Protein Content
                           </h3>
-                          <p className="text-white/80 text-sm">
+                          <p className="text-gray-600 text-sm">
                             This recipe provides {recipe.nutritionFacts.protein}
                             g of protein per serving, which is{" "}
                             {Math.round(
@@ -2138,11 +2137,11 @@ const togglePlay = () => {
                           </p>
                         </div>
 
-                        <div className="bg-slate-900/30 rounded-lg p-4 border border-indigo-500/20 hover:border-indigo-500/40 transition-all">
-                          <h3 className="font-medium text-indigo-400 mb-2">
+                        <div className="bg-gray-50 rounded-lg p-4 border border-teal-200 hover:border-teal-400 transition-all">
+                          <h3 className="font-medium text-teal-500 mb-2">
                             Caloric Content
                           </h3>
-                          <p className="text-white/80 text-sm">
+                          <p className="text-gray-600 text-sm">
                             At {recipe.nutritionFacts.calories} calories per
                             serving, this recipe represents about{" "}
                             {Math.round(
@@ -2155,11 +2154,11 @@ const togglePlay = () => {
                           </p>
                         </div>
 
-                        <div className="bg-slate-900/30 rounded-lg p-4 border border-indigo-500/20 hover:border-indigo-500/40 transition-all">
-                          <h3 className="font-medium text-indigo-400 mb-2">
+                        <div className="bg-gray-50 rounded-lg p-4 border border-teal-200 hover:border-teal-400 transition-all">
+                          <h3 className="font-medium text-teal-500 mb-2">
                             Carb-to-Protein Ratio
                           </h3>
-                          <p className="text-white/80 text-sm">
+                          <p className="text-gray-600 text-sm">
                             The ratio of carbs to protein is{" "}
                             {(
                               recipe.nutritionFacts.carbs /
@@ -2178,7 +2177,7 @@ const togglePlay = () => {
                       <div className="mt-6">
                         <button
                           onClick={() => setShowMealTypeDialog(true)}
-                          className="w-full py-3 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-lg text-white flex items-center justify-center hover:opacity-90 transition-all"
+                          className="w-full py-3 bg-gradient-to-r from-teal-400 to-cyan-400 rounded-lg text-white flex items-center justify-center hover:opacity-90 transition-all"
                         >
                           <Calendar className="mr-2 h-5 w-5" />
                           Save to Food Diary
@@ -2194,12 +2193,12 @@ const togglePlay = () => {
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="bg-gradient-to-br from-indigo-900/30 to-purple-900/30 backdrop-blur-md rounded-xl border border-indigo-500/20 p-6 shadow-lg"
+                  className="bg-gradient-to-br from-teal-50 to-cyan-50 backdrop-blur-md rounded-xl border border-teal-200 p-6 shadow-lg"
                 >
                   <h2 className="text-xl font-bold flex items-center mb-6">
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      className="h-5 w-5 mr-2 text-indigo-400"
+                      className="h-5 w-5 mr-2 text-teal-500"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
@@ -2221,12 +2220,12 @@ const togglePlay = () => {
                         initial={{ opacity: 0, x: -10, y: 10 }}
                         animate={{ opacity: 1, x: 0, y: 0 }}
                         transition={{ duration: 0.3, delay: index * 0.1 }}
-                        className="bg-slate-900/30 p-4 rounded-lg border border-indigo-500/20 hover:border-indigo-500/40 transition-all"
+                        className="bg-gray-50 p-4 rounded-lg border border-teal-200 hover:border-teal-400 transition-all"
                       >
-                        <div className="flex items-start gap-3 text-white/90">
+                        <div className="flex items-start gap-3 text-gray-700">
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
-                            className="h-5 w-5 text-indigo-400 flex-shrink-0 mt-0.5"
+                            className="h-5 w-5 text-teal-500 flex-shrink-0 mt-0.5"
                             fill="none"
                             viewBox="0 0 24 24"
                             stroke="currentColor"
@@ -2247,7 +2246,7 @@ const togglePlay = () => {
                   <div className="mt-8 text-center">
                     <button
                       onClick={() => setChatOpen(true)}
-                      className="px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-lg text-white font-medium hover:opacity-90 inline-flex items-center"
+                      className="px-6 py-3 bg-gradient-to-r from-teal-400 to-cyan-400 rounded-lg text-white font-medium hover:opacity-90 inline-flex items-center"
                     >
                       <MessageCircle className="mr-2 h-5 w-5" />
                       Ask for More Cooking Tips
@@ -2260,7 +2259,7 @@ const togglePlay = () => {
               {relatedRecipes.length > 0 && (
                 <div className="mt-12">
                   <h2 className="text-2xl font-bold mb-6 flex items-center">
-                    <ChefHat className="mr-2 h-6 w-6 text-indigo-400" />
+                    <ChefHat className="mr-2 h-6 w-6 text-teal-500" />
                     You Might Also Like
                   </h2>
 
@@ -2270,7 +2269,7 @@ const togglePlay = () => {
                         key={index}
                         whileHover={{ y: -10, scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
-                        className="bg-gradient-to-br from-slate-900/80 to-black/60 backdrop-blur-lg border border-slate-700/50 rounded-xl overflow-hidden cursor-pointer hover:shadow-xl hover:border-indigo-500/30 transition-all h-full"
+                        className="bg-white backdrop-blur-lg border border-gray-100 rounded-xl overflow-hidden cursor-pointer hover:shadow-md hover:border-teal-400 transition-all h-full"
                         onClick={() => searchRecipe(relatedRecipe.name)}
                       >
                         <div className="h-40 relative overflow-hidden">
@@ -2289,25 +2288,25 @@ const togglePlay = () => {
         }}
       ></div>
     ))}
-    <ChefHat className="h-16 w-16 text-white/20" />
+    <ChefHat className="h-16 w-16 text-teal-200/20" />
   </div>
   <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
   <div className="absolute bottom-3 right-3">
-    <div className="bg-black/60 backdrop-blur-md px-2 py-1 rounded text-xs font-medium border border-slate-600/50">
+    <div className="bg-white/60 backdrop-blur-md px-2 py-1 rounded text-xs font-medium border border-gray-200/50">
       {relatedRecipe.difficulty}
     </div>
   </div>
 </div>
 
                         <div className="p-4">
-                          <h3 className="text-white font-medium text-lg mb-1">
+                          <h3 className="text-gray-800 font-medium text-lg mb-1">
                             {relatedRecipe.name}
                           </h3>
-                          <p className="text-slate-300 text-sm line-clamp-2 mb-3">
+                          <p className="text-gray-500 text-sm line-clamp-2 mb-3">
                             {relatedRecipe.description}
                           </p>
 
-                          <div className="flex items-center text-xs text-slate-400">
+                          <div className="flex items-center text-xs text-gray-500">
                             <Clock className="h-3 w-3 mr-1" />
                             <span>{relatedRecipe.totalTime} min</span>
                           </div>
@@ -2324,17 +2323,17 @@ const togglePlay = () => {
 
       {/* Meal Type Dialog */}
       {showMealTypeDialog && (
-        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+        <div className="fixed inset-0 z-50 bg-gray-100 backdrop-blur-sm flex items-center justify-center p-4">
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="bg-gradient-to-br from-slate-900/90 to-black/90 backdrop-blur-xl rounded-xl p-6 max-w-md w-full border border-slate-700/50 shadow-2xl"
+            className="bg-gradient-to-br from-white to-gray-50 backdrop-blur-xl rounded-xl p-6 max-w-md w-full border border-gray-100 shadow-lg"
           >
-            <h3 className="text-xl font-bold text-white mb-4 text-center">
+            <h3 className="text-xl font-bold text-gray-800 mb-4 text-center">
               Add to Food Diary
             </h3>
 
-            <p className="text-slate-300 mb-6 text-center">
+            <p className="text-gray-500 mb-6 text-center">
               Select which meal this recipe belongs to:
             </p>
 
@@ -2345,7 +2344,7 @@ const togglePlay = () => {
                   onClick={() => saveToFoodDiary(meal)}
                   whileHover={{ scale: 1.05, y: -2 }}
                   whileTap={{ scale: 0.97 }}
-                  className="p-4 bg-gradient-to-br from-slate-800/80 to-slate-900/80 border border-slate-700/50 hover:border-indigo-500/50 rounded-lg text-white capitalize hover:shadow-lg transition-all"
+                  className="p-4 bg-gradient-to-br from-gray-50 to-white border border-gray-100 hover:border-teal-400 rounded-lg text-gray-700 capitalize hover:shadow-lg transition-all"
                   disabled={savingToDiary}
                 >
                   {savingToDiary ? (
@@ -2362,7 +2361,7 @@ const togglePlay = () => {
 
             <button
               onClick={() => setShowMealTypeDialog(false)}
-              className="w-full py-2 border border-slate-600 rounded-lg text-slate-300 hover:bg-slate-800/50 transition-colors"
+              className="w-full py-2 border border-gray-200 rounded-lg text-gray-500 hover:bg-gray-100 transition-colors"
               disabled={savingToDiary}
             >
               Cancel
@@ -2373,20 +2372,20 @@ const togglePlay = () => {
 
       {/* Share Success Modal */}
       {shareModalOpen && (
-        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+        <div className="fixed inset-0 z-50 bg-gray-100 backdrop-blur-sm flex items-center justify-center p-4">
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="bg-gradient-to-br from-slate-900/90 to-black/90 backdrop-blur-xl rounded-xl p-6 max-w-md w-full border border-slate-700/50 shadow-2xl"
+            className="bg-gradient-to-br from-white to-gray-50 backdrop-blur-xl rounded-xl p-6 max-w-md w-full border border-gray-100 shadow-lg"
           >
             <div className="text-center mb-4">
-              <div className="w-16 h-16 mx-auto bg-gradient-to-br from-indigo-600 to-purple-600 rounded-full flex items-center justify-center">
+              <div className="w-16 h-16 mx-auto bg-gradient-to-br from-teal-400 to-cyan-400 rounded-full flex items-center justify-center">
                 <Check className="h-8 w-8 text-white" />
               </div>
-              <h3 className="text-xl font-bold text-white mt-4 mb-2">
+              <h3 className="text-xl font-bold text-gray-800 mt-4 mb-2">
                 Recipe Copied!
               </h3>
-              <p className="text-slate-300 mb-6">
+              <p className="text-gray-500 mb-6">
                 Recipe details have been copied to your clipboard. You can now
                 share it with your friends.
               </p>
@@ -2396,7 +2395,7 @@ const togglePlay = () => {
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               onClick={() => setShareModalOpen(false)}
-              className="w-full py-3 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-lg text-white font-medium"
+              className="w-full py-3 bg-gradient-to-r from-teal-400 to-cyan-400 rounded-lg text-white font-medium"
             >
               Done
             </motion.button>
@@ -2407,24 +2406,24 @@ const togglePlay = () => {
       {/* Anna AI Cook Chat Modal */}
       <AnimatePresence>
         {chatOpen && !chatFullscreen && (
-          <div className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4">
+          <div className="fixed inset-0 z-50 bg-gray-100 flex items-center justify-center p-4">
             <motion.div
               initial={{ opacity: 0, y: 50 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 50 }}
               transition={{ duration: 0.3 }}
-              className="bg-gradient-to-br from-slate-900/80 to-black/80 backdrop-blur-xl rounded-2xl w-full max-w-2xl h-3/4 border border-slate-700/50 overflow-hidden shadow-2xl"
+              className="bg-gradient-to-br from-white/80 to-gray-50/80 backdrop-blur-xl rounded-2xl w-full max-w-2xl h-3/4 border border-gray-100 overflow-hidden shadow-lg"
             >
               <div className="flex flex-col h-full">
                 {/* Chat Header */}
-                <div className="bg-gradient-to-r from-indigo-900/50 to-purple-900/50 backdrop-blur-lg px-6 py-4 border-b border-slate-700/50 flex items-center justify-between">
+                <div className="bg-gradient-to-r from-teal-50 to-cyan-50 backdrop-blur-lg px-6 py-4 border-b border-gray-100 flex items-center justify-between">
                   <div className="flex items-center">
-                    <div className="w-10 h-10 rounded-full bg-gradient-to-r from-indigo-600 to-purple-600 flex items-center justify-center mr-3">
+                    <div className="w-10 h-10 rounded-full bg-gradient-to-r from-teal-400 to-cyan-400 flex items-center justify-center mr-3">
                       <ChefHat className="h-6 w-6 text-white" />
                     </div>
                     <div>
                       <h3 className="font-bold text-lg">Anna AI Cook</h3>
-                      <p className="text-sm text-white/60">
+                      <p className="text-sm text-gray-400">
                         Your personal cooking assistant
                       </p>
                     </div>
@@ -2432,13 +2431,13 @@ const togglePlay = () => {
                   <div className="flex items-center gap-2">
                     <button
                       onClick={() => setChatFullscreen(true)}
-                      className="p-2 rounded-full hover:bg-slate-800/50 text-white/70 hover:text-white transition-all"
+                      className="p-2 rounded-full hover:bg-gray-100 text-gray-500 hover:text-teal-600 transition-all"
                     >
                       <Fullscreen className="h-5 w-5" />
                     </button>
                     <button
                       onClick={() => setChatOpen(false)}
-                      className="text-white/70 hover:text-white transition-colors p-2 rounded-full hover:bg-slate-800/50"
+                      className="text-gray-500 hover:text-teal-600 transition-colors p-2 rounded-full hover:bg-gray-100"
                     >
                       <X className="h-5 w-5" />
                     </button>
@@ -2449,13 +2448,13 @@ const togglePlay = () => {
                 <div className="flex-1 overflow-y-auto p-4 space-y-4">
                   {chatMessages.length === 0 ? (
                     <div className="h-full flex flex-col items-center justify-center text-center px-4">
-                      <div className="w-16 h-16 rounded-full bg-gradient-to-r from-indigo-600 to-purple-600 flex items-center justify-center mb-4">
+                      <div className="w-16 h-16 rounded-full bg-gradient-to-r from-teal-400 to-cyan-400 flex items-center justify-center mb-4">
                         <ChefHat className="h-8 w-8 text-white" />
                       </div>
                       <h3 className="text-xl font-bold mb-2">
                         Welcome to Anna AI Cook
                       </h3>
-                      <p className="text-white/70 max-w-md">
+                      <p className="text-gray-500 max-w-md">
                         Ask me anything about cooking, recipes, ingredients, or
                         techniques. I'm here to help make your cooking
                         experience delightful!
@@ -2473,7 +2472,7 @@ const togglePlay = () => {
                               setUserMessage(question);
                               setTimeout(() => sendMessage(), 100);
                             }}
-                            className="bg-slate-800/70 hover:bg-indigo-800/70 rounded-lg px-3 py-2 text-sm text-left transition-colors border border-slate-700/50 hover:border-indigo-500/50"
+                            className="bg-gray-100 hover:bg-teal-100 rounded-lg px-3 py-2 text-sm text-left transition-colors border border-gray-100 hover:border-teal-400"
                           >
                             {question}
                           </button>
@@ -2498,7 +2497,7 @@ const togglePlay = () => {
                             className={`max-w-3/4 rounded-2xl px-4 py-3 ${
                               msg.role === "user"
                                 ? "bg-gradient-to-r from-indigo-600/90 to-purple-600/90 text-white rounded-tr-none"
-                                : "bg-slate-800/70 text-white rounded-tl-none border border-slate-700/50"
+                                : "bg-gray-100 text-gray-900 rounded-tl-none border border-gray-100"
                             }`}
                           >
                             {msg.content}
@@ -2507,7 +2506,7 @@ const togglePlay = () => {
                       ))}
                       {chatLoading && (
                         <div className="flex justify-start">
-                          <div className="bg-slate-800/70 border border-slate-700/50 rounded-2xl rounded-tl-none px-4 py-3">
+                          <div className="bg-gray-100 border border-gray-100 rounded-2xl rounded-tl-none px-4 py-3">
                             <div className="flex space-x-2">
                               <div
                                 className="w-2 h-2 rounded-full bg-white/40 animate-bounce"
@@ -2530,7 +2529,7 @@ const togglePlay = () => {
                 </div>
 
                 {/* Chat Input */}
-                <div className="p-4 border-t border-slate-700/50 bg-slate-900/50">
+                <div className="p-4 border-t border-gray-100 bg-white/50">
                   <div className="flex gap-2">
                     <input
                       type="text"
@@ -2538,13 +2537,13 @@ const togglePlay = () => {
                       onChange={(e) => setUserMessage(e.target.value)}
                       onKeyPress={(e) => e.key === "Enter" && sendMessage()}
                       placeholder="Ask Anna AI Cook..."
-                      className="w-full bg-slate-800/70 border border-slate-700/50 rounded-full py-3 px-4 text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500/50"
+                      className="w-full bg-gray-100 border border-gray-100 rounded-full py-3 px-4 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-teal-500/50 focus:border-teal-400"
                       disabled={chatLoading}
                     />
                     <button
                       onClick={sendMessage}
                       disabled={chatLoading || !userMessage.trim()}
-                      className="bg-gradient-to-r from-indigo-600 to-purple-600 rounded-full p-3 hover:opacity-90 disabled:opacity-50 transition-opacity"
+                      className="bg-gradient-to-r from-teal-400 to-cyan-400 rounded-full p-3 text-white hover:opacity-90 disabled:opacity-50 transition-opacity"
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -2574,35 +2573,34 @@ const togglePlay = () => {
       {chatOpen && chatFullscreen && (
         <div
           ref={chatContainerRef}
-          className="fixed inset-0 z-50 bg-gradient-to-b from-[#070B14] via-[#0b1120] to-[#0A0E1A] text-white overflow-y-auto"
+          className="fixed inset-0 z-50 bg-[#FAF9F6] text-gray-900 overflow-y-auto"
         >
-          <div className="absolute inset-0 bg-[url('/noise.png')] opacity-[0.03] mix-blend-overlay pointer-events-none"></div>
           <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center opacity-[0.03] mix-blend-overlay pointer-events-none"></div>
 
-          {/* Animated glowing orb */}
-          <div className="fixed top-1/4 -right-28 w-96 h-96 bg-indigo-600/20 rounded-full blur-3xl animate-pulse pointer-events-none"></div>
-          <div className="fixed top-3/4 -left-28 w-96 h-96 bg-purple-600/20 rounded-full blur-3xl animate-pulse pointer-events-none"></div>
+          {/* Decorative elements */}
+          <div className="fixed top-1/4 -right-28 w-96 h-96 bg-teal-50 rounded-full blur-3xl pointer-events-none"></div>
+          <div className="fixed top-3/4 -left-28 w-96 h-96 bg-cyan-50 rounded-full blur-3xl pointer-events-none"></div>
 
           {/* Header */}
-          <header className="sticky top-0 z-10 backdrop-blur-xl bg-gradient-to-r from-black/80 via-black/70 to-black/80 border-b border-slate-800/60 shadow-lg">
+          <header className="sticky top-0 z-10 backdrop-blur-xl bg-white/80 border-b border-gray-100 shadow-sm">
             <div className="container mx-auto px-4">
               <div className="flex items-center justify-between h-16">
                 <div className="flex items-center">
                   <button
                     onClick={() => setChatFullscreen(false)}
-                    className="p-2 rounded-full hover:bg-slate-800/60 transition-colors mr-2"
+                    className="p-2 rounded-full hover:bg-gray-100 transition-colors mr-2"
                   >
                     <ArrowLeft className="h-5 w-5" />
                   </button>
                   <div className="flex items-center">
-                    <div className="w-10 h-10 rounded-full bg-gradient-to-r from-indigo-600 to-purple-600 flex items-center justify-center mr-3">
+                    <div className="w-10 h-10 rounded-full bg-gradient-to-r from-teal-400 to-cyan-400 flex items-center justify-center mr-3">
                       <ChefHat className="h-6 w-6 text-white" />
                     </div>
                     <div>
-                      <h1 className="font-bold text-xl md:text-2xl bg-gradient-to-r from-indigo-400 to-purple-500 text-transparent bg-clip-text">
+                      <h1 className="font-bold text-xl md:text-2xl text-teal-600">
                         Anna AI Cook
                       </h1>
-                      <p className="text-sm text-white/60">
+                      <p className="text-sm text-gray-500">
                         Your AI Cooking Assistant
                       </p>
                     </div>
@@ -2614,7 +2612,7 @@ const togglePlay = () => {
                     setChatOpen(false);
                     setChatFullscreen(false);
                   }}
-                  className="text-white/70 hover:text-white transition-colors p-2 rounded-full hover:bg-slate-800/50"
+                  className="text-gray-500 hover:text-teal-600 transition-colors p-2 rounded-full hover:bg-gray-100"
                 >
                   <X className="h-5 w-5" />
                 </button>
@@ -2625,17 +2623,17 @@ const togglePlay = () => {
           <div className="container mx-auto px-4 py-8 max-w-3xl">
             {/* Recipe info */}
             {recipe && (
-              <div className="mb-8 bg-gradient-to-br from-slate-900/80 to-black/60 backdrop-blur-lg border border-slate-700/50 rounded-xl p-5 shadow-lg">
-                <h2 className="text-lg font-medium text-white mb-2">
+              <div className="mb-8 bg-white backdrop-blur-lg border border-gray-100 rounded-xl p-5 shadow-lg">
+                <h2 className="text-lg font-medium text-gray-700 mb-2">
                   Currently Discussing:
                 </h2>
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 bg-gradient-to-r from-indigo-600/40 via-purple-600/40 to-indigo-600/40 rounded-lg flex items-center justify-center text-2xl">
-                    <ChefHat className="h-6 w-6 text-white/80" />
+                  <div className="w-12 h-12 bg-gradient-to-r from-teal-100 to-cyan-100 rounded-lg flex items-center justify-center text-2xl">
+                    <ChefHat className="h-6 w-6 text-teal-600" />
                   </div>
                   <div>
-                    <h3 className="font-medium text-white">{recipe.name}</h3>
-                    <p className="text-sm text-slate-300">
+                    <h3 className="font-medium text-gray-700">{recipe.name}</h3>
+                    <p className="text-sm text-gray-500">
                       {recipe.cuisine} • {recipe.difficulty} •{" "}
                       {recipe.totalTime} min
                     </p>
@@ -2647,14 +2645,14 @@ const togglePlay = () => {
             {/* Chat content */}
             <div className="space-y-6 pb-20">
               {chatMessages.length === 0 ? (
-                <div className="bg-gradient-to-br from-slate-900/80 to-black/60 backdrop-blur-lg border border-slate-700/50 rounded-xl p-6 shadow-lg text-center">
-                  <div className="w-16 h-16 mx-auto rounded-full bg-gradient-to-r from-indigo-600 to-purple-600 flex items-center justify-center mb-4">
+                <div className="bg-white backdrop-blur-lg border border-gray-100 rounded-xl p-6 shadow-lg text-center">
+                  <div className="w-16 h-16 mx-auto rounded-full bg-gradient-to-r from-teal-400 to-cyan-400 flex items-center justify-center mb-4">
                     <ChefHat className="h-8 w-8 text-white" />
                   </div>
-                  <h3 className="text-xl font-bold mb-3">
+                  <h3 className="text-xl font-bold mb-3 text-gray-900">
                     Welcome to Anna AI Cook
                   </h3>
-                  <p className="text-white/70 max-w-lg mx-auto mb-8">
+                  <p className="text-gray-500 max-w-lg mx-auto mb-8">
                     I'm your personal cooking assistant. Ask me anything about
                     recipes, ingredients, cooking techniques, or meal planning.
                     If you're viewing a specific recipe, I can help with
@@ -2676,7 +2674,7 @@ const togglePlay = () => {
                           setUserMessage(question);
                           setTimeout(() => sendMessage(), 100);
                         }}
-                        className="bg-slate-800/70 hover:bg-indigo-800/70 rounded-lg px-4 py-3 text-left transition-colors border border-slate-700/50 hover:border-indigo-500/50 hover:shadow-lg"
+                        className="bg-gray-100 hover:bg-teal-100 rounded-lg px-4 py-3 text-left transition-colors border border-gray-100 hover:border-teal-400 hover:shadow-lg"
                       >
                         {question}
                       </button>
@@ -2696,43 +2694,43 @@ const togglePlay = () => {
                       }`}
                     >
                       {msg.role === "assistant" && (
-                        <div className="w-10 h-10 rounded-full bg-gradient-to-r from-indigo-600 to-purple-600 flex-shrink-0 flex items-center justify-center mr-3 mt-1">
+                        <div className="w-10 h-10 rounded-full bg-gradient-to-r from-teal-400 to-cyan-400 flex-shrink-0 flex items-center justify-center mr-3 mt-1">
                           <ChefHat className="h-5 w-5 text-white" />
                         </div>
                       )}
                       <div
                         className={`max-w-2xl rounded-2xl px-5 py-4 ${
                           msg.role === "user"
-                            ? "bg-gradient-to-r from-indigo-600/90 to-purple-600/90 text-white rounded-tr-none"
-                            : "bg-slate-800/70 text-white rounded-tl-none border border-slate-700/50"
+                            ? "bg-gradient-to-r from-teal-400 to-cyan-400 text-white rounded-tr-none"
+                            : "bg-white text-gray-700 rounded-tl-none border border-gray-100 shadow-sm"
                         }`}
                       >
                         {msg.content}
                       </div>
                       {msg.role === "user" && (
-                        <div className="w-10 h-10 rounded-full bg-slate-700/70 flex-shrink-0 flex items-center justify-center ml-3 mt-1">
-                          <User className="h-5 w-5 text-white/70" />
+                        <div className="w-10 h-10 rounded-full bg-gray-200 flex-shrink-0 flex items-center justify-center ml-3 mt-1">
+                          <User className="h-5 w-5 text-gray-500" />
                         </div>
                       )}
                     </motion.div>
                   ))}
                   {chatLoading && (
                     <div className="flex justify-start">
-                      <div className="w-10 h-10 rounded-full bg-gradient-to-r from-indigo-600 to-purple-600 flex-shrink-0 flex items-center justify-center mr-3 mt-1">
+                      <div className="w-10 h-10 rounded-full bg-gradient-to-r from-teal-400 to-cyan-400 flex-shrink-0 flex items-center justify-center mr-3 mt-1">
                         <ChefHat className="h-5 w-5 text-white" />
                       </div>
-                      <div className="bg-slate-800/70 border border-slate-700/50 rounded-2xl rounded-tl-none px-5 py-4">
+                      <div className="bg-white border border-gray-100 rounded-2xl rounded-tl-none px-5 py-4 shadow-sm">
                         <div className="flex space-x-2">
                           <div
-                            className="w-2.5 h-2.5 rounded-full bg-white/40 animate-bounce"
+                            className="w-2.5 h-2.5 rounded-full bg-teal-400 animate-bounce"
                             style={{ animationDelay: "0ms" }}
                           ></div>
                           <div
-                            className="w-2.5 h-2.5 rounded-full bg-white/40 animate-bounce"
+                            className="w-2.5 h-2.5 rounded-full bg-teal-400 animate-bounce"
                             style={{ animationDelay: "200ms" }}
                           ></div>
                           <div
-                            className="w-2.5 h-2.5 rounded-full bg-white/40 animate-bounce"
+                            className="w-2.5 h-2.5 rounded-full bg-teal-400 animate-bounce"
                             style={{ animationDelay: "400ms" }}
                           ></div>
                         </div>
@@ -2744,7 +2742,7 @@ const togglePlay = () => {
             </div>
 
             {/* Fixed Chat Input */}
-            <div className="fixed bottom-0 left-0 right-0 bg-gradient-to-r from-black/80 via-black/80 to-black/80 backdrop-blur-xl p-4 border-t border-slate-700/50">
+            <div className="fixed bottom-0 left-0 right-0 bg-white/90 backdrop-blur-xl p-4 border-t border-gray-100 shadow-lg">
               <div className="container mx-auto max-w-3xl">
                 <div className="flex gap-2">
                   <input
@@ -2754,13 +2752,13 @@ const togglePlay = () => {
                     onChange={(e) => setUserMessage(e.target.value)}
                     onKeyPress={(e) => e.key === "Enter" && sendMessage()}
                     placeholder="Ask Anna AI Cook anything about cooking..."
-                    className="w-full bg-slate-800/70 border border-slate-700/50 rounded-full py-3 px-4 text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500/50"
+                    className="w-full bg-gray-50 border border-gray-200 rounded-full py-3 px-4 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-teal-500/30 focus:border-teal-400"
                     disabled={chatLoading}
                   />
                   <button
                     onClick={sendMessage}
                     disabled={chatLoading || !userMessage.trim()}
-                    className="bg-gradient-to-r from-indigo-600 to-purple-600 rounded-full p-3 hover:opacity-90 disabled:opacity-50 transition-opacity"
+                    className="bg-gradient-to-r from-teal-400 to-cyan-400 rounded-full p-3 text-white hover:opacity-90 disabled:opacity-50 transition-opacity"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -2789,7 +2787,7 @@ const togglePlay = () => {
       {!chatOpen && (
         <button
           onClick={() => setChatOpen(true)}
-          className="fixed bottom-6 right-6 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-full p-4 shadow-lg hover:opacity-90 transition-opacity z-40"
+          className="fixed bottom-6 right-6 bg-gradient-to-r from-teal-400 to-cyan-400 rounded-full p-4 text-white shadow-lg hover:opacity-90 transition-opacity z-40"
         >
           <MessageCircle className="h-6 w-6 text-white" />
         </button>

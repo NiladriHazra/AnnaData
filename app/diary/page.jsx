@@ -27,11 +27,11 @@ import {
 // Component for empty state
 const EmptyState = ({ message, icon }) => (
   <div className="flex flex-col items-center justify-center py-16 px-4 text-center">
-    <div className="w-16 h-16 rounded-full bg-slate-800/70 flex items-center justify-center mb-4">
+    <div className="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center mb-4">
       {icon}
     </div>
-    <h3 className="text-xl font-medium text-white mb-2">No entries found</h3>
-    <p className="text-slate-400 max-w-md mx-auto">{message}</p>
+    <h3 className="text-xl font-medium text-gray-700 mb-2">No entries found</h3>
+    <p className="text-gray-500 max-w-md mx-auto">{message}</p>
   </div>
 );
 
@@ -68,7 +68,7 @@ const DiaryEntry = ({ item, onDelete, onEdit }) => {
       case 'lunch': return 'bg-blue-900/40 text-blue-300 border-blue-800/40';
       case 'dinner': return 'bg-purple-900/40 text-purple-300 border-purple-800/40';
       case 'snack': return 'bg-emerald-900/40 text-emerald-300 border-emerald-800/40';
-      default: return 'bg-slate-900/40 text-slate-300 border-slate-800/40';
+      default: return 'bg-gray-50 text-gray-500 border-gray-100/40';
     }
   };
   
@@ -77,7 +77,7 @@ const DiaryEntry = ({ item, onDelete, onEdit }) => {
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -10 }}
-      className="bg-gradient-to-br from-slate-900/80 to-black/60 backdrop-blur-lg border border-slate-700/50 rounded-lg overflow-hidden flex flex-col md:flex-row mb-4 hover:border-indigo-500/30 transition-all"
+      className="bg-white backdrop-blur-lg border border-gray-100 rounded-lg overflow-hidden flex flex-col md:flex-row mb-4 hover:border-teal-300 transition-all"
     >
       <div className="bg-gradient-to-r from-indigo-600/40 to-purple-600/40 p-4 flex items-center justify-center md:w-20">
         <span className="text-3xl">{getFoodEmoji(food.food_name)}</span>
@@ -86,25 +86,25 @@ const DiaryEntry = ({ item, onDelete, onEdit }) => {
       <div className="p-4 flex-grow">
         <div className="flex justify-between items-start">
           <div>
-            <h4 className="text-lg font-medium text-white">{food.food_name}</h4>
+            <h4 className="text-lg font-medium text-gray-700">{food.food_name}</h4>
             <div className="flex items-center space-x-3 mt-1">
               <span className={`px-2 py-0.5 rounded text-xs font-medium ${getMealTypeColor()} border`}>
                 {mealType.charAt(0).toUpperCase() + mealType.slice(1)}
               </span>
-              <span className="text-sm text-slate-400">{formattedTime}</span>
+              <span className="text-sm text-gray-500">{formattedTime}</span>
             </div>
           </div>
           
           <div className="flex space-x-2">
             <button 
               onClick={() => onEdit(item)}
-              className="p-1 rounded-full text-slate-400 hover:bg-slate-800/50 hover:text-white transition-colors"
+              className="p-1 rounded-full text-gray-500 hover:bg-gray-100 hover:text-teal-600 transition-colors"
             >
               <Edit2 className="h-4 w-4" />
             </button>
             <button 
               onClick={() => onDelete(new Date(date).getTime())}
-              className="p-1 rounded-full text-slate-400 hover:bg-red-900/30 hover:text-red-300 transition-colors"
+              className="p-1 rounded-full text-gray-500 hover:bg-red-900/30 hover:text-red-300 transition-colors"
             >
               <Trash2 className="h-4 w-4" />
             </button>
@@ -112,7 +112,7 @@ const DiaryEntry = ({ item, onDelete, onEdit }) => {
         </div>
         
         <div className="flex flex-wrap gap-2 mt-3">
-          <div className="px-2 py-1 bg-indigo-900/40 rounded text-xs font-medium text-indigo-200 border border-indigo-500/30">
+          <div className="px-2 py-1 bg-teal-50/40 rounded text-xs font-medium text-indigo-200 border border-teal-300">
             {Math.round(food.nutrients.calories)} kcal
           </div>
           <div className="px-2 py-1 bg-blue-900/40 rounded text-xs font-medium text-blue-200 border border-blue-500/30">
@@ -249,27 +249,27 @@ export default function FoodDiaryPage() {
   };
   
   return (
-    <main className="min-h-screen bg-gradient-to-b from-[#070B14] via-[#0b1120] to-[#0A0E1A] text-white">
+    <main className="min-h-screen bg-[#FAF9F6] text-gray-900">
       <div className="absolute inset-0 bg-[url('/noise.png')] opacity-[0.03] mix-blend-overlay pointer-events-none"></div>
       <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center opacity-[0.03] mix-blend-overlay pointer-events-none"></div>
       
       {/* Animated glowing orb */}
-      <div className="fixed top-1/4 -right-28 w-96 h-96 bg-indigo-600/20 rounded-full blur-3xl animate-pulse pointer-events-none"></div>
-      <div className="fixed top-3/4 -left-28 w-96 h-96 bg-purple-600/20 rounded-full blur-3xl animate-pulse pointer-events-none"></div>
+      <div className="fixed top-1/4 -right-28 w-96 h-96 bg-teal-500/20 rounded-full blur-3xl pointer-events-none"></div>
+      <div className="fixed top-3/4 -left-28 w-96 h-96 bg-cyan-500/20 rounded-full blur-3xl pointer-events-none"></div>
       
       {/* Header */}
-      <header className="sticky top-0 z-50 backdrop-blur-xl bg-gradient-to-r from-black/80 via-black/70 to-black/80 border-b border-slate-800/60 shadow-lg">
+      <header className="sticky top-0 z-50 backdrop-blur-xl bg-gradient-to-r from-white/80 via-white/70 to-white/80 border-b border-gray-100 shadow-lg">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center space-x-4">
               <button 
                 onClick={() => router.push('/')}
-                className="p-2 rounded-full hover:bg-slate-800/60 transition-colors"
+                className="p-2 rounded-full hover:bg-gray-100 transition-colors"
               >
                 <ArrowLeft className="h-5 w-5" />
               </button>
               <h1 className="font-bold text-xl md:text-2xl">
-                <span className="bg-gradient-to-r from-indigo-400 to-purple-500 text-transparent bg-clip-text">
+                <span className="bg-gradient-to-r from-teal-400 to-cyan-400 text-transparent bg-clip-text">
                   Food Diary
                 </span>
               </h1>
@@ -279,20 +279,20 @@ export default function FoodDiaryPage() {
             <div className="hidden md:flex items-center space-x-4">
               <button
                 onClick={() => router.push('/')}
-                className="flex items-center px-3 py-2 rounded-md text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-800/50 transition-colors"
+                className="flex items-center px-3 py-2 rounded-md text-sm font-medium text-gray-500 hover:text-teal-600 hover:bg-gray-100 transition-colors"
               >
                 <HomeIcon className="mr-2 h-4 w-4" />
                 Home
               </button>
               <button
                 onClick={() => router.push('/recipe')}
-                className="flex items-center px-3 py-2 rounded-md text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-800/50 transition-colors"
+                className="flex items-center px-3 py-2 rounded-md text-sm font-medium text-gray-500 hover:text-teal-600 hover:bg-gray-100 transition-colors"
               >
                 <ChefHat className="mr-2 h-4 w-4" />
                 Recipes
               </button>
               <button
-                className="flex items-center px-3 py-2 rounded-md text-sm font-medium bg-indigo-700/50 hover:bg-indigo-700 transition-colors"
+                className="flex items-center px-3 py-2 rounded-md text-sm font-medium bg-teal-600/50 hover:bg-teal-600 transition-colors"
               >
                 <Calendar className="mr-2 h-4 w-4" />
                 Food Diary
@@ -303,7 +303,7 @@ export default function FoodDiaryPage() {
             <div className="md:hidden">
               <button
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="p-2 rounded-md hover:bg-slate-800/60 transition-colors"
+                className="p-2 rounded-md hover:bg-gray-100 transition-colors"
               >
                 {mobileMenuOpen ? (
                   <X className="h-6 w-6" />
@@ -325,7 +325,7 @@ export default function FoodDiaryPage() {
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            className="bg-black/90 backdrop-blur-lg border-b border-slate-800/60 md:hidden"
+            className="bg-white/90 backdrop-blur-lg border-b border-gray-100 md:hidden"
           >
             <div className="px-4 py-3 space-y-2">
               <button
@@ -333,7 +333,7 @@ export default function FoodDiaryPage() {
                   router.push('/');
                   setMobileMenuOpen(false);
                 }}
-                className="flex items-center w-full px-3 py-2 rounded-md text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-800/50 transition-colors"
+                className="flex items-center w-full px-3 py-2 rounded-md text-sm font-medium text-gray-500 hover:text-teal-600 hover:bg-gray-100 transition-colors"
               >
                 <HomeIcon className="mr-2 h-4 w-4" />
                 Home
@@ -343,14 +343,14 @@ export default function FoodDiaryPage() {
                   router.push('/recipe');
                   setMobileMenuOpen(false);
                 }}
-                className="flex items-center w-full px-3 py-2 rounded-md text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-800/50 transition-colors"
+                className="flex items-center w-full px-3 py-2 rounded-md text-sm font-medium text-gray-500 hover:text-teal-600 hover:bg-gray-100 transition-colors"
               >
                 <ChefHat className="mr-2 h-4 w-4" />
                 Recipes
               </button>
               <button
                 onClick={() => setMobileMenuOpen(false)}
-                className="flex items-center w-full px-3 py-2 rounded-md text-sm font-medium bg-indigo-700/50 hover:bg-indigo-700 transition-colors"
+                className="flex items-center w-full px-3 py-2 rounded-md text-sm font-medium bg-teal-600/50 hover:bg-teal-600 transition-colors"
               >
                 <Calendar className="mr-2 h-4 w-4" />
                 Food Diary
@@ -360,7 +360,7 @@ export default function FoodDiaryPage() {
                   router.push('/');
                   setMobileMenuOpen(false);
                 }}
-                className="flex items-center w-full px-3 py-2 rounded-md text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-800/50 transition-colors"
+                className="flex items-center w-full px-3 py-2 rounded-md text-sm font-medium text-gray-500 hover:text-teal-600 hover:bg-gray-100 transition-colors"
               >
                 <MessageCircle className="mr-2 h-4 w-4" />
                 Ask Anna AI
@@ -374,25 +374,25 @@ export default function FoodDiaryPage() {
         {/* Date selector */}
         <div className="mb-8">
           <div className="flex items-center justify-between mb-6">
-            <h2 className="text-2xl font-bold bg-gradient-to-r from-indigo-400 to-purple-500 text-transparent bg-clip-text">
+            <h2 className="text-2xl font-bold bg-gradient-to-r from-teal-400 to-cyan-400 text-transparent bg-clip-text">
               Your Food Log
             </h2>
             
             <div className="flex items-center">
               <button 
                 onClick={() => setSelectedDate(new Date())}
-                className="px-3 py-1 text-sm bg-indigo-700/40 text-white rounded-md hover:bg-indigo-700/60 transition-colors mr-2 border border-indigo-600/30"
+                className="px-3 py-1 text-sm bg-teal-600/40 text-gray-900 rounded-md hover:bg-teal-600/60 transition-colors mr-2 border border-indigo-600/30"
               >
                 Today
               </button>
               <button
                 onClick={() => navigateDate(-1)}
-                className="p-1 rounded-full hover:bg-slate-800/60 transition-colors"
+                className="p-1 rounded-full hover:bg-gray-100 transition-colors"
               >
                 <ArrowLeft className="h-5 w-5" />
               </button>
               
-              <div className="px-4 py-2 bg-slate-900/50 border border-slate-700/50 rounded-lg mx-2">
+              <div className="px-4 py-2 bg-gray-50 border border-gray-100 rounded-lg mx-2">
                 <span className="font-medium">
                   {selectedDate.toLocaleDateString('en-US', {
                     month: 'short',
@@ -404,7 +404,7 @@ export default function FoodDiaryPage() {
               
               <button
                 onClick={() => navigateDate(1)}
-                className="p-1 rounded-full hover:bg-slate-800/60 transition-colors"
+                className="p-1 rounded-full hover:bg-gray-100 transition-colors"
               >
                 <ArrowRight className="h-5 w-5" />
               </button>
@@ -419,15 +419,15 @@ export default function FoodDiaryPage() {
                 onClick={() => setSelectedDate(day.date)}
                 className={`flex flex-col items-center py-2 rounded-lg transition-colors ${
                   day.date.toDateString() === selectedDate.toDateString()
-                    ? 'bg-indigo-700/50 border border-indigo-500/50'
+                    ? 'bg-teal-600/50 border border-teal-400'
                     : day.isToday
-                    ? 'bg-slate-800/50 border border-slate-600/50'
-                    : 'bg-slate-900/30 border border-slate-700/30 hover:bg-slate-800/50'
+                    ? 'bg-gray-100 border border-gray-200/50'
+                    : 'bg-gray-50 border border-gray-100 hover:bg-gray-100'
                 }`}
               >
-                <span className="text-sm text-slate-400">{day.name}</span>
+                <span className="text-sm text-gray-500">{day.name}</span>
                 <span className={`text-lg font-medium ${
-                  day.date.toDateString() === selectedDate.toDateString() ? 'text-white' : 'text-slate-300'
+                  day.date.toDateString() === selectedDate.toDateString() ? 'text-gray-900' : 'text-gray-500'
                 }`}>
                   {day.date.getDate()}
                 </span>
@@ -447,8 +447,8 @@ export default function FoodDiaryPage() {
                 onClick={() => setActiveMealFilter(mealType)}
                 className={`px-4 py-2 rounded-full text-sm transition-all ${
                   activeMealFilter === mealType 
-                    ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white' 
-                    : 'bg-slate-800/70 text-slate-300 border border-slate-700/50'
+                    ? 'bg-gradient-to-r from-teal-400 to-cyan-400 text-white' 
+                    : 'bg-gray-100 text-gray-500 border border-gray-100'
                 }`}
               >
                 {mealType.charAt(0).toUpperCase() + mealType.slice(1)}
@@ -459,23 +459,23 @@ export default function FoodDiaryPage() {
         
         {/* Daily totals */}
         {getDiaryItemsByDate(selectedDate, activeMealFilter).length > 0 && (
-          <div className="bg-gradient-to-br from-slate-900/50 to-black/30 rounded-xl p-5 mb-8 border border-slate-700/50 shadow-lg">
-            <h3 className="text-lg font-medium text-white mb-4 flex items-center">
-              <BarChart3 className="h-5 w-5 mr-2 text-indigo-500" />
+          <div className="bg-gradient-to-br from-white/50 to-gray-50/30 rounded-xl p-5 mb-8 border border-gray-100 shadow-lg">
+            <h3 className="text-lg font-medium text-gray-700 mb-4 flex items-center">
+              <BarChart3 className="h-5 w-5 mr-2 text-teal-500" />
               {activeMealFilter === 'all' ? 'Daily Totals' : `${activeMealFilter.charAt(0).toUpperCase() + activeMealFilter.slice(1)} Totals`}
             </h3>
             
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {Object.entries(calculateTotals(getDiaryItemsByDate(selectedDate, activeMealFilter))).map(([key, value]) => (
-                <div key={key} className="bg-slate-800/50 rounded-lg p-3 border border-slate-700/30 hover:border-indigo-500/30 transition-all">
+                <div key={key} className="bg-gray-100 rounded-lg p-3 border border-gray-100 hover:border-teal-300 transition-all">
                   <div className="flex justify-between items-center mb-1">
-                    <div className="text-xs text-slate-400 capitalize">{key}</div>
+                    <div className="text-xs text-gray-500 capitalize">{key}</div>
                     {key === 'calories' && <Flame className="h-4 w-4 text-amber-500" />}
                     {key === 'protein' && <Utensils className="h-4 w-4 text-blue-500" />}
                     {key === 'carbs' && <Apple className="h-4 w-4 text-emerald-500" />}
                     {key === 'fat' && <Heart className="h-4 w-4 text-rose-500" />}
                   </div>
-                  <div className="text-lg font-bold text-white">
+                  <div className="text-lg font-bold text-gray-800">
                     {Math.round(value)}{key === 'calories' ? '' : 'g'}
                   </div>
                 </div>
@@ -486,16 +486,16 @@ export default function FoodDiaryPage() {
             <div className="mt-6 space-y-3">
               <div>
                 <div className="flex justify-between items-center mb-1">
-                  <div className="text-sm text-slate-300">Calories</div>
-                  <div className="text-sm text-slate-300">
-                    <span className="text-white font-medium">{Math.round(calculateTotals(getDiaryItemsByDate(selectedDate, activeMealFilter)).calories)}</span>
+                  <div className="text-sm text-gray-500">Calories</div>
+                  <div className="text-sm text-gray-500">
+                    <span className="text-gray-900 font-medium">{Math.round(calculateTotals(getDiaryItemsByDate(selectedDate, activeMealFilter)).calories)}</span>
                     {' '}/{' '}
                     <span>2000 kcal</span>
                   </div>
                 </div>
-                <div className="h-2 bg-slate-800/70 rounded-full overflow-hidden">
+                <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
                   <div 
-                    className="h-full bg-gradient-to-r from-indigo-600 to-purple-600"
+                    className="h-full bg-gradient-to-r from-teal-400 to-cyan-400"
                     style={{ width: `${Math.min(Math.round(calculateTotals(getDiaryItemsByDate(selectedDate, activeMealFilter)).calories / 2000 * 100), 100)}%` }}
                   ></div>
                 </div>
@@ -503,13 +503,13 @@ export default function FoodDiaryPage() {
               
               <div>
                 <div className="flex justify-between items-center mb-1">
-                  <div className="text-sm text-slate-300">Protein</div>
-                  <div className="text-sm text-slate-300">
-                    <span className="text-white font-medium">{Math.round(calculateTotals(getDiaryItemsByDate(selectedDate, activeMealFilter)).protein)}</span>
+                  <div className="text-sm text-gray-500">Protein</div>
+                  <div className="text-sm text-gray-500">
+                    <span className="text-gray-900 font-medium">{Math.round(calculateTotals(getDiaryItemsByDate(selectedDate, activeMealFilter)).protein)}</span>
                     {' '}/ 80g
                   </div>
                 </div>
-                <div className="h-2 bg-slate-800/70 rounded-full overflow-hidden">
+                <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
                   <div 
                     className="h-full bg-blue-600"
                     style={{ width: `${Math.min(Math.round(calculateTotals(getDiaryItemsByDate(selectedDate, activeMealFilter)).protein / 80 * 100), 100)}%` }}
@@ -533,7 +533,7 @@ export default function FoodDiaryPage() {
               
               return (
                 <div key={mealType}>
-                  <h3 className="text-lg font-medium text-white mb-3 capitalize flex items-center">
+                  <h3 className="text-lg font-medium text-gray-700 mb-3 capitalize flex items-center">
                     {mealType === 'breakfast' && (
                       <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2 text-amber-500" viewBox="0 0 20 20" fill="currentColor">
                         <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM7 5a1 1 0 012 0v4h4a1 1 0 110 2H9v4a1 1 0 11-2 0v-4H3a1 1 0 110-2h4V5z" clipRule="evenodd" />
@@ -611,7 +611,7 @@ export default function FoodDiaryPage() {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={() => router.push('/recipe')}
-            className="bg-gradient-to-r from-indigo-600 to-purple-600 rounded-full p-4 shadow-xl hover:shadow-2xl transition-all text-white flex items-center justify-center"
+            className="bg-gradient-to-r from-teal-400 to-cyan-400 rounded-full p-4 text-white shadow-md hover:shadow-lg transition-all text-gray-900 flex items-center justify-center"
           >
             <Search className="mr-2 h-5 w-5" />
             Search Foods
@@ -622,19 +622,19 @@ export default function FoodDiaryPage() {
       {/* Edit meal type modal */}
       <AnimatePresence>
         {editModalOpen && itemToEdit && (
-          <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="fixed inset-0 z-50 bg-gray-100 backdrop-blur-sm flex items-center justify-center p-4">
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
-              className="bg-gradient-to-br from-slate-900/90 to-black/90 backdrop-blur-xl rounded-xl p-6 max-w-md w-full border border-slate-700/50 shadow-2xl"
+              className="bg-gradient-to-br from-white/90 to-gray-50/90 backdrop-blur-xl rounded-xl p-6 max-w-md w-full border border-gray-100 shadow-lg"
             >
-              <h3 className="text-xl font-bold text-white mb-4">
+              <h3 className="text-xl font-bold text-gray-800 mb-4">
                 Edit Meal Type
               </h3>
               
-              <p className="text-slate-300 mb-4">
-                Change meal type for <span className="text-white font-medium">{itemToEdit.food.food_name}</span>
+              <p className="text-gray-500 mb-4">
+                Change meal type for <span className="text-gray-900 font-medium">{itemToEdit.food.food_name}</span>
               </p>
               
               <div className="grid grid-cols-2 gap-3 mb-6">
@@ -642,10 +642,10 @@ export default function FoodDiaryPage() {
                   <button
                     key={meal}
                     onClick={() => setEditMealType(meal)}
-                    className={`p-3 rounded-lg border text-white capitalize transition-all ${
+                    className={`p-3 rounded-lg border text-gray-900 capitalize transition-all ${
                       editMealType === meal 
-                        ? 'bg-indigo-700/60 border-indigo-500/70' 
-                        : 'bg-slate-900/50 border-slate-700/50 hover:bg-slate-800/70'
+                        ? 'bg-teal-600/60 border-indigo-500/70' 
+                        : 'bg-gray-50 border-gray-100 hover:bg-gray-100'
                     }`}
                   >
                     {meal}
@@ -656,14 +656,14 @@ export default function FoodDiaryPage() {
               <div className="flex space-x-3">
                 <button
                   onClick={() => setEditModalOpen(false)}
-                  className="flex-1 py-2 border border-slate-600 rounded-lg text-slate-300 hover:bg-slate-800/50 transition-colors"
+                  className="flex-1 py-2 border border-gray-200 rounded-lg text-gray-500 hover:bg-gray-100 transition-colors"
                 >
                   Cancel
                 </button>
                 
                 <button
                   onClick={saveEditedItem}
-                  className="flex-1 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-lg text-white hover:opacity-90 transition-opacity"
+                  className="flex-1 py-2 bg-gradient-to-r from-teal-400 to-cyan-400 rounded-lg text-white hover:opacity-90 transition-opacity"
                 >
                   Save Changes
                 </button>

@@ -362,11 +362,11 @@ export default function NotificationsPage() {
   function getCategoryBadge(category) {
     switch(category?.toLowerCase()) {
       case 'tip': return 'bg-blue-600/20 text-blue-400 border-blue-600/30';
-      case 'reminder': return 'bg-purple-600/20 text-purple-400 border-purple-600/30';
+      case 'reminder': return 'bg-cyan-500/20 text-cyan-500 border-purple-600/30';
       case 'achievement': return 'bg-amber-600/20 text-amber-400 border-amber-600/30';
       case 'insight': return 'bg-emerald-600/20 text-emerald-400 border-emerald-600/30';
-      case 'challenge': return 'bg-indigo-600/20 text-indigo-400 border-indigo-600/30';
-      default: return 'bg-slate-600/20 text-slate-400 border-slate-600/30';
+      case 'challenge': return 'bg-teal-500/20 text-teal-500 border-indigo-600/30';
+      default: return 'bg-slate-600/20 text-gray-500 border-gray-200/30';
     }
   }
 
@@ -409,27 +409,27 @@ export default function NotificationsPage() {
   
   return (
     <AuthCheck>
-      <main className="min-h-screen bg-gradient-to-b from-[#070B14] via-[#0b1120] to-[#0A0E1A] text-white">
+      <main className="min-h-screen bg-[#FAF9F6] text-gray-900">
         <div className="absolute inset-0 bg-[url('/noise.png')] opacity-[0.03] mix-blend-overlay pointer-events-none"></div>
         <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center opacity-[0.03] mix-blend-overlay pointer-events-none"></div>
         
         {/* Animated glowing orb */}
-        <div className="fixed top-1/4 -right-28 w-96 h-96 bg-indigo-600/20 rounded-full blur-3xl animate-pulse pointer-events-none"></div>
-        <div className="fixed top-3/4 -left-28 w-96 h-96 bg-purple-600/20 rounded-full blur-3xl animate-pulse pointer-events-none"></div>
+        <div className="fixed top-1/4 -right-28 w-96 h-96 bg-teal-500/20 rounded-full blur-3xl pointer-events-none"></div>
+        <div className="fixed top-3/4 -left-28 w-96 h-96 bg-cyan-500/20 rounded-full blur-3xl pointer-events-none"></div>
         
         {/* Header */}
-        <header className="sticky top-0 z-50 backdrop-blur-xl bg-gradient-to-r from-black/80 via-black/70 to-black/80 border-b border-slate-800/60 shadow-lg">
+        <header className="sticky top-0 z-50 backdrop-blur-xl bg-gradient-to-r from-white/80 via-white/70 to-white/80 border-b border-gray-100 shadow-lg">
           <div className="container mx-auto px-4">
             <div className="flex items-center justify-between h-16">
               <div className="flex items-center gap-3">
                 <button 
                   onClick={() => router.push('/')}
-                  className="flex items-center justify-center w-8 h-8 rounded-full hover:bg-slate-800/60 transition-colors"
+                  className="flex items-center justify-center w-8 h-8 rounded-full hover:bg-gray-100 transition-colors"
                 >
                   <ChevronLeft className="w-5 h-5" />
                 </button>
                 <h1 className="text-xl font-medium flex items-center gap-2">
-                  <Bell className="h-5 w-5 text-indigo-400" />
+                  <Bell className="h-5 w-5 text-teal-500" />
                   Notifications
                 </h1>
               </div>
@@ -438,7 +438,7 @@ export default function NotificationsPage() {
                 {/* Search button (mobile) */}
                 <button 
                   onClick={() => setIsSearchOpen(!isSearchOpen)}
-                  className="md:hidden p-2 rounded-full hover:bg-slate-800/60"
+                  className="md:hidden p-2 rounded-full hover:bg-gray-100"
                 >
                   {isSearchOpen ? (
                     <X className="w-5 h-5" />
@@ -448,21 +448,21 @@ export default function NotificationsPage() {
                 </button>
                 
                 {/* Search input (desktop) */}
-                <div className="hidden md:flex bg-slate-900/50 border border-slate-700/50 rounded-full px-3 py-1.5">
-                  <Search className="w-4 h-4 text-slate-400 mr-2" />
+                <div className="hidden md:flex bg-gray-50 border border-gray-100 rounded-full px-3 py-1.5">
+                  <Search className="w-4 h-4 text-gray-500 mr-2" />
                   <input
                     type="text"
                     placeholder="Search notifications..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="bg-transparent border-none outline-none text-sm text-white placeholder-slate-400 w-44"
+                    className="bg-transparent border-none outline-none text-sm text-gray-700 placeholder-gray-400 w-44"
                   />
                   {searchQuery && (
                     <button 
                       onClick={() => setSearchQuery('')}
                       className="flex-shrink-0 ml-1"
                     >
-                      <X className="w-4 h-4 text-slate-400" />
+                      <X className="w-4 h-4 text-gray-500" />
                     </button>
                   )}
                 </div>
@@ -471,7 +471,7 @@ export default function NotificationsPage() {
                 <div className="relative">
                   <button 
                     onClick={() => setShowFilterMenu(!showFilterMenu)}
-                    className="p-2 rounded-full hover:bg-slate-800/60 flex items-center gap-1"
+                    className="p-2 rounded-full hover:bg-gray-100 flex items-center gap-1"
                   >
                     <Filter className="w-5 h-5" />
                   </button>
@@ -481,10 +481,10 @@ export default function NotificationsPage() {
                     <motion.div 
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
-                      className="absolute right-0 mt-2 w-64 bg-slate-900/90 backdrop-blur-lg border border-slate-700/50 rounded-lg shadow-xl py-2 z-50"
+                      className="absolute right-0 mt-2 w-64 bg-white/90 backdrop-blur-lg border border-gray-100 rounded-lg shadow-md py-2 z-50"
                     >
-                      <div className="px-3 py-2 border-b border-slate-700/50">
-                        <h4 className="font-medium text-white text-sm">Filter By Category</h4>
+                      <div className="px-3 py-2 border-b border-gray-100">
+                        <h4 className="font-medium text-gray-700 text-sm">Filter By Category</h4>
                       </div>
                       {['all', 'tip', 'reminder', 'achievement', 'insight', 'challenge'].map(filter => (
                         <button
@@ -502,8 +502,8 @@ export default function NotificationsPage() {
                               
                             setShowFilterMenu(false);
                           }}
-                          className={`w-full text-left px-3 py-2 hover:bg-slate-800/50 text-sm flex items-center ${
-                            activeFilter === filter ? 'text-indigo-400' : 'text-slate-300'
+                          className={`w-full text-left px-3 py-2 hover:bg-gray-100/50 text-sm flex items-center ${
+                            activeFilter === filter ? 'text-teal-500' : 'text-gray-500'
                           }`}
                         >
                           {activeFilter === filter && <Check className="w-4 h-4 mr-2" />}
@@ -513,9 +513,9 @@ export default function NotificationsPage() {
                         </button>
                       ))}
                       
-                      <div className="border-t border-slate-700/50 mt-1 pt-1">
+                      <div className="border-t border-gray-100 mt-1 pt-1">
                         <div className="px-3 py-2">
-                          <h4 className="font-medium text-white text-sm">Filter By Date</h4>
+                          <h4 className="font-medium text-gray-700 text-sm">Filter By Date</h4>
                         </div>
                         {[
                           { id: 'all', label: 'All Time' },
@@ -534,8 +534,8 @@ export default function NotificationsPage() {
                               
                               setShowFilterMenu(false);
                             }}
-                            className={`w-full text-left px-3 py-2 hover:bg-slate-800/50 text-sm flex items-center ${
-                              dateFilter === dateOpt.id ? 'text-indigo-400' : 'text-slate-300'
+                            className={`w-full text-left px-3 py-2 hover:bg-gray-100/50 text-sm flex items-center ${
+                              dateFilter === dateOpt.id ? 'text-teal-500' : 'text-gray-500'
                             }`}
                           >
                             {dateFilter === dateOpt.id && <Check className="w-4 h-4 mr-2" />}
@@ -551,13 +551,13 @@ export default function NotificationsPage() {
                 <button 
                   onClick={generateNotifications} 
                   disabled={isGenerating}
-                  className={`p-2 rounded-full hover:bg-slate-800/60 ${isGenerating ? 'animate-spin text-indigo-400' : ''}`}
+                  className={`p-2 rounded-full hover:bg-gray-100 ${isGenerating ? 'animate-spin text-teal-500' : ''}`}
                 >
                   <RefreshCw className="w-5 h-5" />
                 </button>
                 
                 {/* Settings button */}
-                <button className="p-2 rounded-full hover:bg-slate-800/60">
+                <button className="p-2 rounded-full hover:bg-gray-100">
                   <Settings className="w-5 h-5" />
                 </button>
               </div>
@@ -570,16 +570,16 @@ export default function NotificationsPage() {
               initial={{ height: 0, opacity: 0 }}
               animate={{ height: 'auto', opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
-              className="border-t border-slate-800/60 py-2 px-4 md:hidden"
+              className="border-t border-gray-100 py-2 px-4 md:hidden"
             >
-              <div className="flex bg-slate-900/50 border border-slate-700/50 rounded-full px-3 py-2">
-                <Search className="w-4 h-4 text-slate-400 mr-2 flex-shrink-0" />
+              <div className="flex bg-gray-50 border border-gray-100 rounded-full px-3 py-2">
+                <Search className="w-4 h-4 text-gray-500 mr-2 flex-shrink-0" />
                 <input
                   type="text"
                   placeholder="Search notifications..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="bg-transparent border-none outline-none text-sm text-white placeholder-slate-400 w-full"
+                  className="bg-transparent border-none outline-none text-sm text-gray-700 placeholder-gray-400 w-full"
                   autoFocus
                 />
                 {searchQuery && (
@@ -587,7 +587,7 @@ export default function NotificationsPage() {
                     onClick={() => setSearchQuery('')}
                     className="flex-shrink-0"
                   >
-                    <X className="w-4 h-4 text-slate-400" />
+                    <X className="w-4 h-4 text-gray-500" />
                   </button>
                 )}
               </div>
@@ -597,12 +597,12 @@ export default function NotificationsPage() {
         
         <div className="container mx-auto px-4 pt-6 pb-24">
           {/* Stats bar */}
-          <div className="bg-gradient-to-br from-slate-900/80 to-black/60 backdrop-blur-lg border border-slate-700/50 rounded-xl p-4 mb-6 shadow-xl">
+          <div className="bg-white backdrop-blur-lg border border-gray-100 rounded-xl p-4 mb-6 shadow-md">
             <div className="flex justify-between items-center">
               <div className="text-sm md:text-base">
                 {filteredNotifications.filter(n => !n.read).length > 0 ? (
                   <span>
-                    You have <span className="text-indigo-400 font-medium">{filteredNotifications.filter(n => !n.read).length}</span> unread {filteredNotifications.filter(n => !n.read).length === 1 ? 'notification' : 'notifications'}
+                    You have <span className="text-teal-500 font-medium">{filteredNotifications.filter(n => !n.read).length}</span> unread {filteredNotifications.filter(n => !n.read).length === 1 ? 'notification' : 'notifications'}
                   </span>
                 ) : (
                   <span>All caught up! No unread notifications.</span>
@@ -615,10 +615,10 @@ export default function NotificationsPage() {
                   whileTap={{ scale: 0.95 }}
                   onClick={markAllAsRead}
                   disabled={!filteredNotifications.some(n => !n.read)}
-                  className={`py-1 px-3 text-xs md:text-sm rounded-full border border-slate-700/50 ${
+                  className={`py-1 px-3 text-xs md:text-sm rounded-full border border-gray-100 ${
                     filteredNotifications.some(n => !n.read) 
-                      ? 'bg-slate-800/60 text-white hover:bg-slate-700/60'
-                      : 'bg-slate-900/40 text-slate-500 cursor-not-allowed'
+                      ? 'bg-gray-100/60 text-gray-900 hover:bg-gray-200/60'
+                      : 'bg-white/40 text-slate-500 cursor-not-allowed'
                   }`}
                 >
                   Mark all read
@@ -632,7 +632,7 @@ export default function NotificationsPage() {
                   className={`py-1 px-3 text-xs md:text-sm rounded-full border ${
                     filteredNotifications.length > 0
                       ? 'bg-red-900/30 text-red-300 border-red-500/30 hover:bg-red-800/40'
-                      : 'bg-slate-900/40 text-slate-500 border-slate-700/50 cursor-not-allowed'
+                      : 'bg-white/40 text-slate-500 border-gray-100 cursor-not-allowed'
                   }`}
                 >
                   Clear all
@@ -667,8 +667,8 @@ export default function NotificationsPage() {
                 }}
                 className={`px-4 py-2 rounded-full text-sm whitespace-nowrap transition-all ${
                   activeFilter === category
-                    ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-medium'
-                    : 'bg-slate-800/60 text-slate-300 hover:bg-slate-700/60'
+                    ? 'bg-gradient-to-r from-teal-400 to-cyan-400 text-white font-medium'
+                    : 'bg-gray-100/60 text-gray-500 hover:bg-gray-200/60'
                 }`}
               >
                 {category === 'all' ? 'All Categories' : category.charAt(0).toUpperCase() + category.slice(1)}
@@ -702,8 +702,8 @@ export default function NotificationsPage() {
                 }}
                 className={`px-3 py-1 rounded-full text-xs whitespace-nowrap transition-all ${
                   activeFilter === category
-                    ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-medium'
-                    : 'bg-slate-800/60 text-slate-300'
+                    ? 'bg-gradient-to-r from-teal-400 to-cyan-400 text-white font-medium'
+                    : 'bg-gray-100/60 text-gray-500'
                 }`}
               >
                 {category === 'all' ? 'All' : category.charAt(0).toUpperCase() + category.slice(1)}
@@ -713,7 +713,7 @@ export default function NotificationsPage() {
           
           {/* Debug Info (only in development) */}
           {/* {process.env.NODE_ENV === 'development' && (
-            <div className="mb-4 p-2 bg-slate-900/50 text-xs text-slate-400 rounded-lg">
+            <div className="mb-4 p-2 bg-gray-50 text-xs text-gray-500 rounded-lg">
               <div>Active Filter: {activeFilter}</div>
               <div>Date Filter: {dateFilter}</div>
               <div>Total Notifications: {notifications.length}</div>
@@ -726,13 +726,13 @@ export default function NotificationsPage() {
           {loading && (
             <div className="flex flex-col items-center justify-center py-20">
               <div className="relative w-20 h-20">
-                <div className="w-20 h-20 rounded-full border-4 border-slate-700/50 absolute top-0 left-0"></div>
+                <div className="w-20 h-20 rounded-full border-4 border-gray-100 absolute top-0 left-0"></div>
                 <div className="w-20 h-20 rounded-full border-4 border-t-indigo-600 border-r-purple-600 border-transparent absolute top-0 left-0 animate-spin"></div>
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="w-10 h-10 rounded-full bg-gradient-to-r from-indigo-600 to-purple-600 animate-pulse"></div>
+                  <div className="w-10 h-10 rounded-full bg-gradient-to-r from-teal-400 to-cyan-400 animate-pulse"></div>
                 </div>
               </div>
-              <p className="mt-5 text-xl font-medium bg-gradient-to-r from-indigo-400 to-purple-500 text-transparent bg-clip-text">
+              <p className="mt-5 text-xl font-medium bg-gradient-to-r from-teal-400 to-cyan-400 text-transparent bg-clip-text">
                 Loading notifications...
               </p>
             </div>
@@ -740,14 +740,14 @@ export default function NotificationsPage() {
           
           {/* Generating state */}
           {isGenerating && !loading && (
-            <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
-              <div className="bg-gradient-to-br from-slate-900 to-black/90 border border-slate-700/50 rounded-xl p-6 max-w-md text-center">
+            <div className="fixed inset-0 bg-gray-100 backdrop-blur-sm flex items-center justify-center z-50">
+              <div className="bg-gradient-to-br from-white to-gray-50/90 border border-gray-100 rounded-xl p-6 max-w-md text-center">
                 <div className="relative w-16 h-16 mx-auto mb-4">
-                  <div className="w-16 h-16 rounded-full border-4 border-slate-700/50 absolute top-0 left-0"></div>
+                  <div className="w-16 h-16 rounded-full border-4 border-gray-100 absolute top-0 left-0"></div>
                   <div className="w-16 h-16 rounded-full border-4 border-t-indigo-600 border-r-purple-600 border-transparent absolute top-0 left-0 animate-spin"></div>
                 </div>
-                <h3 className="text-white font-medium text-lg mb-2">Generating New Notifications</h3>
-                <p className="text-slate-400">Our AI is analyzing your food logs to create personalized notifications...</p>
+                <h3 className="text-gray-800 font-medium text-lg mb-2">Generating New Notifications</h3>
+                <p className="text-gray-500">Our AI is analyzing your food logs to create personalized notifications...</p>
               </div>
             </div>
           )}
@@ -757,11 +757,11 @@ export default function NotificationsPage() {
             <>
               {filteredNotifications.length === 0 ? (
                 <div className="py-16 flex flex-col items-center justify-center">
-                  <div className="w-24 h-24 bg-slate-800/50 rounded-full flex items-center justify-center mb-6">
+                  <div className="w-24 h-24 bg-gray-100/50 rounded-full flex items-center justify-center mb-6">
                     <Bell className="w-12 h-12 text-slate-600" />
                   </div>
-                  <h3 className="text-xl font-medium text-white mb-2">No notifications found</h3>
-                  <p className="text-slate-400 text-center max-w-md mb-8">
+                  <h3 className="text-xl font-medium text-gray-700 mb-2">No notifications found</h3>
+                  <p className="text-gray-500 text-center max-w-md mb-8">
                     {searchQuery ? 
                       `No notifications match your search for "${searchQuery}"` : 
                       activeFilter !== "all" ?
@@ -774,7 +774,7 @@ export default function NotificationsPage() {
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     onClick={generateNotifications}
-                    className="px-4 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-full text-white font-medium hover:opacity-90 shadow-lg transition-all flex items-center"
+                    className="px-4 py-2 bg-gradient-to-r from-teal-400 to-cyan-400 rounded-full text-gray-900 font-medium hover:opacity-90 shadow-lg transition-all flex items-center"
                   >
                     <RefreshCw className="w-4 h-4 mr-2" />
                     Generate Notifications
@@ -788,8 +788,8 @@ export default function NotificationsPage() {
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -10 }}
-                      className={`bg-gradient-to-br from-slate-900/80 to-black/60 backdrop-blur-lg border rounded-xl overflow-hidden transition-all shadow-lg hover:shadow-xl ${
-                        notification.read ? 'border-slate-700/30' : 'border-indigo-500/30'
+                      className={`bg-white backdrop-blur-lg border rounded-xl overflow-hidden transition-all shadow-lg hover:shadow-md ${
+                        notification.read ? 'border-gray-100' : 'border-teal-300'
                       }`}
                     >
                       <div className={`p-4 relative ${notification.read ? 'opacity-80' : 'opacity-100'}`}>
@@ -798,12 +798,12 @@ export default function NotificationsPage() {
                         )}
                         
                         <div className="flex gap-3 items-start">
-                          <div className="w-12 h-12 rounded-full bg-gradient-to-br from-slate-900 to-slate-800 border border-slate-700/50 flex items-center justify-center text-2xl flex-shrink-0">
+                          <div className="w-12 h-12 rounded-full bg-gradient-to-br from-white to-slate-800 border border-gray-100 flex items-center justify-center text-2xl flex-shrink-0">
                             {notification.icon}
                           </div>
                           
                           <div className="flex-grow">
-                            <p className={`mb-2 ${notification.read ? 'text-slate-300' : 'text-white'}`}>
+                            <p className={`mb-2 ${notification.read ? 'text-gray-500' : 'text-gray-900'}`}>
                               {notification.message}
                             </p>
                             
@@ -817,7 +817,7 @@ export default function NotificationsPage() {
                                 {notification.priority}
                               </span>
                               
-                              <span className="text-xs text-slate-400 flex items-center">
+                              <span className="text-xs text-gray-500 flex items-center">
                                 <Clock className="w-3 h-3 mr-1" />
                                 {formatTimeAgo(notification.timestamp)}
                               </span>
@@ -831,7 +831,7 @@ export default function NotificationsPage() {
                               whileHover={{ scale: 1.05 }}
                               whileTap={{ scale: 0.95 }}
                               onClick={() => markAsRead(notification.id)}
-                              className="px-3 py-1 text-xs rounded-full bg-indigo-900/30 text-indigo-400 border border-indigo-500/30 hover:bg-indigo-800/40"
+                              className="px-3 py-1 text-xs rounded-full bg-teal-50/30 text-teal-500 border border-teal-300 hover:bg-teal-100/40"
                             >
                               Mark as read
                             </motion.button>
@@ -856,12 +856,12 @@ export default function NotificationsPage() {
           )}
           
           {/* Bottom navigation bar */}
-          <div className="fixed bottom-0 left-0 right-0 bg-gradient-to-r from-black/80 via-black/70 to-black/80 backdrop-blur-xl border-t border-slate-800/60 py-3 px-6 flex justify-around z-40 md:hidden">
+          <div className="fixed bottom-0 left-0 right-0 bg-gradient-to-r from-white/80 via-white/70 to-white/80 backdrop-blur-xl border-t border-gray-100 py-3 px-6 flex justify-around z-40 md:hidden">
             <motion.button 
               whileHover={{ y: -2 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => router.push('/')}
-              className="flex flex-col items-center justify-center text-slate-400 hover:text-indigo-400"
+              className="flex flex-col items-center justify-center text-gray-500 hover:text-teal-500"
             >
               <HomeIcon className="h-6 w-6 mb-1" />
               <span className="text-xs">Home</span>
@@ -871,7 +871,7 @@ export default function NotificationsPage() {
               whileHover={{ y: -2 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => router.push('/diary')}
-              className="flex flex-col items-center justify-center text-slate-400 hover:text-indigo-400"
+              className="flex flex-col items-center justify-center text-gray-500 hover:text-teal-500"
             >
               <Calendar className="h-6 w-6 mb-1" />
               <span className="text-xs">Diary</span>
@@ -880,7 +880,7 @@ export default function NotificationsPage() {
             <motion.button 
               whileHover={{ y: -2 }}
               whileTap={{ scale: 0.95 }}
-              className="flex flex-col items-center justify-center text-indigo-400"
+              className="flex flex-col items-center justify-center text-teal-500"
             >
               <Bell className="h-6 w-6 mb-1" />
               <span className="text-xs">Notifications</span>
@@ -890,7 +890,7 @@ export default function NotificationsPage() {
               whileHover={{ y: -2 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => router.push('/profile')}
-              className="flex flex-col items-center justify-center text-slate-400 hover:text-indigo-400"
+              className="flex flex-col items-center justify-center text-gray-500 hover:text-teal-500"
             >
               <User className="h-6 w-6 mb-1" />
               <span className="text-xs">Profile</span>
@@ -903,7 +903,7 @@ export default function NotificationsPage() {
           whileHover={{ scale: 1.05, y: -2 }}
           whileTap={{ scale: 0.95 }}
           onClick={() => router.push('/')}
-          className="fixed bottom-6 right-6 md:flex hidden items-center gap-2 py-2 px-4 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-full text-white shadow-lg hover:shadow-xl z-50"
+          className="fixed bottom-6 right-6 md:flex hidden items-center gap-2 py-2 px-4 bg-gradient-to-r from-teal-400 to-cyan-400 rounded-full text-gray-900 shadow-lg hover:shadow-md z-50"
         >
           <ArrowLeft className="h-4 w-4" />
           <span>Back to Home</span>

@@ -1,8 +1,21 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #FAF9F6;
+  --background-secondary: #F5F3EE;
+  --foreground: #1a1a1a;
+  --accent: #4ECDC4;
+  --accent-dark: #3DB8B0;
+  --accent-light: #A8E6E2;
+  --text-primary: #2D3436;
+  --text-secondary: #636E72;
+  --text-muted: #B2BEC3;
+  --border: #E8E4DD;
+  --card-bg: #FFFFFF;
+  --success: #00B894;
+  --warning: #FDCB6E;
+  --danger: #E17055;
+  --info: #74B9FF;
 }
 
 @theme inline {
@@ -12,15 +25,184 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  box-sizing: border-box;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--background-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--text-muted);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-secondary);
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Georgia', 'Times New Roman', serif;
+  font-weight: 400;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+}
+
+/* Smooth transitions */
+a, button {
+  transition: all 0.2s ease;
+}
+
+/* Card styles */
+.card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.card:hover {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+/* Button styles */
+.btn-primary {
+  background: var(--accent);
+  color: white;
+  padding: 12px 24px;
+  border-radius: 50px;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+}
+
+.btn-primary:hover {
+  background: var(--accent-dark);
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--text-primary);
+  padding: 12px 24px;
+  border-radius: 50px;
+  font-weight: 500;
+  border: 1px solid var(--border);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+}
+
+.btn-secondary:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* Input styles */
+input, textarea, select {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 12px 16px;
+  font-size: 16px;
+  color: var(--text-primary);
+  transition: all 0.2s ease;
+}
+
+input:focus, textarea:focus, select:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-light);
+}
+
+/* Progress bar */
+.progress-bar {
+  background: var(--background-secondary);
+  border-radius: 100px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  background: linear-gradient(90deg, var(--accent), var(--accent-dark));
+  height: 100%;
+  border-radius: 100px;
+  transition: width 0.3s ease;
+}
+
+/* Nutrition card colors */
+.nutrition-calories { background: linear-gradient(135deg, #FF6B6B, #EE5A5A); }
+.nutrition-protein { background: linear-gradient(135deg, #4ECDC4, #3DB8B0); }
+.nutrition-carbs { background: linear-gradient(135deg, #FDCB6E, #F9BF3B); }
+.nutrition-fat { background: linear-gradient(135deg, #A29BFE, #8B7CF6); }
+
+/* Animation keyframes */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.5s ease forwards;
+}
+
+/* Hide scrollbar but allow scrolling */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Glass effect for modals */
+.glass {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+/* Gradient text */
+.gradient-text {
+  background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }

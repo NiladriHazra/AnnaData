@@ -709,14 +709,14 @@ const CalorieCalculator = ({ onClose, updateMetric }) => {
   };
 
   return (
-    <div className="bg-gradient-to-br from-slate-900/90 to-black/90 backdrop-blur-xl rounded-xl p-6 max-w-2xl w-full border border-slate-700/50 shadow-2xl max-h-[90vh] overflow-y-auto scrollbar-hide">
+    <div className="bg-gradient-to-br from-white to-gray-50 backdrop-blur-xl rounded-xl p-6 max-w-2xl w-full border border-gray-100 shadow-lg max-h-[90vh] overflow-y-auto scrollbar-hide">
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-bold bg-gradient-to-r from-indigo-400 to-purple-500 text-transparent bg-clip-text">
+        <h2 className="text-2xl font-bold bg-gradient-to-r from-teal-400 to-cyan-400 text-transparent bg-clip-text">
           Calorie Calculator
         </h2>
         <button
           onClick={onClose}
-          className="p-2 rounded-full hover:bg-slate-800/70"
+          className="p-2 rounded-full hover:bg-gray-100"
         >
           <X size={20} />
         </button>
@@ -724,7 +724,7 @@ const CalorieCalculator = ({ onClose, updateMetric }) => {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
         <div>
-          <label className="block text-sm font-medium text-slate-300 mb-2">
+          <label className="block text-sm font-medium text-gray-500 mb-2">
             Gender
           </label>
           <div className="flex space-x-4">
@@ -732,8 +732,8 @@ const CalorieCalculator = ({ onClose, updateMetric }) => {
               onClick={() => setGender("male")}
               className={`px-4 py-2 rounded-lg flex-1 ${
                 gender === "male"
-                  ? "bg-indigo-600 text-white"
-                  : "bg-slate-800/50 text-slate-300 border border-slate-700/50"
+                  ? "bg-teal-500 text-white"
+                  : "bg-gray-100 text-gray-500 border border-gray-100"
               }`}
             >
               Male
@@ -742,8 +742,8 @@ const CalorieCalculator = ({ onClose, updateMetric }) => {
               onClick={() => setGender("female")}
               className={`px-4 py-2 rounded-lg flex-1 ${
                 gender === "female"
-                  ? "bg-indigo-600 text-white"
-                  : "bg-slate-800/50 text-slate-300 border border-slate-700/50"
+                  ? "bg-teal-500 text-white"
+                  : "bg-gray-100 text-gray-500 border border-gray-100"
               }`}
             >
               Female
@@ -754,7 +754,7 @@ const CalorieCalculator = ({ onClose, updateMetric }) => {
         <div>
           <label
             htmlFor="age"
-            className="block text-sm font-medium text-slate-300 mb-2"
+            className="block text-sm font-medium text-gray-500 mb-2"
           >
             Age
           </label>
@@ -763,14 +763,14 @@ const CalorieCalculator = ({ onClose, updateMetric }) => {
             type="number"
             value={age}
             onChange={(e) => setAge(Math.max(1, parseInt(e.target.value) || 0))}
-            className="w-full bg-slate-800/50 border border-slate-700/50 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/50"
+            className="w-full bg-gray-100 border border-gray-100 rounded-lg px-4 py-2 text-gray-900 focus:outline-none focus:ring-2 focus:ring-teal-500/50"
           />
         </div>
 
         <div>
           <label
             htmlFor="weight"
-            className="block text-sm font-medium text-slate-300 mb-2"
+            className="block text-sm font-medium text-gray-500 mb-2"
           >
             Weight (kg)
           </label>
@@ -781,14 +781,14 @@ const CalorieCalculator = ({ onClose, updateMetric }) => {
             onChange={(e) =>
               setWeight(Math.max(1, parseInt(e.target.value) || 0))
             }
-            className="w-full bg-slate-800/50 border border-slate-700/50 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/50"
+            className="w-full bg-gray-100 border border-gray-100 rounded-lg px-4 py-2 text-gray-900 focus:outline-none focus:ring-2 focus:ring-teal-500/50"
           />
         </div>
 
         <div>
           <label
             htmlFor="height"
-            className="block text-sm font-medium text-slate-300 mb-2"
+            className="block text-sm font-medium text-gray-500 mb-2"
           >
             Height (cm)
           </label>
@@ -799,14 +799,14 @@ const CalorieCalculator = ({ onClose, updateMetric }) => {
             onChange={(e) =>
               setHeight(Math.max(1, parseInt(e.target.value) || 0))
             }
-            className="w-full bg-slate-800/50 border border-slate-700/50 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/50"
+            className="w-full bg-gray-100 border border-gray-100 rounded-lg px-4 py-2 text-gray-900 focus:outline-none focus:ring-2 focus:ring-teal-500/50"
           />
         </div>
 
         <div className="md:col-span-2">
           <label
             htmlFor="activityLevel"
-            className="block text-sm font-medium text-slate-300 mb-2"
+            className="block text-sm font-medium text-gray-500 mb-2"
           >
             Activity Level
           </label>
@@ -814,7 +814,7 @@ const CalorieCalculator = ({ onClose, updateMetric }) => {
             id="activityLevel"
             value={activityLevel}
             onChange={(e) => setActivityLevel(e.target.value)}
-            className="w-full bg-slate-800/50 border border-slate-700/50 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/50"
+            className="w-full bg-gray-100 border border-gray-100 rounded-lg px-4 py-2 text-gray-900 focus:outline-none focus:ring-2 focus:ring-teal-500/50"
           >
             {Object.entries(activityLabels).map(([value, label]) => (
               <option key={value} value={value}>
@@ -825,7 +825,7 @@ const CalorieCalculator = ({ onClose, updateMetric }) => {
         </div>
 
         <div className="md:col-span-2">
-          <label className="block text-sm font-medium text-slate-300 mb-2">
+          <label className="block text-sm font-medium text-gray-500 mb-2">
             Goal
           </label>
           <div className="grid grid-cols-3 gap-4">
@@ -835,8 +835,8 @@ const CalorieCalculator = ({ onClose, updateMetric }) => {
                 onClick={() => setGoal(value)}
                 className={`px-4 py-2 rounded-lg ${
                   goal === value
-                    ? "bg-indigo-600 text-white"
-                    : "bg-slate-800/50 text-slate-300 border border-slate-700/50"
+                    ? "bg-teal-500 text-white"
+                    : "bg-gray-100 text-gray-500 border border-gray-100"
                 }`}
               >
                 {label}
@@ -849,47 +849,47 @@ const CalorieCalculator = ({ onClose, updateMetric }) => {
       <div className="mb-6">
         <button
           onClick={calculateCalories}
-          className="w-full py-3 px-4 rounded-lg text-white font-medium bg-gradient-to-r from-indigo-600 to-purple-600 hover:opacity-90 transition-opacity flex items-center justify-center"
+          className="w-full py-3 px-4 rounded-lg text-gray-900 font-medium bg-gradient-to-r from-teal-400 to-cyan-400 hover:opacity-90 transition-opacity flex items-center justify-center"
         >
           Calculate
         </button>
       </div>
 
       {results && (
-        <div className="bg-slate-800/70 rounded-lg p-6 border border-slate-700/50">
-          <h3 className="text-xl font-medium text-white mb-4">Your Results</h3>
+        <div className="bg-gray-100 rounded-lg p-6 border border-gray-100">
+          <h3 className="text-xl font-medium text-gray-700 mb-4">Your Results</h3>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-            <div className="bg-slate-900/70 p-3 rounded-lg border border-slate-700/50">
-              <div className="text-sm text-slate-400 mb-1">BMR</div>
-              <div className="text-xl font-bold text-white">
+            <div className="bg-white/70 p-3 rounded-lg border border-gray-100">
+              <div className="text-sm text-gray-500 mb-1">BMR</div>
+              <div className="text-xl font-bold text-gray-800">
                 {results.bmr} <span className="text-sm font-normal">kcal</span>
               </div>
             </div>
-            <div className="bg-slate-900/70 p-3 rounded-lg border border-slate-700/50">
-              <div className="text-sm text-slate-400 mb-1">TDEE</div>
-              <div className="text-xl font-bold text-white">
+            <div className="bg-white/70 p-3 rounded-lg border border-gray-100">
+              <div className="text-sm text-gray-500 mb-1">TDEE</div>
+              <div className="text-xl font-bold text-gray-800">
                 {results.tdee} <span className="text-sm font-normal">kcal</span>
               </div>
             </div>
-            <div className="bg-indigo-900/40 p-3 rounded-lg border border-indigo-500/30">
-              <div className="text-sm text-indigo-300 mb-1">
+            <div className="bg-teal-50/40 p-3 rounded-lg border border-teal-300">
+              <div className="text-sm text-teal-400 mb-1">
                 Target Calories
               </div>
-              <div className="text-xl font-bold text-white">
+              <div className="text-xl font-bold text-gray-800">
                 {results.goalCalories}{" "}
                 <span className="text-sm font-normal">kcal</span>
               </div>
             </div>
           </div>
 
-          <h4 className="text-lg font-medium text-white mb-3">
+          <h4 className="text-lg font-medium text-gray-700 mb-3">
             Recommended Macros
           </h4>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div className="bg-blue-900/30 p-3 rounded-lg border border-blue-500/30">
               <div className="text-sm text-blue-300 mb-1">Protein</div>
-              <div className="text-lg font-bold text-white">
+              <div className="text-lg font-bold text-gray-800">
                 {results.macros.protein}g
               </div>
               <div className="text-xs text-blue-200/70 mt-1">
@@ -898,7 +898,7 @@ const CalorieCalculator = ({ onClose, updateMetric }) => {
             </div>
             <div className="bg-amber-900/30 p-3 rounded-lg border border-amber-500/30">
               <div className="text-sm text-amber-300 mb-1">Fat</div>
-              <div className="text-lg font-bold text-white">
+              <div className="text-lg font-bold text-gray-800">
                 {results.macros.fat}g
               </div>
               <div className="text-xs text-amber-200/70 mt-1">
@@ -907,7 +907,7 @@ const CalorieCalculator = ({ onClose, updateMetric }) => {
             </div>
             <div className="bg-emerald-900/30 p-3 rounded-lg border border-emerald-500/30">
               <div className="text-sm text-emerald-300 mb-1">Carbs</div>
-              <div className="text-lg font-bold text-white">
+              <div className="text-lg font-bold text-gray-800">
                 {results.macros.carbs}g
               </div>
               <div className="text-xs text-emerald-200/70 mt-1">
@@ -918,7 +918,7 @@ const CalorieCalculator = ({ onClose, updateMetric }) => {
 
           {/* Macro breakdown pie chart */}
           <div className="mt-6">
-            <h4 className="text-sm font-medium text-slate-300 mb-3">
+            <h4 className="text-sm font-medium text-gray-500 mb-3">
               Macronutrient Breakdown
             </h4>
             <div className="flex flex-col sm:flex-row items-center">
@@ -950,9 +950,9 @@ const CalorieCalculator = ({ onClose, updateMetric }) => {
                   <div className="flex items-center justify-between">
                     <div className="flex items-center">
                       <div className="w-3 h-3 rounded-full bg-blue-500 mr-2"></div>
-                      <span className="text-xs text-slate-300">Protein</span>
+                      <span className="text-xs text-gray-500">Protein</span>
                     </div>
-                    <span className="text-xs text-white">
+                    <span className="text-xs text-gray-600">
                       {Math.round(
                         ((results.macros.protein * 4) / results.goalCalories) *
                           100
@@ -963,9 +963,9 @@ const CalorieCalculator = ({ onClose, updateMetric }) => {
                   <div className="flex items-center justify-between">
                     <div className="flex items-center">
                       <div className="w-3 h-3 rounded-full bg-amber-500 mr-2"></div>
-                      <span className="text-xs text-slate-300">Fat</span>
+                      <span className="text-xs text-gray-500">Fat</span>
                     </div>
-                    <span className="text-xs text-white">
+                    <span className="text-xs text-gray-600">
                       {Math.round(
                         ((results.macros.fat * 9) / results.goalCalories) * 100
                       )}
@@ -975,9 +975,9 @@ const CalorieCalculator = ({ onClose, updateMetric }) => {
                   <div className="flex items-center justify-between">
                     <div className="flex items-center">
                       <div className="w-3 h-3 rounded-full bg-emerald-500 mr-2"></div>
-                      <span className="text-xs text-slate-300">Carbs</span>
+                      <span className="text-xs text-gray-500">Carbs</span>
                     </div>
-                    <span className="text-xs text-white">
+                    <span className="text-xs text-gray-600">
                       {Math.round(
                         ((results.macros.carbs * 4) / results.goalCalories) *
                           100
@@ -990,7 +990,7 @@ const CalorieCalculator = ({ onClose, updateMetric }) => {
             </div>
           </div>
 
-          <div className="mt-6 text-xs text-slate-400">
+          <div className="mt-6 text-xs text-gray-500">
             <p className="mb-2">
               <strong>BMR:</strong> Basal Metabolic Rate - Calories your body
               needs at complete rest
@@ -1119,21 +1119,21 @@ const WorkoutTimer = ({ onClose }) => {
   };
 
   return (
-    <div className="bg-gradient-to-br from-slate-900/90 to-black/90 backdrop-blur-xl rounded-xl p-6 max-w-md w-full border border-slate-700/50 shadow-2xl">
+    <div className="bg-gradient-to-br from-white to-gray-50 backdrop-blur-xl rounded-xl p-6 max-w-md w-full border border-gray-100 shadow-lg">
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-bold bg-gradient-to-r from-indigo-400 to-purple-500 text-transparent bg-clip-text">
+        <h2 className="text-2xl font-bold bg-gradient-to-r from-teal-400 to-cyan-400 text-transparent bg-clip-text">
           Workout Timer
         </h2>
         <button
           onClick={onClose}
-          className="p-2 rounded-full hover:bg-slate-800/70"
+          className="p-2 rounded-full hover:bg-gray-100"
         >
           <X size={20} />
         </button>
       </div>
 
       {/* Timer type tabs */}
-      <div className="flex mb-6 bg-slate-800/50 rounded-lg p-1">
+      <div className="flex mb-6 bg-gray-100 rounded-lg p-1">
         {[
           { id: "countdown", label: "Countdown" },
           { id: "stopwatch", label: "Stopwatch" },
@@ -1147,8 +1147,8 @@ const WorkoutTimer = ({ onClose }) => {
             }}
             className={`flex-1 py-2 rounded-md text-sm font-medium transition-colors ${
               timerType === type.id
-                ? "bg-indigo-600 text-white"
-                : "text-slate-300 hover:bg-slate-700/50"
+                ? "bg-teal-500 text-white"
+                : "text-gray-500 hover:bg-gray-200/50"
             }`}
           >
             {type.label}
@@ -1162,8 +1162,8 @@ const WorkoutTimer = ({ onClose }) => {
           isRunning
             ? isResting
               ? "border-amber-500/30 bg-amber-900/20"
-              : "border-indigo-500/30 bg-indigo-900/20"
-            : "border-slate-700/50 bg-slate-800/50"
+              : "border-teal-300 bg-teal-50/20"
+            : "border-gray-100 bg-gray-100"
         }`}
       >
         <div className="text-center">
@@ -1175,14 +1175,14 @@ const WorkoutTimer = ({ onClose }) => {
 
           <div
             className={`text-6xl font-bold ${
-              isResting ? "text-amber-300" : "text-white"
+              isResting ? "text-amber-300" : "text-gray-900"
             }`}
           >
             {formatTime(currentTime)}
           </div>
 
           {timerType !== "stopwatch" && isRunning && (
-            <div className="mt-2 text-xs text-slate-400">
+            <div className="mt-2 text-xs text-gray-500">
               Total: {formatTime(elapsedTime)}
             </div>
           )}
@@ -1194,7 +1194,7 @@ const WorkoutTimer = ({ onClose }) => {
         <>
           {timerType === "countdown" && (
             <div className="mb-6">
-              <label className="block text-sm font-medium text-slate-300 mb-2">
+              <label className="block text-sm font-medium text-gray-500 mb-2">
                 Countdown Time (seconds)
               </label>
               <div className="grid grid-cols-3 gap-3">
@@ -1204,8 +1204,8 @@ const WorkoutTimer = ({ onClose }) => {
                     onClick={() => setCountdownTime(time)}
                     className={`py-2 rounded-lg text-sm ${
                       countdownTime === time
-                        ? "bg-indigo-600 text-white"
-                        : "bg-slate-800/50 text-slate-300 border border-slate-700/50"
+                        ? "bg-teal-500 text-white"
+                        : "bg-gray-100 text-gray-500 border border-gray-100"
                     }`}
                   >
                     {time >= 60 ? `${Math.floor(time / 60)}m` : `${time}s`}
@@ -1218,7 +1218,7 @@ const WorkoutTimer = ({ onClose }) => {
           {timerType === "interval" && (
             <div className="space-y-4 mb-6">
               <div>
-                <label className="block text-sm font-medium text-slate-300 mb-2">
+                <label className="block text-sm font-medium text-gray-500 mb-2">
                   Work Time (seconds)
                 </label>
                 <div className="grid grid-cols-3 gap-3">
@@ -1228,8 +1228,8 @@ const WorkoutTimer = ({ onClose }) => {
                       onClick={() => setRoundTime(time)}
                       className={`py-2 rounded-lg text-sm ${
                         roundTime === time
-                          ? "bg-indigo-600 text-white"
-                          : "bg-slate-800/50 text-slate-300 border border-slate-700/50"
+                          ? "bg-teal-500 text-white"
+                          : "bg-gray-100 text-gray-500 border border-gray-100"
                       }`}
                     >
                       {time >= 60 ? `${Math.floor(time / 60)}m` : `${time}s`}
@@ -1239,7 +1239,7 @@ const WorkoutTimer = ({ onClose }) => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-slate-300 mb-2">
+                <label className="block text-sm font-medium text-gray-500 mb-2">
                   Rest Time (seconds)
                 </label>
                 <div className="grid grid-cols-3 gap-3">
@@ -1249,8 +1249,8 @@ const WorkoutTimer = ({ onClose }) => {
                       onClick={() => setRestTime(time)}
                       className={`py-2 rounded-lg text-sm ${
                         restTime === time
-                          ? "bg-amber-600 text-white"
-                          : "bg-slate-800/50 text-slate-300 border border-slate-700/50"
+                          ? "bg-amber-600 text-gray-900"
+                          : "bg-gray-100 text-gray-500 border border-gray-100"
                       }`}
                     >
                       {time}s
@@ -1260,7 +1260,7 @@ const WorkoutTimer = ({ onClose }) => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-slate-300 mb-2">
+                <label className="block text-sm font-medium text-gray-500 mb-2">
                   Rounds
                 </label>
                 <div className="grid grid-cols-3 gap-3">
@@ -1270,8 +1270,8 @@ const WorkoutTimer = ({ onClose }) => {
                       onClick={() => setRounds(count)}
                       className={`py-2 rounded-lg text-sm ${
                         rounds === count
-                          ? "bg-purple-600 text-white"
-                          : "bg-slate-800/50 text-slate-300 border border-slate-700/50"
+                          ? "bg-cyan-500 text-white"
+                          : "bg-gray-100 text-gray-500 border border-gray-100"
                       }`}
                     >
                       {count}
@@ -1292,14 +1292,14 @@ const WorkoutTimer = ({ onClose }) => {
           <>
             <button
               onClick={pauseTimer}
-              className="py-3 rounded-lg bg-amber-600 hover:bg-amber-700 text-white font-medium transition-colors flex items-center justify-center"
+              className="py-3 rounded-lg bg-amber-600 hover:bg-amber-700 text-gray-900 font-medium transition-colors flex items-center justify-center"
             >
               <Pause className="h-5 w-5 mr-2" />
               Pause
             </button>
             <button
               onClick={resetTimer}
-              className="py-3 rounded-lg bg-slate-700 hover:bg-slate-600 text-white font-medium transition-colors flex items-center justify-center"
+              className="py-3 rounded-lg bg-gray-200 hover:bg-slate-600 text-gray-900 font-medium transition-colors flex items-center justify-center"
             >
               <RefreshCcw className="h-5 w-5 mr-2" />
               Reset
@@ -1308,7 +1308,7 @@ const WorkoutTimer = ({ onClose }) => {
         ) : (
           <button
             onClick={startTimer}
-            className="py-3 rounded-lg bg-gradient-to-r from-indigo-600 to-purple-600 hover:opacity-90 text-white font-medium transition-colors flex items-center justify-center"
+            className="py-3 rounded-lg bg-gradient-to-r from-teal-400 to-cyan-400 hover:opacity-90 text-gray-900 font-medium transition-colors flex items-center justify-center"
           >
             <Play className="h-5 w-5 mr-2" />
             Start
@@ -1346,14 +1346,14 @@ const BodyStatsForm = ({ metrics, updateMetric, onClose }) => {
   };
 
   return (
-    <div className="bg-gradient-to-br from-slate-900/90 to-black/90 backdrop-blur-xl rounded-xl p-6 max-w-md w-full border border-slate-700/50 shadow-2xl">
+    <div className="bg-gradient-to-br from-white to-gray-50 backdrop-blur-xl rounded-xl p-6 max-w-md w-full border border-gray-100 shadow-lg">
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-bold bg-gradient-to-r from-indigo-400 to-purple-500 text-transparent bg-clip-text">
+        <h2 className="text-2xl font-bold bg-gradient-to-r from-teal-400 to-cyan-400 text-transparent bg-clip-text">
           Update Body Stats
         </h2>
         <button
           onClick={onClose}
-          className="p-2 rounded-full hover:bg-slate-800/70"
+          className="p-2 rounded-full hover:bg-gray-100"
         >
           <X size={20} />
         </button>
@@ -1364,7 +1364,7 @@ const BodyStatsForm = ({ metrics, updateMetric, onClose }) => {
           <div>
             <label
               htmlFor="date"
-              className="block text-sm font-medium text-slate-300 mb-2"
+              className="block text-sm font-medium text-gray-500 mb-2"
             >
               Date
             </label>
@@ -1374,14 +1374,14 @@ const BodyStatsForm = ({ metrics, updateMetric, onClose }) => {
               value={date}
               max={today}
               onChange={(e) => setDate(e.target.value)}
-              className="w-full bg-slate-800/50 border border-slate-700/50 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/50"
+              className="w-full bg-gray-100 border border-gray-100 rounded-lg px-4 py-2 text-gray-900 focus:outline-none focus:ring-2 focus:ring-teal-500/50"
             />
           </div>
 
           <div>
             <label
               htmlFor="weight"
-              className="block text-sm font-medium text-slate-300 mb-2"
+              className="block text-sm font-medium text-gray-500 mb-2"
             >
               Weight (kg)
             </label>
@@ -1391,14 +1391,14 @@ const BodyStatsForm = ({ metrics, updateMetric, onClose }) => {
               step="0.1"
               value={weight}
               onChange={(e) => setWeight(parseFloat(e.target.value))}
-              className="w-full bg-slate-800/50 border border-slate-700/50 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/50"
+              className="w-full bg-gray-100 border border-gray-100 rounded-lg px-4 py-2 text-gray-900 focus:outline-none focus:ring-2 focus:ring-teal-500/50"
             />
           </div>
 
           <div>
             <label
               htmlFor="bodyFat"
-              className="block text-sm font-medium text-slate-300 mb-2"
+              className="block text-sm font-medium text-gray-500 mb-2"
             >
               Body Fat (%)
             </label>
@@ -1408,7 +1408,7 @@ const BodyStatsForm = ({ metrics, updateMetric, onClose }) => {
               step="0.1"
               value={bodyFat}
               onChange={(e) => setBodyFat(parseFloat(e.target.value))}
-              className="w-full bg-slate-800/50 border border-slate-700/50 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/50"
+              className="w-full bg-gray-100 border border-gray-100 rounded-lg px-4 py-2 text-gray-900 focus:outline-none focus:ring-2 focus:ring-teal-500/50"
             />
           </div>
 
@@ -1416,7 +1416,7 @@ const BodyStatsForm = ({ metrics, updateMetric, onClose }) => {
             <div>
               <label
                 htmlFor="waist"
-                className="block text-sm font-medium text-slate-300 mb-2"
+                className="block text-sm font-medium text-gray-500 mb-2"
               >
                 Waist (cm)
               </label>
@@ -1426,13 +1426,13 @@ const BodyStatsForm = ({ metrics, updateMetric, onClose }) => {
                 step="0.1"
                 value={waist}
                 onChange={(e) => setWaist(parseFloat(e.target.value))}
-                className="w-full bg-slate-800/50 border border-slate-700/50 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/50"
+                className="w-full bg-gray-100 border border-gray-100 rounded-lg px-4 py-2 text-gray-900 focus:outline-none focus:ring-2 focus:ring-teal-500/50"
               />
             </div>
             <div>
               <label
                 htmlFor="chest"
-                className="block text-sm font-medium text-slate-300 mb-2"
+                className="block text-sm font-medium text-gray-500 mb-2"
               >
                 Chest (cm)
               </label>
@@ -1442,7 +1442,7 @@ const BodyStatsForm = ({ metrics, updateMetric, onClose }) => {
                 step="0.1"
                 value={chest}
                 onChange={(e) => setChest(parseFloat(e.target.value))}
-                className="w-full bg-slate-800/50 border border-slate-700/50 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/50"
+                className="w-full bg-gray-100 border border-gray-100 rounded-lg px-4 py-2 text-gray-900 focus:outline-none focus:ring-2 focus:ring-teal-500/50"
               />
             </div>
           </div>
@@ -1451,7 +1451,7 @@ const BodyStatsForm = ({ metrics, updateMetric, onClose }) => {
             <div>
               <label
                 htmlFor="arms"
-                className="block text-sm font-medium text-slate-300 mb-2"
+                className="block text-sm font-medium text-gray-500 mb-2"
               >
                 Arms (cm)
               </label>
@@ -1461,13 +1461,13 @@ const BodyStatsForm = ({ metrics, updateMetric, onClose }) => {
                 step="0.1"
                 value={arms}
                 onChange={(e) => setArms(parseFloat(e.target.value))}
-                className="w-full bg-slate-800/50 border border-slate-700/50 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/50"
+                className="w-full bg-gray-100 border border-gray-100 rounded-lg px-4 py-2 text-gray-900 focus:outline-none focus:ring-2 focus:ring-teal-500/50"
               />
             </div>
             <div>
               <label
                 htmlFor="thighs"
-                className="block text-sm font-medium text-slate-300 mb-2"
+                className="block text-sm font-medium text-gray-500 mb-2"
               >
                 Thighs (cm)
               </label>
@@ -1477,7 +1477,7 @@ const BodyStatsForm = ({ metrics, updateMetric, onClose }) => {
                 step="0.1"
                 value={thighs}
                 onChange={(e) => setThighs(parseFloat(e.target.value))}
-                className="w-full bg-slate-800/50 border border-slate-700/50 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/50"
+                className="w-full bg-gray-100 border border-gray-100 rounded-lg px-4 py-2 text-gray-900 focus:outline-none focus:ring-2 focus:ring-teal-500/50"
               />
             </div>
           </div>
@@ -1485,7 +1485,7 @@ const BodyStatsForm = ({ metrics, updateMetric, onClose }) => {
 
         <button
           type="submit"
-          className="w-full py-3 px-4 rounded-lg text-white font-medium bg-gradient-to-r from-indigo-600 to-purple-600 hover:opacity-90 transition-opacity flex items-center justify-center"
+          className="w-full py-3 px-4 rounded-lg text-gray-900 font-medium bg-gradient-to-r from-teal-400 to-cyan-400 hover:opacity-90 transition-opacity flex items-center justify-center"
         >
           <Save className="h-5 w-5 mr-2" />
           Save Stats
@@ -1569,7 +1569,7 @@ export default function FitnessPage() {
 
   // BMI color function
   const getBmiColor = (bmi) => {
-    if (!bmi) return "text-slate-400";
+    if (!bmi) return "text-gray-500";
     if (bmi < 18.5) return "text-blue-400";
     if (bmi < 25) return "text-green-400";
     if (bmi < 30) return "text-yellow-400";
@@ -1674,9 +1674,9 @@ export default function FitnessPage() {
     const percentage = Math.min(Math.round((current / goal) * 100), 100);
 
     return (
-      <div className="bg-gradient-to-br from-slate-900/80 to-black/60 backdrop-blur-md rounded-xl border border-slate-700/50 p-4 shadow-lg">
+      <div className="bg-white backdrop-blur-md rounded-xl border border-gray-100 p-4 shadow-lg">
         <div className="flex justify-between items-start mb-2">
-          <h3 className="text-sm font-medium text-slate-300">{title}</h3>
+          <h3 className="text-sm font-medium text-gray-500">{title}</h3>
           <div
             className={`w-8 h-8 rounded-full flex items-center justify-center ${color}`}
           >
@@ -1685,11 +1685,11 @@ export default function FitnessPage() {
         </div>
 
         <div className="flex justify-between items-baseline mb-3">
-          <div className="text-2xl font-bold text-white">{current}</div>
-          <div className="text-sm text-slate-400">of {goal}</div>
+          <div className="text-2xl font-bold text-gray-800">{current}</div>
+          <div className="text-sm text-gray-500">of {goal}</div>
         </div>
 
-        <div className="relative h-2 bg-slate-800 rounded-full overflow-hidden">
+        <div className="relative h-2 bg-gray-100 rounded-full overflow-hidden">
           <div
             className={`absolute top-0 left-0 h-full rounded-full ${color.replace(
               "text-",
@@ -1699,7 +1699,7 @@ export default function FitnessPage() {
           ></div>
         </div>
 
-        <div className="mt-2 text-xs text-right text-slate-400">
+        <div className="mt-2 text-xs text-right text-gray-500">
           {percentage}%
         </div>
       </div>
@@ -1709,36 +1709,36 @@ export default function FitnessPage() {
   // Custom goal card component
   const CustomGoalCard = ({ goal, onDelete }) => {
     return (
-      <div className="bg-gradient-to-br from-slate-900/80 to-black/60 backdrop-blur-md rounded-xl border border-slate-700/50 shadow-lg p-4">
+      <div className="bg-white backdrop-blur-md rounded-xl border border-gray-100 shadow-lg p-4">
         <div className="flex justify-between items-start">
-          <h3 className="text-white font-medium">{goal.name}</h3>
+          <h3 className="text-gray-900 font-medium">{goal.name}</h3>
           <button
             onClick={() => onDelete(goal.id)}
-            className="p-1 rounded hover:bg-slate-700/50 text-slate-400 hover:text-red-400 transition-colors"
+            className="p-1 rounded hover:bg-gray-200/50 text-gray-500 hover:text-red-400 transition-colors"
           >
             <Trash2 size={14} />
           </button>
         </div>
 
-        <p className="text-xs text-slate-400 mt-1">{goal.target}</p>
+        <p className="text-xs text-gray-500 mt-1">{goal.target}</p>
 
         <div className="mt-3">
           <div className="flex justify-between items-center text-xs mb-1">
             <span
-              className={goal.achieved ? "text-green-400" : "text-slate-300"}
+              className={goal.achieved ? "text-green-400" : "text-gray-500"}
             >
               {goal.achieved ? "Completed" : `${goal.progress}% complete`}
             </span>
           </div>
 
-          <div className="relative h-2 bg-slate-800 rounded-full overflow-hidden">
+          <div className="relative h-2 bg-gray-100 rounded-full overflow-hidden">
             <div
               className={`absolute top-0 left-0 h-full rounded-full ${
                 goal.achieved
                   ? "bg-green-500"
                   : goal.type === "nutrition"
                   ? "bg-amber-500"
-                  : "bg-indigo-500"
+                  : "bg-teal-500"
               }`}
               style={{ width: `${goal.progress}%` }}
             ></div>
@@ -1750,27 +1750,27 @@ export default function FitnessPage() {
 
   // Render
   return (
-    <main className="min-h-screen bg-gradient-to-b from-[#070B14] via-[#0b1120] to-[#0A0E1A] text-white">
+    <main className="min-h-screen bg-[#FAF9F6] text-gray-900">
       <div className="absolute inset-0 bg-[url('/noise.png')] opacity-[0.03] mix-blend-overlay pointer-events-none"></div>
       <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center opacity-[0.03] mix-blend-overlay pointer-events-none"></div>
 
       {/* Animated glowing orb */}
-      <div className="fixed top-1/4 -right-28 w-96 h-96 bg-indigo-600/20 rounded-full blur-3xl animate-pulse pointer-events-none"></div>
-      <div className="fixed top-3/4 -left-28 w-96 h-96 bg-purple-600/20 rounded-full blur-3xl animate-pulse pointer-events-none"></div>
+      <div className="fixed top-1/4 -right-28 w-96 h-96 bg-teal-100 rounded-full blur-3xl pointer-events-none"></div>
+      <div className="fixed top-3/4 -left-28 w-96 h-96 bg-cyan-100 rounded-full blur-3xl pointer-events-none"></div>
 
       {/* Header */}
-      <header className="sticky top-0 z-50 backdrop-blur-xl bg-gradient-to-r from-black/80 via-black/70 to-black/80 border-b border-slate-800/60 shadow-lg">
+      <header className="sticky top-0 z-50 backdrop-blur-xl bg-gradient-to-r from-white/80 via-white/70 to-white/80 border-b border-gray-100 shadow-lg">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center space-x-4">
               <button
                 onClick={() => router.push("/")}
-                className="p-2 rounded-full hover:bg-slate-800/60 transition-colors"
+                className="p-2 rounded-full hover:bg-gray-100 transition-colors"
               >
                 <ArrowLeft className="h-5 w-5" />
               </button>
               <h1 className="font-bold text-xl md:text-2xl">
-                <span className="bg-gradient-to-r from-indigo-400 to-purple-500 text-transparent bg-clip-text">
+                <span className="bg-gradient-to-r from-teal-400 to-cyan-400 text-transparent bg-clip-text">
                   Fitness Hub
                 </span>
               </h1>
@@ -1780,21 +1780,21 @@ export default function FitnessPage() {
             <div className="hidden md:flex items-center space-x-4">
               <button
                 onClick={() => router.push("/")}
-                className="flex items-center px-3 py-2 rounded-md text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-800/50 transition-colors"
+                className="flex items-center px-3 py-2 rounded-md text-sm font-medium text-gray-500 hover:text-teal-600 hover:bg-gray-100 transition-colors"
               >
                 <HomeIcon className="mr-2 h-4 w-4" />
                 Home
               </button>
               <button
                 onClick={() => router.push("/recipe")}
-                className="flex items-center px-3 py-2 rounded-md text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-800/50 transition-colors"
+                className="flex items-center px-3 py-2 rounded-md text-sm font-medium text-gray-500 hover:text-teal-600 hover:bg-gray-100 transition-colors"
               >
                 <ChefHat className="mr-2 h-4 w-4" />
                 Recipes
               </button>
               <button
                 onClick={() => router.push("/diary")}
-                className="flex items-center px-3 py-2 rounded-md text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-800/50 transition-colors"
+                className="flex items-center px-3 py-2 rounded-md text-sm font-medium text-gray-500 hover:text-teal-600 hover:bg-gray-100 transition-colors"
               >
                 <Calendar className="mr-2 h-4 w-4" />
                 Food Diary
@@ -1805,7 +1805,7 @@ export default function FitnessPage() {
             <div className="md:hidden">
               <button
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="p-2 rounded-md hover:bg-slate-800/60 transition-colors"
+                className="p-2 rounded-md hover:bg-gray-100 transition-colors"
               >
                 {mobileMenuOpen ? (
                   <X className="h-6 w-6" />
@@ -1827,7 +1827,7 @@ export default function FitnessPage() {
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            className="bg-black/90 backdrop-blur-lg border-b border-slate-800/60 md:hidden"
+            className="bg-white/90 backdrop-blur-lg border-b border-gray-100 md:hidden"
           >
             <div className="px-4 py-3 space-y-2">
               <button
@@ -1835,7 +1835,7 @@ export default function FitnessPage() {
                   router.push("/");
                   setMobileMenuOpen(false);
                 }}
-                className="flex items-center w-full px-3 py-2 rounded-md text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-800/50 transition-colors"
+                className="flex items-center w-full px-3 py-2 rounded-md text-sm font-medium text-gray-500 hover:text-teal-600 hover:bg-gray-100 transition-colors"
               >
                 <HomeIcon className="mr-2 h-4 w-4" />
                 Home
@@ -1845,7 +1845,7 @@ export default function FitnessPage() {
                   router.push("/recipe");
                   setMobileMenuOpen(false);
                 }}
-                className="flex items-center w-full px-3 py-2 rounded-md text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-800/50 transition-colors"
+                className="flex items-center w-full px-3 py-2 rounded-md text-sm font-medium text-gray-500 hover:text-teal-600 hover:bg-gray-100 transition-colors"
               >
                 <ChefHat className="mr-2 h-4 w-4" />
                 Recipes
@@ -1855,7 +1855,7 @@ export default function FitnessPage() {
                   router.push("/diary");
                   setMobileMenuOpen(false);
                 }}
-                className="flex items-center w-full px-3 py-2 rounded-md text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-800/50 transition-colors"
+                className="flex items-center w-full px-3 py-2 rounded-md text-sm font-medium text-gray-500 hover:text-teal-600 hover:bg-gray-100 transition-colors"
               >
                 <Calendar className="mr-2 h-4 w-4" />
                 Food Diary
@@ -1866,7 +1866,7 @@ export default function FitnessPage() {
       </header>
 
       {/* Tabs navigation */}
-      <div className="bg-slate-900/60 backdrop-blur-sm border-b border-slate-800/60 sticky top-16 z-40">
+      <div className="bg-white/60 backdrop-blur-sm border-b border-gray-100 sticky top-16 z-40">
         <div className="container mx-auto px-4">
           <div className="flex overflow-x-auto scrollbar-hide">
             {[
@@ -1897,8 +1897,8 @@ export default function FitnessPage() {
                 onClick={() => setActiveTab(tab.id)}
                 className={`px-4 py-3 flex items-center whitespace-nowrap ${
                   activeTab === tab.id
-                    ? "text-white border-b-2 border-indigo-500 font-medium"
-                    : "text-slate-300 hover:text-white border-b-2 border-transparent hover:border-slate-700/50"
+                    ? "text-gray-900 border-b-2 border-indigo-500 font-medium"
+                    : "text-gray-500 hover:text-teal-600 border-b-2 border-transparent hover:border-gray-100"
                 }`}
               >
                 <span className="mr-2">{tab.icon}</span>
@@ -1925,60 +1925,60 @@ export default function FitnessPage() {
               <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
                 <button
                   onClick={() => setShowAddWorkoutForm(true)}
-                  className="bg-gradient-to-br from-indigo-600/90 to-indigo-700/90 hover:from-indigo-600 hover:to-indigo-700 rounded-xl p-4 shadow-lg border border-indigo-500/20 transition-all hover:shadow-xl"
+                  className="bg-gradient-to-br from-indigo-600/90 to-indigo-700/90 hover:from-indigo-600 hover:to-indigo-700 rounded-xl p-4 shadow-lg border border-indigo-500/20 transition-all hover:shadow-md"
                 >
-                  <div className="w-8 h-8 rounded-full bg-indigo-500/20 flex items-center justify-center mb-2">
-                    <Dumbbell size={16} className="text-white" />
+                  <div className="w-8 h-8 rounded-full bg-teal-100 flex items-center justify-center mb-2">
+                    <Dumbbell size={16} className="text-gray-900" />
                   </div>
                   <p className="text-sm font-medium">Add Workout</p>
                 </button>
 
                 <button
                   onClick={() => setShowBodyStatsForm(true)}
-                  className="bg-gradient-to-br from-purple-600/90 to-purple-700/90 hover:from-purple-600 hover:to-purple-700 rounded-xl p-4 shadow-lg border border-purple-500/20 transition-all hover:shadow-xl"
+                  className="bg-gradient-to-br from-purple-600/90 to-purple-700/90 hover:from-purple-600 hover:to-purple-700 rounded-xl p-4 shadow-lg border border-cyan-400/20 transition-all hover:shadow-md"
                 >
                   <div className="w-8 h-8 rounded-full bg-purple-500/20 flex items-center justify-center mb-2">
-                    <LineChart size={16} className="text-white" />
+                    <LineChart size={16} className="text-gray-900" />
                   </div>
                   <p className="text-sm font-medium">Update Stats</p>
                 </button>
 
                 <button
                   onClick={() => setShowWorkoutTimer(true)}
-                  className="bg-gradient-to-br from-amber-600/90 to-amber-700/90 hover:from-amber-600 hover:to-amber-700 rounded-xl p-4 shadow-lg border border-amber-500/20 transition-all hover:shadow-xl"
+                  className="bg-gradient-to-br from-amber-600/90 to-amber-700/90 hover:from-amber-600 hover:to-amber-700 rounded-xl p-4 shadow-lg border border-amber-500/20 transition-all hover:shadow-md"
                 >
                   <div className="w-8 h-8 rounded-full bg-amber-500/20 flex items-center justify-center mb-2">
-                    <Clock size={16} className="text-white" />
+                    <Clock size={16} className="text-gray-900" />
                   </div>
                   <p className="text-sm font-medium">Timer</p>
                 </button>
 
                 <button
                   onClick={() => setShowCalorieCalculator(true)}
-                  className="bg-gradient-to-br from-emerald-600/90 to-emerald-700/90 hover:from-emerald-600 hover:to-emerald-700 rounded-xl p-4 shadow-lg border border-emerald-500/20 transition-all hover:shadow-xl"
+                  className="bg-gradient-to-br from-emerald-600/90 to-emerald-700/90 hover:from-emerald-600 hover:to-emerald-700 rounded-xl p-4 shadow-lg border border-emerald-500/20 transition-all hover:shadow-md"
                 >
                   <div className="w-8 h-8 rounded-full bg-emerald-500/20 flex items-center justify-center mb-2">
-                    <BarChart2 size={16} className="text-white" />
+                    <BarChart2 size={16} className="text-gray-900" />
                   </div>
                   <p className="text-sm font-medium">Calorie Calculator</p>
                 </button>
 
                 <button
                   onClick={() => setActiveTab("coach")}
-                  className="bg-gradient-to-br from-blue-600/90 to-blue-700/90 hover:from-blue-600 hover:to-blue-700 rounded-xl p-4 shadow-lg border border-blue-500/20 transition-all hover:shadow-xl"
+                  className="bg-gradient-to-br from-blue-600/90 to-blue-700/90 hover:from-blue-600 hover:to-blue-700 rounded-xl p-4 shadow-lg border border-blue-500/20 transition-all hover:shadow-md"
                 >
                   <div className="w-8 h-8 rounded-full bg-blue-500/20 flex items-center justify-center mb-2">
-                    <MessageCircle size={16} className="text-white" />
+                    <MessageCircle size={16} className="text-gray-900" />
                   </div>
                   <p className="text-sm font-medium">Ask Coach</p>
                 </button>
 
                 <button
                   onClick={() => router.push("/diary")}
-                  className="bg-gradient-to-br from-rose-600/90 to-rose-700/90 hover:from-rose-600 hover:to-rose-700 rounded-xl p-4 shadow-lg border border-rose-500/20 transition-all hover:shadow-xl"
+                  className="bg-gradient-to-br from-rose-600/90 to-rose-700/90 hover:from-rose-600 hover:to-rose-700 rounded-xl p-4 shadow-lg border border-rose-500/20 transition-all hover:shadow-md"
                 >
                   <div className="w-8 h-8 rounded-full bg-rose-500/20 flex items-center justify-center mb-2">
-                    <BookOpen size={16} className="text-white" />
+                    <BookOpen size={16} className="text-gray-900" />
                   </div>
                   <p className="text-sm font-medium">Food Diary</p>
                 </button>
@@ -1986,7 +1986,7 @@ export default function FitnessPage() {
 
               {/* Progress overview */}
               <div>
-                <h2 className="text-xl font-bold mb-4 bg-gradient-to-r from-indigo-400 to-purple-500 text-transparent bg-clip-text">
+                <h2 className="text-xl font-bold mb-4 bg-gradient-to-r from-teal-400 to-cyan-400 text-transparent bg-clip-text">
                   Today's Progress
                 </h2>
 
@@ -2029,28 +2029,28 @@ export default function FitnessPage() {
                 <div className="mt-4 flex flex-wrap gap-3">
                   <button
                     onClick={() => handleProgressUpdate("steps", 1000)}
-                    className="bg-slate-800/70 hover:bg-blue-900/40 border border-slate-700/50 hover:border-blue-500/30 rounded-lg px-3 py-2 text-sm flex items-center space-x-2 transition-colors"
+                    className="bg-gray-100 hover:bg-blue-900/40 border border-gray-100 hover:border-blue-500/30 rounded-lg px-3 py-2 text-sm flex items-center space-x-2 transition-colors"
                   >
                     <Activity size={14} className="text-blue-500" />
                     <span>+1000 Steps</span>
                   </button>
                   <button
                     onClick={() => handleProgressUpdate("water", 1)}
-                    className="bg-slate-800/70 hover:bg-cyan-900/40 border border-slate-700/50 hover:border-cyan-500/30 rounded-lg px-3 py-2 text-sm flex items-center space-x-2 transition-colors"
+                    className="bg-gray-100 hover:bg-cyan-900/40 border border-gray-100 hover:border-cyan-500/30 rounded-lg px-3 py-2 text-sm flex items-center space-x-2 transition-colors"
                   >
                     <Droplet size={14} className="text-cyan-500" />
                     <span>+1 Glass</span>
                   </button>
                   <button
                     onClick={() => handleProgressUpdate("activeMinutes", 15)}
-                    className="bg-slate-800/70 hover:bg-amber-900/40 border border-slate-700/50 hover:border-amber-500/30 rounded-lg px-3 py-2 text-sm flex items-center space-x-2 transition-colors"
+                    className="bg-gray-100 hover:bg-amber-900/40 border border-gray-100 hover:border-amber-500/30 rounded-lg px-3 py-2 text-sm flex items-center space-x-2 transition-colors"
                   >
                     <Zap size={14} className="text-amber-500" />
                     <span>+15 Active Min</span>
                   </button>
                   <button
                     onClick={() => handleProgressUpdate("caloriesBurned", 100)}
-                    className="bg-slate-800/70 hover:bg-red-900/40 border border-slate-700/50 hover:border-red-500/30 rounded-lg px-3 py-2 text-sm flex items-center space-x-2 transition-colors"
+                    className="bg-gray-100 hover:bg-red-900/40 border border-gray-100 hover:border-red-500/30 rounded-lg px-3 py-2 text-sm flex items-center space-x-2 transition-colors"
                   >
                     <Flame size={14} className="text-red-500" />
                     <span>+100 Calories</span>
@@ -2061,24 +2061,24 @@ export default function FitnessPage() {
               {/* Stats summary and workouts */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {/* Stats summary */}
-                <div className="bg-gradient-to-br from-slate-900/80 to-black/60 backdrop-blur-md rounded-xl border border-slate-700/50 shadow-lg p-5">
+                <div className="bg-white backdrop-blur-md rounded-xl border border-gray-100 shadow-lg p-5">
                   <h3 className="text-lg font-bold mb-4 flex items-center">
-                    <Info size={18} className="text-indigo-400 mr-2" />
+                    <Info size={18} className="text-teal-500 mr-2" />
                     Key Stats
                   </h3>
 
                   {metrics && (
                     <div className="space-y-4">
-                      <div className="flex justify-between items-center pb-2 border-b border-slate-700/50">
-                        <div className="text-slate-300">Weight</div>
+                      <div className="flex justify-between items-center pb-2 border-b border-gray-100">
+                        <div className="text-gray-500">Weight</div>
                         <div className="font-medium">
                           {metrics.bodyStats.weight.value}{" "}
                           {metrics.bodyStats.weight.unit}
                         </div>
                       </div>
 
-                      <div className="flex justify-between items-center pb-2 border-b border-slate-700/50">
-                        <div className="text-slate-300">BMI</div>
+                      <div className="flex justify-between items-center pb-2 border-b border-gray-100">
+                        <div className="text-gray-500">BMI</div>
                         <div
                           className={`font-medium ${getBmiColor(
                             metrics.bodyStats.bmi.value
@@ -2089,15 +2089,15 @@ export default function FitnessPage() {
                         </div>
                       </div>
 
-                      <div className="flex justify-between items-center pb-2 border-b border-slate-700/50">
-                        <div className="text-slate-300">Body Fat</div>
+                      <div className="flex justify-between items-center pb-2 border-b border-gray-100">
+                        <div className="text-gray-500">Body Fat</div>
                         <div className="font-medium">
                           {metrics.bodyStats.bodyFat.value}%
                         </div>
                       </div>
 
-                      <div className="flex justify-between items-center pb-2 border-b border-slate-700/50">
-                        <div className="text-slate-300">
+                      <div className="flex justify-between items-center pb-2 border-b border-gray-100">
+                        <div className="text-gray-500">
                           Workouts this month
                         </div>
                         <div className="font-medium">
@@ -2107,7 +2107,7 @@ export default function FitnessPage() {
 
                       <button
                         onClick={() => setShowBodyStatsForm(true)}
-                        className="w-full py-2 mt-2 rounded-lg bg-indigo-600/40 hover:bg-indigo-600/60 text-white text-sm transition-colors flex items-center justify-center"
+                        className="w-full py-2 mt-2 rounded-lg bg-teal-500/40 hover:bg-teal-500/60 text-gray-900 text-sm transition-colors flex items-center justify-center"
                       >
                         <Edit2 size={14} className="mr-2" />
                         Update Stats
@@ -2117,15 +2117,15 @@ export default function FitnessPage() {
                 </div>
 
                 {/* Recent workouts card */}
-                <div className="bg-gradient-to-br from-slate-900/80 to-black/60 backdrop-blur-md rounded-xl border border-slate-700/50 shadow-lg p-5 md:col-span-2">
+                <div className="bg-white backdrop-blur-md rounded-xl border border-gray-100 shadow-lg p-5 md:col-span-2">
                   <div className="flex justify-between items-center mb-4">
                     <h3 className="text-lg font-bold flex items-center">
-                      <Dumbbell size={18} className="text-indigo-400 mr-2" />
+                      <Dumbbell size={18} className="text-teal-500 mr-2" />
                       Recent Workouts
                     </h3>
                     <button
                       onClick={() => setActiveTab("workouts")}
-                      className="text-xs text-indigo-400 hover:text-indigo-300 transition-colors"
+                      className="text-xs text-teal-500 hover:text-teal-400 transition-colors"
                     >
                       View All →
                     </button>
@@ -2136,9 +2136,9 @@ export default function FitnessPage() {
                       {workouts.slice(0, 3).map((workout) => (
                         <div
                           key={workout.id}
-                          className="flex items-center bg-slate-800/50 rounded-lg p-3 border border-slate-700/50 hover:border-indigo-500/30 transition-colors"
+                          className="flex items-center bg-gray-100 rounded-lg p-3 border border-gray-100 hover:border-teal-300 transition-colors"
                         >
-                          <div className="w-10 h-10 rounded-lg bg-indigo-600/30 flex items-center justify-center mr-3 flex-shrink-0">
+                          <div className="w-10 h-10 rounded-lg bg-teal-500/30 flex items-center justify-center mr-3 flex-shrink-0">
                             {WORKOUT_TYPES.find(
                               (type) => type.id === workout.type
                             )?.icon || <Dumbbell size={18} />}
@@ -2146,14 +2146,14 @@ export default function FitnessPage() {
 
                           <div className="flex-grow">
                             <div className="flex justify-between items-start">
-                              <h4 className="font-medium text-white">
+                              <h4 className="font-medium text-gray-700">
                                 {workout.name}
                               </h4>
-                              <div className="text-xs text-slate-400">
+                              <div className="text-xs text-gray-500">
                                 {workout.date}
                               </div>
                             </div>
-                            <div className="flex items-center text-xs text-slate-300 mt-1">
+                            <div className="flex items-center text-xs text-gray-500 mt-1">
                               <Clock size={12} className="mr-1" />
                               <span>{workout.duration} min</span>
 
@@ -2181,7 +2181,7 @@ export default function FitnessPage() {
 
                       <button
                         onClick={() => setShowAddWorkoutForm(true)}
-                        className="w-full py-2.5 rounded-lg bg-indigo-600/40 hover:bg-indigo-600/60 text-white text-sm transition-colors flex items-center justify-center"
+                        className="w-full py-2.5 rounded-lg bg-teal-500/40 hover:bg-teal-500/60 text-gray-900 text-sm transition-colors flex items-center justify-center"
                       >
                         <Plus size={14} className="mr-2" />
                         Add New Workout
@@ -2189,19 +2189,19 @@ export default function FitnessPage() {
                     </div>
                   ) : (
                     <div className="flex flex-col items-center justify-center py-6 px-4 text-center">
-                      <div className="w-16 h-16 rounded-full bg-slate-800/70 flex items-center justify-center mb-4">
-                        <Dumbbell size={24} className="text-slate-400" />
+                      <div className="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center mb-4">
+                        <Dumbbell size={24} className="text-gray-500" />
                       </div>
-                      <h3 className="text-lg font-medium text-white mb-2">
+                      <h3 className="text-lg font-medium text-gray-700 mb-2">
                         No workouts yet
                       </h3>
-                      <p className="text-slate-400 mb-4">
+                      <p className="text-gray-500 mb-4">
                         Start tracking your fitness journey by adding your first
                         workout
                       </p>
                       <button
                         onClick={() => setShowAddWorkoutForm(true)}
-                        className="px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white text-sm transition-colors"
+                        className="px-4 py-2 rounded-lg bg-teal-500 hover:bg-teal-600 text-white text-sm transition-colors"
                       >
                         Add First Workout
                       </button>
@@ -2214,9 +2214,9 @@ export default function FitnessPage() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {/* Fitness level */}
                 {metrics?.fitnessLevels && (
-                  <div className="bg-gradient-to-br from-slate-900/80 to-black/60 backdrop-blur-md rounded-xl border border-slate-700/50 shadow-lg p-5">
+                  <div className="bg-white backdrop-blur-md rounded-xl border border-gray-100 shadow-lg p-5">
                     <h3 className="text-lg font-bold mb-4 flex items-center">
-                      <Award size={18} className="text-indigo-400 mr-2" />
+                      <Award size={18} className="text-teal-500 mr-2" />
                       Your Fitness Level
                     </h3>
 
@@ -2225,14 +2225,14 @@ export default function FitnessPage() {
                         ([key, value]) => (
                           <div key={key} className="space-y-1">
                             <div className="flex justify-between items-center">
-                              <span className="text-sm capitalize text-slate-300">
+                              <span className="text-sm capitalize text-gray-500">
                                 {key}
                               </span>
                               <span className="text-sm font-medium">
                                 {value.value}%
                               </span>
                             </div>
-                            <div className="h-2 bg-slate-800 rounded-full overflow-hidden">
+                            <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
                               <div
                                 className={`h-full rounded-full ${
                                   key === "cardio"
@@ -2253,13 +2253,13 @@ export default function FitnessPage() {
                       )}
                     </div>
 
-                    <div className="mt-6 p-3 bg-gradient-to-r from-indigo-900/30 to-purple-900/30 rounded-lg border border-indigo-500/20">
+                    <div className="mt-6 p-3 bg-gradient-to-r from-teal-50/30 to-cyan-50/30 rounded-lg border border-indigo-500/20">
                       <div className="flex items-start">
                         <div className="mr-3">
                           <Trophy className="h-5 w-5 text-yellow-500" />
                         </div>
                         <div>
-                          <h4 className="font-medium text-white">
+                          <h4 className="font-medium text-gray-700">
                             Fitness Level:{" "}
                             {Object.values(metrics.fitnessLevels).reduce(
                               (sum, item) => sum + item.value,
@@ -2277,7 +2277,7 @@ export default function FitnessPage() {
                               ? "Intermediate"
                               : "Beginner"}
                           </h4>
-                          <p className="text-xs text-slate-300 mt-1">
+                          <p className="text-xs text-gray-500 mt-1">
                             Keep working out to improve your scores!
                           </p>
                         </div>
@@ -2287,15 +2287,15 @@ export default function FitnessPage() {
                 )}
 
                 {/* AI insights */}
-                <div className="bg-gradient-to-br from-slate-900/80 to-black/60 backdrop-blur-md rounded-xl border border-slate-700/50 shadow-lg p-5">
+                <div className="bg-white backdrop-blur-md rounded-xl border border-gray-100 shadow-lg p-5">
                   <div className="flex justify-between items-center mb-4">
                     <h3 className="text-lg font-bold flex items-center">
-                      <ThumbsUp size={18} className="text-indigo-400 mr-2" />
+                      <ThumbsUp size={18} className="text-teal-500 mr-2" />
                       AI Recommendations
                     </h3>
                     <button
                       onClick={() => setActiveTab("coach")}
-                      className="text-xs text-indigo-400 hover:text-indigo-300 transition-colors"
+                      className="text-xs text-teal-500 hover:text-teal-400 transition-colors"
                     >
                       Ask Coach →
                     </button>
@@ -2303,39 +2303,39 @@ export default function FitnessPage() {
 
                   <div className="space-y-4">
                     <div className="p-3 bg-gradient-to-r from-blue-900/30 to-indigo-900/30 rounded-lg border border-blue-500/20">
-                      <h4 className="font-medium text-white flex items-center">
+                      <h4 className="font-medium text-gray-700 flex items-center">
                         <Clock size={15} className="text-blue-400 mr-2" />
                         Workout Schedule
                       </h4>
-                      <p className="text-sm text-slate-300 mt-1">
+                      <p className="text-sm text-gray-500 mt-1">
                         Based on your activity, we recommend adding a strength
                         training session to balance your cardio workouts.
                       </p>
                     </div>
 
                     <div className="p-3 bg-gradient-to-r from-amber-900/30 to-orange-900/30 rounded-lg border border-amber-500/20">
-                      <h4 className="font-medium text-white flex items-center">
+                      <h4 className="font-medium text-gray-700 flex items-center">
                         <AlertTriangle
                           size={15}
                           className="text-amber-400 mr-2"
                         />
                         Recovery Alert
                       </h4>
-                      <p className="text-sm text-slate-300 mt-1">
+                      <p className="text-sm text-gray-500 mt-1">
                         Make sure to prioritize proper recovery between intense
                         workout sessions to prevent injury and maximize results.
                       </p>
                     </div>
 
                     <div className="p-3 bg-gradient-to-r from-green-900/30 to-emerald-900/30 rounded-lg border border-emerald-500/20">
-                      <h4 className="font-medium text-white flex items-center">
+                      <h4 className="font-medium text-gray-700 flex items-center">
                         <CheckCircle
                           size={15}
                           className="text-emerald-400 mr-2"
                         />
                         Progress Insight
                       </h4>
-                      <p className="text-sm text-slate-300 mt-1">
+                      <p className="text-sm text-gray-500 mt-1">
                         You're making good progress on your walking goals.
                         Consider gradually increasing your step target by 10% to
                         continue improvement.
@@ -2358,10 +2358,10 @@ export default function FitnessPage() {
             >
               <div className="flex flex-col md:flex-row justify-between md:items-center gap-4 mb-6">
                 <div>
-                  <h2 className="text-2xl font-bold bg-gradient-to-r from-indigo-400 to-purple-500 text-transparent bg-clip-text mb-1">
+                  <h2 className="text-2xl font-bold bg-gradient-to-r from-teal-400 to-cyan-400 text-transparent bg-clip-text mb-1">
                     My Workouts
                   </h2>
-                  <p className="text-slate-400">
+                  <p className="text-gray-500">
                     {workouts.length > 0
                       ? `${workouts.length} workouts logged`
                       : "Start tracking your fitness journey"}
@@ -2370,7 +2370,7 @@ export default function FitnessPage() {
 
                 <button
                   onClick={() => setShowAddWorkoutForm(true)}
-                  className="px-4 py-2.5 bg-gradient-to-r from-indigo-600 to-purple-600 hover:opacity-90 rounded-lg text-white font-medium transition-colors flex items-center justify-center"
+                  className="px-4 py-2.5 bg-gradient-to-r from-teal-400 to-cyan-400 hover:opacity-90 rounded-lg text-gray-900 font-medium transition-colors flex items-center justify-center"
                 >
                   <Plus size={18} className="mr-2" />
                   Add Workout
@@ -2380,34 +2380,34 @@ export default function FitnessPage() {
               {/* Workout statistics */}
               {workoutStats && (
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-                  <div className="bg-gradient-to-br from-slate-900/80 to-black/60 backdrop-blur-md rounded-xl border border-slate-700/50 p-4">
-                    <div className="text-sm text-slate-400 mb-1">
+                  <div className="bg-white backdrop-blur-md rounded-xl border border-gray-100 p-4">
+                    <div className="text-sm text-gray-500 mb-1">
                       Total Workouts
                     </div>
-                    <div className="text-2xl font-bold text-white">
+                    <div className="text-2xl font-bold text-gray-800">
                       {workoutStats.totalWorkouts}
                     </div>
                   </div>
-                  <div className="bg-gradient-to-br from-slate-900/80 to-black/60 backdrop-blur-md rounded-xl border border-slate-700/50 p-4">
-                    <div className="text-sm text-slate-400 mb-1">
+                  <div className="bg-white backdrop-blur-md rounded-xl border border-gray-100 p-4">
+                    <div className="text-sm text-gray-500 mb-1">
                       Total Duration
                     </div>
-                    <div className="text-2xl font-bold text-white">
+                    <div className="text-2xl font-bold text-gray-800">
                       {workoutStats.totalDuration}{" "}
                       <span className="text-sm font-normal">min</span>
                     </div>
                   </div>
-                  <div className="bg-gradient-to-br from-slate-900/80 to-black/60 backdrop-blur-md rounded-xl border border-slate-700/50 p-4">
-                    <div className="text-sm text-slate-400 mb-1">
+                  <div className="bg-white backdrop-blur-md rounded-xl border border-gray-100 p-4">
+                    <div className="text-sm text-gray-500 mb-1">
                       Calories Burned
                     </div>
-                    <div className="text-2xl font-bold text-white">
+                    <div className="text-2xl font-bold text-gray-800">
                       {workoutStats.totalCalories}
                     </div>
                   </div>
-                  <div className="bg-gradient-to-br from-slate-900/80 to-black/60 backdrop-blur-md rounded-xl border border-slate-700/50 p-4">
-                    <div className="text-sm text-slate-400 mb-1">Distance</div>
-                    <div className="text-2xl font-bold text-white">
+                  <div className="bg-white backdrop-blur-md rounded-xl border border-gray-100 p-4">
+                    <div className="text-sm text-gray-500 mb-1">Distance</div>
+                    <div className="text-2xl font-bold text-gray-800">
                       {workoutStats.totalDistance.toFixed(1)}{" "}
                       <span className="text-sm font-normal">km</span>
                     </div>
@@ -2418,7 +2418,7 @@ export default function FitnessPage() {
               {/* Workout distribution chart */}
               {workoutStats &&
                 Object.keys(workoutStats.workoutsByType).length > 0 && (
-                  <div className="bg-gradient-to-br from-slate-900/80 to-black/60 backdrop-blur-md rounded-xl border border-slate-700/50 p-5 mb-8">
+                  <div className="bg-white backdrop-blur-md rounded-xl border border-gray-100 p-5 mb-8">
                     <h3 className="text-lg font-bold mb-4">
                       Workout Distribution
                     </h3>
@@ -2476,13 +2476,13 @@ export default function FitnessPage() {
                   <div className="flex items-center space-x-2">
                     <button
                       onClick={() => {}}
-                      className="p-2 rounded-lg hover:bg-slate-800/70 text-slate-300"
+                      className="p-2 rounded-lg hover:bg-gray-100 text-gray-500"
                     >
                       <Filter size={16} />
                     </button>
                     <button
                       onClick={() => {}}
-                      className="p-2 rounded-lg hover:bg-slate-800/70 text-slate-300"
+                      className="p-2 rounded-lg hover:bg-gray-100 text-gray-500"
                     >
                       <RefreshCcw size={16} />
                     </button>
@@ -2494,20 +2494,20 @@ export default function FitnessPage() {
                     {workouts.map((workout) => (
                       <div
                         key={workout.id}
-                        className="bg-gradient-to-br from-slate-900/80 to-black/60 backdrop-blur-md rounded-xl border border-slate-700/50 p-4 hover:border-indigo-500/30 transition-all"
+                        className="bg-white backdrop-blur-md rounded-xl border border-gray-100 p-4 hover:border-teal-300 transition-all"
                       >
                         <div className="flex items-center justify-between">
                           <div className="flex items-center">
-                            <div className="w-10 h-10 rounded-full bg-indigo-600/30 flex items-center justify-center mr-3 flex-shrink-0">
+                            <div className="w-10 h-10 rounded-full bg-teal-500/30 flex items-center justify-center mr-3 flex-shrink-0">
                               {WORKOUT_TYPES.find(
                                 (type) => type.id === workout.type
                               )?.icon || <Dumbbell size={18} />}
                             </div>
                             <div>
-                              <h4 className="font-medium text-white">
+                              <h4 className="font-medium text-gray-700">
                                 {workout.name}
                               </h4>
-                              <div className="flex items-center text-xs text-slate-400 mt-1">
+                              <div className="flex items-center text-xs text-gray-500 mt-1">
                                 <span>{workout.date}</span>
                                 <span className="mx-1.5">•</span>
                                 <span className="capitalize">
@@ -2520,28 +2520,28 @@ export default function FitnessPage() {
                           <div className="flex space-x-2">
                             <button
                               onClick={() => handleEditWorkout(workout)}
-                              className="p-1.5 rounded-full hover:bg-slate-800/70 text-slate-400 hover:text-white transition-colors"
+                              className="p-1.5 rounded-full hover:bg-gray-100 text-gray-500 hover:text-teal-600 transition-colors"
                             >
                               <Edit2 size={16} />
                             </button>
                             <button
                               onClick={() => deleteWorkout(workout.id)}
-                              className="p-1.5 rounded-full hover:bg-red-900/30 text-slate-400 hover:text-red-400 transition-colors"
+                              className="p-1.5 rounded-full hover:bg-red-900/30 text-gray-500 hover:text-red-400 transition-colors"
                             >
                               <Trash2 size={16} />
                             </button>
                           </div>
                         </div>
 
-                        <div className="mt-3 pt-3 border-t border-slate-700/50 grid grid-cols-3 gap-4">
+                        <div className="mt-3 pt-3 border-t border-gray-100 grid grid-cols-3 gap-4">
                           <div>
-                            <div className="text-xs text-slate-400 mb-1">
+                            <div className="text-xs text-gray-500 mb-1">
                               Duration
                             </div>
                             <div className="text-sm font-medium flex items-center">
                               <Clock
                                 size={14}
-                                className="mr-1 text-indigo-400"
+                                className="mr-1 text-teal-500"
                               />
                               {workout.duration} min
                             </div>
@@ -2549,7 +2549,7 @@ export default function FitnessPage() {
 
                           {workout.distance && (
                             <div>
-                              <div className="text-xs text-slate-400 mb-1">
+                              <div className="text-xs text-gray-500 mb-1">
                                 Distance
                               </div>
                               <div className="text-sm font-medium">
@@ -2559,7 +2559,7 @@ export default function FitnessPage() {
                           )}
 
                           <div>
-                            <div className="text-xs text-slate-400 mb-1">
+                            <div className="text-xs text-gray-500 mb-1">
                               Calories
                             </div>
                             <div className="text-sm font-medium flex items-center">
@@ -2581,8 +2581,8 @@ export default function FitnessPage() {
                         )}
 
                         {workout.notes && (
-                          <div className="mt-3 text-xs text-slate-400">
-                            <span className="font-medium text-slate-300">
+                          <div className="mt-3 text-xs text-gray-500">
+                            <span className="font-medium text-gray-500">
                               Notes:
                             </span>{" "}
                             {workout.notes}
@@ -2590,18 +2590,18 @@ export default function FitnessPage() {
                         )}
 
                         {workout.exercises && workout.exercises.length > 0 && (
-                          <div className="mt-4 pt-3 border-t border-slate-700/50">
-                            <h5 className="text-xs font-medium text-slate-300 mb-2">
+                          <div className="mt-4 pt-3 border-t border-gray-100">
+                            <h5 className="text-xs font-medium text-gray-500 mb-2">
                               Exercises
                             </h5>
                             <div className="space-y-2">
                               {workout.exercises.map((exercise, i) => (
                                 <div
                                   key={i}
-                                  className="flex justify-between items-center bg-slate-800/40 rounded-lg p-2 text-xs"
+                                  className="flex justify-between items-center bg-teal-400 rounded-lg p-2 text-xs"
                                 >
                                   <span>{exercise.name}</span>
-                                  <span className="text-slate-400">
+                                  <span className="text-gray-500">
                                     {exercise.sets} × {exercise.reps}
                                     {exercise.weight > 0
                                       ? ` × ${exercise.weight} kg`
@@ -2617,19 +2617,19 @@ export default function FitnessPage() {
                   </div>
                 ) : (
                   <div className="flex flex-col items-center justify-center py-16 px-4 text-center">
-                    <div className="w-16 h-16 rounded-full bg-slate-800/70 flex items-center justify-center mb-4">
-                      <Dumbbell size={24} className="text-slate-400" />
+                    <div className="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center mb-4">
+                      <Dumbbell size={24} className="text-gray-500" />
                     </div>
-                    <h3 className="text-xl font-medium text-white mb-2">
+                    <h3 className="text-xl font-medium text-gray-700 mb-2">
                       No workouts yet
                     </h3>
-                    <p className="text-slate-400 max-w-md mx-auto mb-6">
+                    <p className="text-gray-500 max-w-md mx-auto mb-6">
                       Track your workouts to see your progress over time and get
                       personalized insights.
                     </p>
                     <button
                       onClick={() => setShowAddWorkoutForm(true)}
-                      className="px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white transition-colors"
+                      className="px-4 py-2 rounded-lg bg-teal-500 hover:bg-teal-600 text-white transition-colors"
                     >
                       Add Your First Workout
                     </button>
@@ -2650,17 +2650,17 @@ export default function FitnessPage() {
             >
               <div className="flex flex-col md:flex-row justify-between md:items-center gap-4 mb-6">
                 <div>
-                  <h2 className="text-2xl font-bold bg-gradient-to-r from-indigo-400 to-purple-500 text-transparent bg-clip-text mb-1">
+                  <h2 className="text-2xl font-bold bg-gradient-to-r from-teal-400 to-cyan-400 text-transparent bg-clip-text mb-1">
                     Body Statistics
                   </h2>
-                  <p className="text-slate-400">
+                  <p className="text-gray-500">
                     Track your measurements and progress
                   </p>
                 </div>
 
                 <button
                   onClick={() => setShowBodyStatsForm(true)}
-                  className="px-4 py-2.5 bg-gradient-to-r from-indigo-600 to-purple-600 hover:opacity-90 rounded-lg text-white font-medium transition-colors flex items-center justify-center whitespace-nowrap"
+                  className="px-4 py-2.5 bg-gradient-to-r from-teal-400 to-cyan-400 hover:opacity-90 rounded-lg text-gray-900 font-medium transition-colors flex items-center justify-center whitespace-nowrap"
                 >
                   <Plus size={18} className="mr-2" />
                   Update Stats
@@ -2670,16 +2670,16 @@ export default function FitnessPage() {
               {metrics?.bodyStats && (
                 <>
                   {/* Current stats overview */}
-                  <div className="bg-gradient-to-br from-slate-900/80 to-black/60 backdrop-blur-md rounded-xl border border-slate-700/50 p-5">
+                  <div className="bg-white backdrop-blur-md rounded-xl border border-gray-100 p-5">
                     <h3 className="text-lg font-bold mb-4">
                       Current Measurements
                     </h3>
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
                       <div>
-                        <div className="text-sm text-slate-400 mb-1">
+                        <div className="text-sm text-gray-500 mb-1">
                           Weight
                         </div>
-                        <div className="text-2xl font-bold text-white">
+                        <div className="text-2xl font-bold text-gray-800">
                           {metrics.bodyStats.weight.value}{" "}
                           <span className="text-sm font-normal">
                             {metrics.bodyStats.weight.unit}
@@ -2688,10 +2688,10 @@ export default function FitnessPage() {
                       </div>
 
                       <div>
-                        <div className="text-sm text-slate-400 mb-1">
+                        <div className="text-sm text-gray-500 mb-1">
                           Height
                         </div>
-                        <div className="text-2xl font-bold text-white">
+                        <div className="text-2xl font-bold text-gray-800">
                           {metrics.bodyStats.height.value}{" "}
                           <span className="text-sm font-normal">
                             {metrics.bodyStats.height.unit}
@@ -2700,7 +2700,7 @@ export default function FitnessPage() {
                       </div>
 
                       <div>
-                        <div className="text-sm text-slate-400 mb-1">BMI</div>
+                        <div className="text-sm text-gray-500 mb-1">BMI</div>
                         <div
                           className={`text-2xl font-bold ${getBmiColor(
                             metrics.bodyStats.bmi.value
@@ -2708,26 +2708,26 @@ export default function FitnessPage() {
                         >
                           {metrics.bodyStats.bmi.value}
                         </div>
-                        <div className="text-xs text-slate-400">
+                        <div className="text-xs text-gray-500">
                           {getBmiDescription(metrics.bodyStats.bmi.value)}
                         </div>
                       </div>
 
                       <div>
-                        <div className="text-sm text-slate-400 mb-1">
+                        <div className="text-sm text-gray-500 mb-1">
                           Body Fat
                         </div>
-                        <div className="text-2xl font-bold text-white">
+                        <div className="text-2xl font-bold text-gray-800">
                           {metrics.bodyStats.bodyFat.value}
                           <span className="text-sm font-normal">%</span>
                         </div>
                       </div>
                     </div>
 
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-6 pt-6 border-t border-slate-700/50">
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-6 pt-6 border-t border-gray-100">
                       <div>
-                        <div className="text-sm text-slate-400 mb-1">Waist</div>
-                        <div className="text-xl font-medium text-white">
+                        <div className="text-sm text-gray-500 mb-1">Waist</div>
+                        <div className="text-xl font-medium text-gray-700">
                           {metrics.bodyStats.waist.value}{" "}
                           <span className="text-sm font-normal">
                             {metrics.bodyStats.waist.unit}
@@ -2736,8 +2736,8 @@ export default function FitnessPage() {
                       </div>
 
                       <div>
-                        <div className="text-sm text-slate-400 mb-1">Chest</div>
-                        <div className="text-xl font-medium text-white">
+                        <div className="text-sm text-gray-500 mb-1">Chest</div>
+                        <div className="text-xl font-medium text-gray-700">
                           {metrics.bodyStats.chest.value}{" "}
                           <span className="text-sm font-normal">
                             {metrics.bodyStats.chest.unit}
@@ -2746,8 +2746,8 @@ export default function FitnessPage() {
                       </div>
 
                       <div>
-                        <div className="text-sm text-slate-400 mb-1">Arms</div>
-                        <div className="text-xl font-medium text-white">
+                        <div className="text-sm text-gray-500 mb-1">Arms</div>
+                        <div className="text-xl font-medium text-gray-700">
                           {metrics.bodyStats.arms.value}{" "}
                           <span className="text-sm font-normal">
                             {metrics.bodyStats.arms.unit}
@@ -2756,10 +2756,10 @@ export default function FitnessPage() {
                       </div>
 
                       <div>
-                        <div className="text-sm text-slate-400 mb-1">
+                        <div className="text-sm text-gray-500 mb-1">
                           Thighs
                         </div>
-                        <div className="text-xl font-medium text-white">
+                        <div className="text-xl font-medium text-gray-700">
                           {metrics.bodyStats.thighs.value}{" "}
                           <span className="text-sm font-normal">
                             {metrics.bodyStats.thighs.unit}
@@ -2771,7 +2771,7 @@ export default function FitnessPage() {
 
                   {/* Weight chart */}
                   {weightHistoryData.length > 0 && (
-                    <div className="bg-gradient-to-br from-slate-900/80 to-black/60 backdrop-blur-md rounded-xl border border-slate-700/50 p-5">
+                    <div className="bg-white backdrop-blur-md rounded-xl border border-gray-100 p-5">
                       <h3 className="text-lg font-bold mb-4">Weight History</h3>
                       <div className="h-64">
                         <ResponsiveContainer width="100%" height="100%">
@@ -2840,11 +2840,11 @@ export default function FitnessPage() {
                   {/* BMI chart */}
                   {metrics.bodyStats.bmi.history &&
                     metrics.bodyStats.bmi.history.length > 0 && (
-                      <div className="bg-gradient-to-br from-slate-900/80 to-black/60 backdrop-blur-md rounded-xl border border-slate-700/50 p-5">
+                      <div className="bg-white backdrop-blur-md rounded-xl border border-gray-100 p-5">
                         <h3 className="text-lg font-bold mb-4">BMI History</h3>
                         <div className="h-64">
                           <ResponsiveContainer width="100%" height="100%">
-                            <LineChart
+                            <ReChartsLineChart
                               data={metrics.bodyStats.bmi.history.map(
                                 (item) => ({
                                   date: item.date,
@@ -2900,7 +2900,7 @@ export default function FitnessPage() {
                                   fill: "#10b981",
                                 }}
                               />
-                            </LineChart>
+                            </ReChartsLineChart>
                           </ResponsiveContainer>
                         </div>
                       </div>
@@ -2911,13 +2911,13 @@ export default function FitnessPage() {
                     {/* Body fat chart */}
                     {metrics.bodyStats.bodyFat.history &&
                       metrics.bodyStats.bodyFat.history.length > 0 && (
-                        <div className="bg-gradient-to-br from-slate-900/80 to-black/60 backdrop-blur-md rounded-xl border border-slate-700/50 p-5">
+                        <div className="bg-white backdrop-blur-md rounded-xl border border-gray-100 p-5">
                           <h3 className="text-base font-bold mb-4">
                             Body Fat Percentage
                           </h3>
                           <div className="h-52">
                             <ResponsiveContainer width="100%" height="100%">
-                              <LineChart
+                              <ReChartsLineChart
                                 data={metrics.bodyStats.bodyFat.history.map(
                                   (item) => ({
                                     date: item.date,
@@ -2965,14 +2965,14 @@ export default function FitnessPage() {
                                   stroke="#f59e0b"
                                   strokeWidth={2}
                                 />
-                              </LineChart>
+                              </ReChartsLineChart>
                             </ResponsiveContainer>
                           </div>
                         </div>
                       )}
 
                     {/* Measurements radar chart */}
-                    <div className="bg-gradient-to-br from-slate-900/80 to-black/60 backdrop-blur-md rounded-xl border border-slate-700/50 p-5">
+                    <div className="bg-white backdrop-blur-md rounded-xl border border-gray-100 p-5">
                       <h3 className="text-base font-bold mb-4">
                         Body Measurements
                       </h3>
@@ -3053,10 +3053,10 @@ export default function FitnessPage() {
             >
               <div className="flex flex-col md:flex-row justify-between md:items-center gap-4 mb-6">
                 <div>
-                  <h2 className="text-2xl font-bold bg-gradient-to-r from-indigo-400 to-purple-500 text-transparent bg-clip-text mb-1">
+                  <h2 className="text-2xl font-bold bg-gradient-to-r from-teal-400 to-cyan-400 text-transparent bg-clip-text mb-1">
                     Fitness Goals
                   </h2>
-                  <p className="text-slate-400">
+                  <p className="text-gray-500">
                     Track and manage your fitness objectives
                   </p>
                 </div>
@@ -3064,7 +3064,7 @@ export default function FitnessPage() {
                 <div className="flex gap-2">
                   <button
                     onClick={() => setShowCalorieCalculator(true)}
-                    className="px-4 py-2.5 bg-slate-800 hover:bg-slate-700 rounded-lg text-white font-medium transition-colors flex items-center justify-center whitespace-nowrap"
+                    className="px-4 py-2.5 bg-gray-100 hover:bg-gray-200 rounded-lg text-gray-900 font-medium transition-colors flex items-center justify-center whitespace-nowrap"
                   >
                     <BarChart2 size={18} className="mr-2" />
                     Calorie Calculator
@@ -3081,7 +3081,7 @@ export default function FitnessPage() {
                         achieved: false,
                       });
                     }}
-                    className="px-4 py-2.5 bg-gradient-to-r from-indigo-600 to-purple-600 hover:opacity-90 rounded-lg text-white font-medium transition-colors flex items-center justify-center"
+                    className="px-4 py-2.5 bg-gradient-to-r from-teal-400 to-cyan-400 hover:opacity-90 rounded-lg text-gray-900 font-medium transition-colors flex items-center justify-center"
                   >
                     <Plus size={18} className="mr-2" />
                     Add Goal
@@ -3092,19 +3092,19 @@ export default function FitnessPage() {
               {metrics?.goals && (
                 <>
                   {/* Daily goals */}
-                  <div className="bg-gradient-to-br from-slate-900/80 to-black/60 backdrop-blur-md rounded-xl border border-slate-700/50 p-5 mb-6">
+                  <div className="bg-white backdrop-blur-md rounded-xl border border-gray-100 p-5 mb-6">
                     <h3 className="text-lg font-bold mb-4">Daily Goals</h3>
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
                       {/* Steps */}
                       <div>
                         <div className="flex justify-between items-center mb-2">
-                          <div className="text-sm text-slate-300">Steps</div>
-                          <div className="text-sm text-slate-400">
+                          <div className="text-sm text-gray-500">Steps</div>
+                          <div className="text-sm text-gray-500">
                             {metrics.progress.steps.today} /{" "}
                             {metrics.goals.daily.steps}
                           </div>
                         </div>
-                        <div className="relative h-2 bg-slate-800 rounded-full overflow-hidden mb-1">
+                        <div className="relative h-2 bg-gray-100 rounded-full overflow-hidden mb-1">
                           <div
                             className="absolute top-0 left-0 h-full bg-blue-500 rounded-full"
                             style={{
@@ -3119,7 +3119,7 @@ export default function FitnessPage() {
                             }}
                           ></div>
                         </div>
-                        <div className="flex justify-between items-center text-xs text-slate-400">
+                        <div className="flex justify-between items-center text-xs text-gray-500">
                           <div className="flex items-center">
                             <Activity
                               size={10}
@@ -3141,13 +3141,13 @@ export default function FitnessPage() {
                       {/* Water */}
                       <div>
                         <div className="flex justify-between items-center mb-2">
-                          <div className="text-sm text-slate-300">Water</div>
-                          <div className="text-sm text-slate-400">
+                          <div className="text-sm text-gray-500">Water</div>
+                          <div className="text-sm text-gray-500">
                             {metrics.progress.water.today} /{" "}
                             {metrics.goals.daily.water} glasses
                           </div>
                         </div>
-                        <div className="relative h-2 bg-slate-800 rounded-full overflow-hidden mb-1">
+                        <div className="relative h-2 bg-gray-100 rounded-full overflow-hidden mb-1">
                           <div
                             className="absolute top-0 left-0 h-full bg-cyan-500 rounded-full"
                             style={{
@@ -3162,7 +3162,7 @@ export default function FitnessPage() {
                             }}
                           ></div>
                         </div>
-                        <div className="flex justify-between items-center text-xs text-slate-400">
+                        <div className="flex justify-between items-center text-xs text-gray-500">
                           <div className="flex items-center">
                             <Droplet size={10} className="mr-1 text-cyan-500" />
                             <span>Hydration</span>
@@ -3181,15 +3181,15 @@ export default function FitnessPage() {
                       {/* Active Minutes */}
                       <div>
                         <div className="flex justify-between items-center mb-2">
-                          <div className="text-sm text-slate-300">
+                          <div className="text-sm text-gray-500">
                             Active Minutes
                           </div>
-                          <div className="text-sm text-slate-400">
+                          <div className="text-sm text-gray-500">
                             {metrics.progress.activeMinutes.today} /{" "}
                             {metrics.goals.daily.activeMinutes} min
                           </div>
                         </div>
-                        <div className="relative h-2 bg-slate-800 rounded-full overflow-hidden mb-1">
+                        <div className="relative h-2 bg-gray-100 rounded-full overflow-hidden mb-1">
                           <div
                             className="absolute top-0 left-0 h-full bg-amber-500 rounded-full"
                             style={{
@@ -3204,7 +3204,7 @@ export default function FitnessPage() {
                             }}
                           ></div>
                         </div>
-                        <div className="flex justify-between items-center text-xs text-slate-400">
+                        <div className="flex justify-between items-center text-xs text-gray-500">
                           <div className="flex items-center">
                             <Zap size={10} className="mr-1 text-amber-500" />
                             <span>Activity</span>
@@ -3223,15 +3223,15 @@ export default function FitnessPage() {
                       {/* Calories Burned */}
                       <div>
                         <div className="flex justify-between items-center mb-2">
-                          <div className="text-sm text-slate-300">
+                          <div className="text-sm text-gray-500">
                             Calories Burned
                           </div>
-                          <div className="text-sm text-slate-400">
+                          <div className="text-sm text-gray-500">
                             {metrics.progress.caloriesBurned.today} /{" "}
                             {metrics.goals.daily.caloriesBurned}
                           </div>
                         </div>
-                        <div className="relative h-2 bg-slate-800 rounded-full overflow-hidden mb-1">
+                        <div className="relative h-2 bg-gray-100 rounded-full overflow-hidden mb-1">
                           <div
                             className="absolute top-0 left-0 h-full bg-red-500 rounded-full"
                             style={{
@@ -3246,7 +3246,7 @@ export default function FitnessPage() {
                             }}
                           ></div>
                         </div>
-                        <div className="flex justify-between items-center text-xs text-slate-400">
+                        <div className="flex justify-between items-center text-xs text-gray-500">
                           <div className="flex items-center">
                             <Flame size={10} className="mr-1 text-red-500" />
                             <span>Calories</span>
@@ -3264,17 +3264,17 @@ export default function FitnessPage() {
                     </div>
 
                     {/* Quick buttons to update goals */}
-                    <div className="mt-6 pt-4 border-t border-slate-700/50 flex flex-wrap gap-3">
+                    <div className="mt-6 pt-4 border-t border-gray-100 flex flex-wrap gap-3">
                       <button
                         onClick={() => handleProgressUpdate("steps", 1000)}
-                        className="bg-slate-800/70 hover:bg-blue-900/40 border border-slate-700/50 hover:border-blue-500/30 rounded-lg px-3 py-2 text-sm flex items-center space-x-2 transition-colors"
+                        className="bg-gray-100 hover:bg-blue-900/40 border border-gray-100 hover:border-blue-500/30 rounded-lg px-3 py-2 text-sm flex items-center space-x-2 transition-colors"
                       >
                         <Activity size={14} className="text-blue-500" />
                         <span>+1000 Steps</span>
                       </button>
                       <button
                         onClick={() => handleProgressUpdate("water", 1)}
-                        className="bg-slate-800/70 hover:bg-cyan-900/40 border border-slate-700/50 hover:border-cyan-500/30 rounded-lg px-3 py-2 text-sm flex items-center space-x-2 transition-colors"
+                        className="bg-gray-100 hover:bg-cyan-900/40 border border-gray-100 hover:border-cyan-500/30 rounded-lg px-3 py-2 text-sm flex items-center space-x-2 transition-colors"
                       >
                         <Droplet size={14} className="text-cyan-500" />
                         <span>+1 Glass</span>
@@ -3283,7 +3283,7 @@ export default function FitnessPage() {
                         onClick={() =>
                           handleProgressUpdate("activeMinutes", 15)
                         }
-                        className="bg-slate-800/70 hover:bg-amber-900/40 border border-slate-700/50 hover:border-amber-500/30 rounded-lg px-3 py-2 text-sm flex items-center space-x-2 transition-colors"
+                        className="bg-gray-100 hover:bg-amber-900/40 border border-gray-100 hover:border-amber-500/30 rounded-lg px-3 py-2 text-sm flex items-center space-x-2 transition-colors"
                       >
                         <Zap size={14} className="text-amber-500" />
                         <span>+15 Active Min</span>
@@ -3292,7 +3292,7 @@ export default function FitnessPage() {
                         onClick={() =>
                           handleProgressUpdate("caloriesBurned", 100)
                         }
-                        className="bg-slate-800/70 hover:bg-red-900/40 border border-slate-700/50 hover:border-red-500/30 rounded-lg px-3 py-2 text-sm flex items-center space-x-2 transition-colors"
+                        className="bg-gray-100 hover:bg-red-900/40 border border-gray-100 hover:border-red-500/30 rounded-lg px-3 py-2 text-sm flex items-center space-x-2 transition-colors"
                       >
                         <Flame size={14} className="text-red-500" />
                         <span>+100 Calories</span>
@@ -3301,21 +3301,21 @@ export default function FitnessPage() {
                   </div>
 
                   {/* Weekly goals */}
-                  <div className="bg-gradient-to-br from-slate-900/80 to-black/60 backdrop-blur-md rounded-xl border border-slate-700/50 p-5 mb-6">
+                  <div className="bg-white backdrop-blur-md rounded-xl border border-gray-100 p-5 mb-6">
                     <h3 className="text-lg font-bold mb-4">Weekly Goals</h3>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                       {/* Workouts */}
                       <div>
                         <div className="flex justify-between items-center mb-2">
-                          <div className="text-sm text-slate-300">Workouts</div>
-                          <div className="text-sm text-slate-400">
+                          <div className="text-sm text-gray-500">Workouts</div>
+                          <div className="text-sm text-gray-500">
                             {currentMonthWorkouts.length} /{" "}
                             {metrics.goals.weekly.workouts} sessions
                           </div>
                         </div>
-                        <div className="relative h-2 bg-slate-800 rounded-full overflow-hidden mb-1">
+                        <div className="relative h-2 bg-gray-100 rounded-full overflow-hidden mb-1">
                           <div
-                            className="absolute top-0 left-0 h-full bg-indigo-500 rounded-full"
+                            className="absolute top-0 left-0 h-full bg-teal-500 rounded-full"
                             style={{
                               width: `${Math.min(
                                 Math.round(
@@ -3328,11 +3328,11 @@ export default function FitnessPage() {
                             }}
                           ></div>
                         </div>
-                        <div className="flex justify-between items-center text-xs text-slate-400">
+                        <div className="flex justify-between items-center text-xs text-gray-500">
                           <div className="flex items-center">
                             <Dumbbell
                               size={10}
-                              className="mr-1 text-indigo-500"
+                              className="mr-1 text-teal-500"
                             />
                             <span>Workouts</span>
                           </div>
@@ -3353,15 +3353,15 @@ export default function FitnessPage() {
                       {/* Active Minutes */}
                       <div>
                         <div className="flex justify-between items-center mb-2">
-                          <div className="text-sm text-slate-300">
+                          <div className="text-sm text-gray-500">
                             Active Minutes
                           </div>
-                          <div className="text-sm text-slate-400">
+                          <div className="text-sm text-gray-500">
                             {metrics.progress.activeMinutes.thisWeek} /{" "}
                             {metrics.goals.weekly.activeMinutes} min
                           </div>
                         </div>
-                        <div className="relative h-2 bg-slate-800 rounded-full overflow-hidden mb-1">
+                        <div className="relative h-2 bg-gray-100 rounded-full overflow-hidden mb-1">
                           <div
                             className="absolute top-0 left-0 h-full bg-purple-500 rounded-full"
                             style={{
@@ -3376,7 +3376,7 @@ export default function FitnessPage() {
                             }}
                           ></div>
                         </div>
-                        <div className="flex justify-between items-center text-xs text-slate-400">
+                        <div className="flex justify-between items-center text-xs text-gray-500">
                           <div className="flex items-center">
                             <Zap size={10} className="mr-1 text-purple-500" />
                             <span>Weekly Activity</span>
@@ -3398,13 +3398,13 @@ export default function FitnessPage() {
                       {/* Distance */}
                       <div>
                         <div className="flex justify-between items-center mb-2">
-                          <div className="text-sm text-slate-300">Distance</div>
-                          <div className="text-sm text-slate-400">
+                          <div className="text-sm text-gray-500">Distance</div>
+                          <div className="text-sm text-gray-500">
                             {metrics.progress.distance.thisWeek} /{" "}
                             {metrics.goals.weekly.distance} km
                           </div>
                         </div>
-                        <div className="relative h-2 bg-slate-800 rounded-full overflow-hidden mb-1">
+                        <div className="relative h-2 bg-gray-100 rounded-full overflow-hidden mb-1">
                           <div
                             className="absolute top-0 left-0 h-full bg-emerald-500 rounded-full"
                             style={{
@@ -3419,7 +3419,7 @@ export default function FitnessPage() {
                             }}
                           ></div>
                         </div>
-                        <div className="flex justify-between items-center text-xs text-slate-400">
+                        <div className="flex justify-between items-center text-xs text-gray-500">
                           <div className="flex items-center">
                             <Activity
                               size={10}
@@ -3458,7 +3458,7 @@ export default function FitnessPage() {
                             achieved: false,
                           });
                         }}
-                        className="p-1.5 rounded hover:bg-slate-800/70 text-slate-300 hover:text-white transition-colors flex items-center"
+                        className="p-1.5 rounded hover:bg-gray-100 text-gray-500 hover:text-teal-600 transition-colors flex items-center"
                       >
                         <Plus size={16} className="mr-1" />
                         <span className="text-xs">Add Goal</span>
@@ -3476,14 +3476,14 @@ export default function FitnessPage() {
                         ))}
                       </div>
                     ) : (
-                      <div className="bg-gradient-to-br from-slate-900/80 to-black/60 backdrop-blur-md rounded-xl border border-slate-700/50 p-6 text-center">
-                        <div className="w-12 h-12 rounded-full bg-slate-800 flex items-center justify-center mx-auto mb-3">
-                          <Target size={20} className="text-slate-400" />
+                      <div className="bg-white backdrop-blur-md rounded-xl border border-gray-100 p-6 text-center">
+                        <div className="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center mx-auto mb-3">
+                          <Target size={20} className="text-gray-500" />
                         </div>
-                        <h4 className="text-lg font-medium text-white mb-2">
+                        <h4 className="text-lg font-medium text-gray-700 mb-2">
                           No custom goals yet
                         </h4>
-                        <p className="text-slate-400 mb-4">
+                        <p className="text-gray-500 mb-4">
                           Add personal goals to track your individual fitness
                           journey
                         </p>
@@ -3498,7 +3498,7 @@ export default function FitnessPage() {
                               achieved: false,
                             });
                           }}
-                          className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 rounded-lg text-white text-sm transition-colors inline-flex items-center"
+                          className="px-4 py-2 bg-teal-500 hover:bg-teal-600 rounded-lg text-gray-900 text-sm transition-colors inline-flex items-center"
                         >
                           <Plus size={16} className="mr-2" />
                           Add Your First Goal
@@ -3522,17 +3522,17 @@ export default function FitnessPage() {
             >
               <div className="flex flex-col md:flex-row justify-between md:items-center gap-4 mb-6">
                 <div>
-                  <h2 className="text-2xl font-bold bg-gradient-to-r from-indigo-400 to-purple-500 text-transparent bg-clip-text mb-1">
+                  <h2 className="text-2xl font-bold bg-gradient-to-r from-teal-400 to-cyan-400 text-transparent bg-clip-text mb-1">
                     AI Fitness Coach
                   </h2>
-                  <p className="text-slate-400">
+                  <p className="text-gray-500">
                     Your personal assistant for fitness and wellness advice
                   </p>
                 </div>
 
                 <button
                   onClick={clearMessages}
-                  className="px-4 py-2 bg-slate-800 hover:bg-slate-700 rounded-lg text-white font-medium transition-colors flex items-center justify-center"
+                  className="px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg text-gray-900 font-medium transition-colors flex items-center justify-center"
                 >
                   <RefreshCcw size={16} className="mr-2" />
                   New Conversation
@@ -3541,17 +3541,17 @@ export default function FitnessPage() {
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {/* Chat section */}
-                <div className="md:col-span-2 bg-gradient-to-br from-slate-900/80 to-black/60 backdrop-blur-md rounded-xl border border-slate-700/50 shadow-lg overflow-hidden flex flex-col h-[600px]">
+                <div className="md:col-span-2 bg-white backdrop-blur-md rounded-xl border border-gray-100 shadow-lg overflow-hidden flex flex-col h-[600px]">
                   {/* Chat header */}
-                  <div className="bg-gradient-to-r from-indigo-900/30 to-purple-900/30 backdrop-blur-sm p-4 border-b border-slate-700/50 flex items-center">
-                    <div className="w-10 h-10 rounded-full bg-gradient-to-r from-indigo-600 to-purple-600 flex items-center justify-center mr-3">
+                  <div className="bg-gradient-to-r from-teal-50/30 to-cyan-50/30 backdrop-blur-sm p-4 border-b border-gray-100 flex items-center">
+                    <div className="w-10 h-10 rounded-full bg-gradient-to-r from-teal-400 to-cyan-400 flex items-center justify-center mr-3">
                       <MessageCircle className="h-5 w-5 text-white" />
                     </div>
                     <div>
-                      <h3 className="font-medium text-white">
+                      <h3 className="font-medium text-gray-700">
                         Anna AI Fitness Coach
                       </h3>
-                      <p className="text-xs text-slate-400">
+                      <p className="text-xs text-gray-500">
                         Available 24/7 for fitness advice
                       </p>
                     </div>
@@ -3569,24 +3569,24 @@ export default function FitnessPage() {
                         }`}
                       >
                         {message.role === "assistant" && (
-                          <div className="w-8 h-8 rounded-full bg-gradient-to-r from-indigo-600 to-purple-600 flex items-center justify-center mr-2 mt-1 flex-shrink-0">
-                            <MessageCircle className="h-4 w-4 text-white" />
+                          <div className="w-8 h-8 rounded-full bg-gradient-to-r from-teal-400 to-cyan-400 flex items-center justify-center mr-2 mt-1 flex-shrink-0">
+                            <MessageCircle className="h-4 w-4 text-gray-600" />
                           </div>
                         )}
 
                         <div
                           className={`max-w-[80%] rounded-xl px-4 py-3 ${
                             message.role === "user"
-                              ? "bg-gradient-to-r from-indigo-600 to-purple-600 text-white ml-2 rounded-tr-none"
-                              : "bg-slate-800/70 text-white border border-slate-700/50 rounded-tl-none"
+                              ? "bg-gradient-to-r from-teal-400 to-cyan-400 text-white ml-2 rounded-tr-none"
+                              : "bg-gray-100 text-gray-900 border border-gray-100 rounded-tl-none"
                           }`}
                         >
                           {message.content}
                         </div>
 
                         {message.role === "user" && (
-                          <div className="w-8 h-8 rounded-full bg-slate-700 flex items-center justify-center ml-2 mt-1 flex-shrink-0">
-                            <div className="text-xs font-medium text-slate-300">
+                          <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center ml-2 mt-1 flex-shrink-0">
+                            <div className="text-xs font-medium text-gray-500">
                               You
                             </div>
                           </div>
@@ -3596,10 +3596,10 @@ export default function FitnessPage() {
 
                     {isLoading && (
                       <div className="flex justify-start">
-                        <div className="w-8 h-8 rounded-full bg-gradient-to-r from-indigo-600 to-purple-600 flex items-center justify-center mr-2 mt-1 flex-shrink-0">
-                          <MessageCircle className="h-4 w-4 text-white" />
+                        <div className="w-8 h-8 rounded-full bg-gradient-to-r from-teal-400 to-cyan-400 flex items-center justify-center mr-2 mt-1 flex-shrink-0">
+                          <MessageCircle className="h-4 w-4 text-gray-600" />
                         </div>
-                        <div className="bg-slate-800/70 rounded-xl rounded-tl-none px-4 py-3 border border-slate-700/50">
+                        <div className="bg-gray-100 rounded-xl rounded-tl-none px-4 py-3 border border-gray-100">
                           <div className="flex space-x-2">
                             <div
                               className="w-2 h-2 rounded-full bg-white/50 animate-bounce"
@@ -3622,7 +3622,7 @@ export default function FitnessPage() {
                   </div>
 
                   {/* Chat input */}
-                  <div className="p-4 border-t border-slate-700/50">
+                  <div className="p-4 border-t border-gray-100">
                     <form
                       onSubmit={handleSendMessage}
                       className="flex space-x-2"
@@ -3632,13 +3632,13 @@ export default function FitnessPage() {
                         value={chatMessage}
                         onChange={(e) => setChatMessage(e.target.value)}
                         placeholder="Ask your fitness coach..."
-                        className="flex-1 bg-slate-800/70 border border-slate-700/50 rounded-lg px-4 py-2 text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/50"
+                        className="flex-1 bg-gray-100 border border-gray-100 rounded-lg px-4 py-2 text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-teal-500/50"
                         disabled={isLoading}
                       />
                       <button
                         type="submit"
                         disabled={isLoading || !chatMessage.trim()}
-                        className="bg-gradient-to-r from-indigo-600 to-purple-600 hover:opacity-90 disabled:opacity-50 rounded-lg px-4 py-2 text-white font-medium transition-colors"
+                        className="bg-gradient-to-r from-teal-400 to-cyan-400 hover:opacity-90 disabled:opacity-50 rounded-lg px-4 py-2 text-gray-900 font-medium transition-colors"
                       >
                         {isLoading ? (
                           <div className="h-5 w-5 border-2 border-t-transparent border-white rounded-full animate-spin"></div>
@@ -3665,7 +3665,7 @@ export default function FitnessPage() {
                 {/* Suggested questions and info */}
                 <div className="space-y-6">
                   {/* Suggested questions */}
-                  <div className="bg-gradient-to-br from-slate-900/80 to-black/60 backdrop-blur-md rounded-xl border border-slate-700/50 shadow-lg p-5">
+                  <div className="bg-white backdrop-blur-md rounded-xl border border-gray-100 shadow-lg p-5">
                     <h3 className="text-base font-bold mb-4">
                       Suggested Questions
                     </h3>
@@ -3687,7 +3687,7 @@ export default function FitnessPage() {
                               100
                             );
                           }}
-                          className="w-full text-left p-2.5 rounded-lg bg-slate-800/70 hover:bg-indigo-900/30 border border-slate-700/50 hover:border-indigo-500/30 text-sm transition-colors"
+                          className="w-full text-left p-2.5 rounded-lg bg-gray-100 hover:bg-teal-50/30 border border-gray-100 hover:border-teal-300 text-sm transition-colors"
                         >
                           {question}
                         </button>
@@ -3696,7 +3696,7 @@ export default function FitnessPage() {
                   </div>
 
                   {/* Coach capabilities */}
-                  <div className="bg-gradient-to-br from-slate-900/80 to-black/60 backdrop-blur-md rounded-xl border border-slate-700/50 shadow-lg p-5">
+                  <div className="bg-white backdrop-blur-md rounded-xl border border-gray-100 shadow-lg p-5">
                     <h3 className="text-base font-bold mb-4">
                       Coach Capabilities
                     </h3>
@@ -3706,10 +3706,10 @@ export default function FitnessPage() {
                           <Dumbbell className="h-4 w-4 text-blue-400" />
                         </div>
                         <div>
-                          <h4 className="text-sm font-medium text-white">
+                          <h4 className="text-sm font-medium text-gray-700">
                             Workout Planning
                           </h4>
-                          <p className="text-xs text-slate-400 mt-0.5">
+                          <p className="text-xs text-gray-500 mt-0.5">
                             Get customized workout plans based on your goals and
                             fitness level
                           </p>
@@ -3721,10 +3721,10 @@ export default function FitnessPage() {
                           <BookOpen className="h-4 w-4 text-green-400" />
                         </div>
                         <div>
-                          <h4 className="text-sm font-medium text-white">
+                          <h4 className="text-sm font-medium text-gray-700">
                             Nutrition Advice
                           </h4>
-                          <p className="text-xs text-slate-400 mt-0.5">
+                          <p className="text-xs text-gray-500 mt-0.5">
                             Learn about proper nutrition to support your fitness
                             journey
                           </p>
@@ -3736,10 +3736,10 @@ export default function FitnessPage() {
                           <Target className="h-4 w-4 text-amber-400" />
                         </div>
                         <div>
-                          <h4 className="text-sm font-medium text-white">
+                          <h4 className="text-sm font-medium text-gray-700">
                             Goal Setting
                           </h4>
-                          <p className="text-xs text-slate-400 mt-0.5">
+                          <p className="text-xs text-gray-500 mt-0.5">
                             Help with setting realistic and achievable fitness
                             goals
                           </p>
@@ -3747,14 +3747,14 @@ export default function FitnessPage() {
                       </div>
 
                       <div className="flex items-start">
-                        <div className="w-8 h-8 rounded-full bg-purple-900/40 flex items-center justify-center mr-3 mt-1 flex-shrink-0 border border-purple-500/30">
-                          <BarChart2 className="h-4 w-4 text-purple-400" />
+                        <div className="w-8 h-8 rounded-full bg-purple-900/40 flex items-center justify-center mr-3 mt-1 flex-shrink-0 border border-cyan-400/30">
+                          <BarChart2 className="h-4 w-4 text-cyan-500" />
                         </div>
                         <div>
-                          <h4 className="text-sm font-medium text-white">
+                          <h4 className="text-sm font-medium text-gray-700">
                             Progress Analysis
                           </h4>
-                          <p className="text-xs text-slate-400 mt-0.5">
+                          <p className="text-xs text-gray-500 mt-0.5">
                             Get insights on your progress and areas for
                             improvement
                           </p>
@@ -3772,7 +3772,7 @@ export default function FitnessPage() {
       {/* Modals */}
       {/* Calorie Calculator Modal */}
       {showCalorieCalculator && (
-        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+        <div className="fixed inset-0 z-50 bg-gray-100 backdrop-blur-sm flex items-center justify-center p-4">
           <CalorieCalculator
             onClose={() => setShowCalorieCalculator(false)}
             updateMetric={updateMetric}
@@ -3782,14 +3782,14 @@ export default function FitnessPage() {
 
       {/* Workout Timer Modal */}
       {showWorkoutTimer && (
-        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+        <div className="fixed inset-0 z-50 bg-gray-100 backdrop-blur-sm flex items-center justify-center p-4">
           <WorkoutTimer onClose={() => setShowWorkoutTimer(false)} />
         </div>
       )}
 
       {/* Body Stats Form Modal */}
       {showBodyStatsForm && metrics && (
-        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+        <div className="fixed inset-0 z-50 bg-gray-100 backdrop-blur-sm flex items-center justify-center p-4">
           <BodyStatsForm
             metrics={metrics}
             updateMetric={updateMetric}
@@ -3800,10 +3800,10 @@ export default function FitnessPage() {
 
       {/* Add/Edit Workout Form Modal */}
       {showAddWorkoutForm && (
-        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-gradient-to-br from-slate-900/90 to-black/90 backdrop-blur-xl rounded-xl p-6 max-w-md w-full border border-slate-700/50 shadow-2xl">
+        <div className="fixed inset-0 z-50 bg-gray-100 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-gradient-to-br from-white to-gray-50 backdrop-blur-xl rounded-xl p-6 max-w-md w-full border border-gray-100 shadow-lg">
             <div className="flex justify-between items-center mb-6">
-              <h2 className="text-2xl font-bold bg-gradient-to-r from-indigo-400 to-purple-500 text-transparent bg-clip-text">
+              <h2 className="text-2xl font-bold bg-gradient-to-r from-teal-400 to-cyan-400 text-transparent bg-clip-text">
                 {editingWorkoutId ? "Edit Workout" : "Add Workout"}
               </h2>
               <button
@@ -3811,7 +3811,7 @@ export default function FitnessPage() {
                   setShowAddWorkoutForm(false);
                   setEditingWorkoutId(null);
                 }}
-                className="p-2 rounded-full hover:bg-slate-800/70"
+                className="p-2 rounded-full hover:bg-gray-100"
               >
                 <X size={20} />
               </button>
@@ -3820,7 +3820,7 @@ export default function FitnessPage() {
             <form onSubmit={handleWorkoutSubmit} className="space-y-4">
               {/* Workout type */}
               <div>
-                <label className="block text-sm font-medium text-slate-300 mb-2">
+                <label className="block text-sm font-medium text-gray-500 mb-2">
                   Workout Type
                 </label>
                 <div className="grid grid-cols-3 gap-2">
@@ -3831,8 +3831,8 @@ export default function FitnessPage() {
                       onClick={() => handleWorkoutFormChange("type", type.id)}
                       className={`py-2 px-3 rounded-lg flex flex-col items-center justify-center ${
                         workoutFormData.type === type.id
-                          ? "bg-indigo-600 text-white"
-                          : "bg-slate-800/50 text-slate-300 border border-slate-700/50 hover:border-slate-600/50"
+                          ? "bg-teal-500 text-white"
+                          : "bg-gray-100 text-gray-500 border border-gray-100 hover:border-gray-200/50"
                       }`}
                     >
                       <div className="mb-1">{type.icon}</div>
@@ -3846,7 +3846,7 @@ export default function FitnessPage() {
               <div>
                 <label
                   htmlFor="workoutName"
-                  className="block text-sm font-medium text-slate-300 mb-2"
+                  className="block text-sm font-medium text-gray-500 mb-2"
                 >
                   Workout Name
                 </label>
@@ -3857,7 +3857,7 @@ export default function FitnessPage() {
                   onChange={(e) =>
                     handleWorkoutFormChange("name", e.target.value)
                   }
-                  className="w-full bg-slate-800/50 border border-slate-700/50 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/50"
+                  className="w-full bg-gray-100 border border-gray-100 rounded-lg px-4 py-2 text-gray-900 focus:outline-none focus:ring-2 focus:ring-teal-500/50"
                   placeholder="e.g. Morning Run"
                   required
                 />
@@ -3868,7 +3868,7 @@ export default function FitnessPage() {
                 <div>
                   <label
                     htmlFor="workoutDate"
-                    className="block text-sm font-medium text-slate-300 mb-2"
+                    className="block text-sm font-medium text-gray-500 mb-2"
                   >
                     Date
                   </label>
@@ -3879,14 +3879,14 @@ export default function FitnessPage() {
                     onChange={(e) =>
                       handleWorkoutFormChange("date", e.target.value)
                     }
-                    className="w-full bg-slate-800/50 border border-slate-700/50 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/50"
+                    className="w-full bg-gray-100 border border-gray-100 rounded-lg px-4 py-2 text-gray-900 focus:outline-none focus:ring-2 focus:ring-teal-500/50"
                     required
                   />
                 </div>
                 <div>
                   <label
                     htmlFor="workoutDuration"
-                    className="block text-sm font-medium text-slate-300 mb-2"
+                    className="block text-sm font-medium text-gray-500 mb-2"
                   >
                     Duration (min)
                   </label>
@@ -3901,7 +3901,7 @@ export default function FitnessPage() {
                         parseInt(e.target.value) || 0
                       )
                     }
-                    className="w-full bg-slate-800/50 border border-slate-700/50 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/50"
+                    className="w-full bg-gray-100 border border-gray-100 rounded-lg px-4 py-2 text-gray-900 focus:outline-none focus:ring-2 focus:ring-teal-500/50"
                     required
                   />
                 </div>
@@ -3913,7 +3913,7 @@ export default function FitnessPage() {
                   <div>
                     <label
                       htmlFor="workoutDistance"
-                      className="block text-sm font-medium text-slate-300 mb-2"
+                      className="block text-sm font-medium text-gray-500 mb-2"
                     >
                       Distance (km)
                     </label>
@@ -3929,13 +3929,13 @@ export default function FitnessPage() {
                           parseFloat(e.target.value) || 0
                         )
                       }
-                      className="w-full bg-slate-800/50 border border-slate-700/50 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/50"
+                      className="w-full bg-gray-100 border border-gray-100 rounded-lg px-4 py-2 text-gray-900 focus:outline-none focus:ring-2 focus:ring-teal-500/50"
                     />
                   </div>
                   <div>
                     <label
                       htmlFor="workoutCalories"
-                      className="block text-sm font-medium text-slate-300 mb-2"
+                      className="block text-sm font-medium text-gray-500 mb-2"
                     >
                       Calories Burned
                     </label>
@@ -3950,7 +3950,7 @@ export default function FitnessPage() {
                           parseInt(e.target.value) || 0
                         )
                       }
-                      className="w-full bg-slate-800/50 border border-slate-700/50 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/50"
+                      className="w-full bg-gray-100 border border-gray-100 rounded-lg px-4 py-2 text-gray-900 focus:outline-none focus:ring-2 focus:ring-teal-500/50"
                     />
                   </div>
                 </div>
@@ -3960,7 +3960,7 @@ export default function FitnessPage() {
                 <div>
                   <label
                     htmlFor="workoutCalories"
-                    className="block text-sm font-medium text-slate-300 mb-2"
+                    className="block text-sm font-medium text-gray-500 mb-2"
                   >
                     Calories Burned
                   </label>
@@ -3975,7 +3975,7 @@ export default function FitnessPage() {
                         parseInt(e.target.value) || 0
                       )
                     }
-                    className="w-full bg-slate-800/50 border border-slate-700/50 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/50"
+                    className="w-full bg-gray-100 border border-gray-100 rounded-lg px-4 py-2 text-gray-900 focus:outline-none focus:ring-2 focus:ring-teal-500/50"
                   />
                 </div>
               )}
@@ -3985,7 +3985,7 @@ export default function FitnessPage() {
                 <div>
                   <label
                     htmlFor="workoutAvgHr"
-                    className="block text-sm font-medium text-slate-300 mb-2"
+                    className="block text-sm font-medium text-gray-500 mb-2"
                   >
                     Avg Heart Rate (bpm)
                   </label>
@@ -4000,13 +4000,13 @@ export default function FitnessPage() {
                         avg: parseInt(e.target.value) || 0,
                       })
                     }
-                    className="w-full bg-slate-800/50 border border-slate-700/50 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/50"
+                    className="w-full bg-gray-100 border border-gray-100 rounded-lg px-4 py-2 text-gray-900 focus:outline-none focus:ring-2 focus:ring-teal-500/50"
                   />
                 </div>
                 <div>
                   <label
                     htmlFor="workoutMaxHr"
-                    className="block text-sm font-medium text-slate-300 mb-2"
+                    className="block text-sm font-medium text-gray-500 mb-2"
                   >
                     Max Heart Rate (bpm)
                   </label>
@@ -4021,7 +4021,7 @@ export default function FitnessPage() {
                         max: parseInt(e.target.value) || 0,
                       })
                     }
-                    className="w-full bg-slate-800/50 border border-slate-700/50 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/50"
+                    className="w-full bg-gray-100 border border-gray-100 rounded-lg px-4 py-2 text-gray-900 focus:outline-none focus:ring-2 focus:ring-teal-500/50"
                   />
                 </div>
               </div>
@@ -4030,7 +4030,7 @@ export default function FitnessPage() {
               <div>
                 <label
                   htmlFor="workoutNotes"
-                  className="block text-sm font-medium text-slate-300 mb-2"
+                  className="block text-sm font-medium text-gray-500 mb-2"
                 >
                   Notes
                 </label>
@@ -4041,7 +4041,7 @@ export default function FitnessPage() {
                     handleWorkoutFormChange("notes", e.target.value)
                   }
                   rows={3}
-                  className="w-full bg-slate-800/50 border border-slate-700/50 rounded-lg px-4 py-2 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/50"
+                  className="w-full bg-gray-100 border border-gray-100 rounded-lg px-4 py-2 text-gray-900 focus:outline-none focus:ring-2 focus:ring-teal-500/50"
                   placeholder="How did the workout feel? Any achievements or challenges?"
                 ></textarea>
               </div>
@@ -4049,7 +4049,7 @@ export default function FitnessPage() {
               {/* Submit button */}
               <button
                 type="submit"
-                className="w-full py-3 px-4 rounded-lg text-white font-medium bg-gradient-to-r from-indigo-600 to-purple-600 hover:opacity-90 transition-opacity flex items-center justify-center"
+                className="w-full py-3 px-4 rounded-lg text-gray-900 font-medium bg-gradient-to-r from-teal-400 to-cyan-400 hover:opacity-90 transition-opacity flex items-center justify-center"
               >
                 <Save className="h-5 w-5 mr-2" />
                 {editingWorkoutId ? "Update Workout" : "Save Workout"}

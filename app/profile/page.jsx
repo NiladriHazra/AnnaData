@@ -812,14 +812,14 @@ const ProfilePictureUploader = ({ currentImage, onUpdate, onClose }) => {
   };
 
   return (
-    <div className="bg-gradient-to-br from-slate-900/90 to-black/90 backdrop-blur-xl rounded-xl p-6 max-w-md w-full border border-slate-700/50 shadow-2xl">
+    <div className="bg-gradient-to-br from-white to-gray-50 backdrop-blur-xl rounded-xl p-6 max-w-md w-full border border-gray-100 shadow-lg">
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-bold bg-gradient-to-r from-indigo-400 to-purple-500 text-transparent bg-clip-text">
+        <h2 className="text-2xl font-bold bg-gradient-to-r from-teal-400 to-cyan-400 text-transparent bg-clip-text">
           Update Profile Picture
         </h2>
         <button
           onClick={onClose}
-          className="p-2 rounded-full hover:bg-slate-800/70"
+          className="p-2 rounded-full hover:bg-gray-100"
         >
           <X size={20} />
         </button>
@@ -834,17 +834,17 @@ const ProfilePictureUploader = ({ currentImage, onUpdate, onClose }) => {
               alt="Profile Preview"
               className="w-full h-full object-cover"
             />
-            <div className="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+            <div className="absolute inset-0 bg-gray-100 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
               <button
                 onClick={handleRemoveCurrentPhoto}
-                className="p-2 rounded-full bg-red-600/80 text-white hover:bg-red-600"
+                className="p-2 rounded-full bg-red-600/80 text-gray-900 hover:bg-red-600"
               >
                 <Trash2 size={18} />
               </button>
             </div>
           </div>
         ) : (
-          <div className="w-32 h-32 rounded-full bg-slate-800 flex items-center justify-center mb-4 text-slate-400">
+          <div className="w-32 h-32 rounded-full bg-gray-100 flex items-center justify-center mb-4 text-gray-500">
             <User size={48} />
           </div>
         )}
@@ -859,13 +859,13 @@ const ProfilePictureUploader = ({ currentImage, onUpdate, onClose }) => {
 
         <button
           onClick={handleTriggerFileInput}
-          className="px-4 py-2 bg-slate-800 hover:bg-slate-700 rounded-lg text-white transition-colors flex items-center justify-center"
+          className="px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg text-gray-900 transition-colors flex items-center justify-center"
         >
           <Upload size={16} className="mr-2" />
           {previewUrl ? "Change Photo" : "Upload Photo"}
         </button>
 
-        <p className="text-xs text-slate-400 mt-2">
+        <p className="text-xs text-gray-500 mt-2">
           JPEG, PNG or GIF. Max 5MB.
         </p>
       </div>
@@ -873,14 +873,14 @@ const ProfilePictureUploader = ({ currentImage, onUpdate, onClose }) => {
       <div className="flex space-x-3">
         <button
           onClick={onClose}
-          className="flex-1 py-2.5 rounded-lg border border-slate-700 hover:bg-slate-800 text-white transition-colors"
+          className="flex-1 py-2.5 rounded-lg border border-gray-100 hover:bg-gray-100 text-gray-900 transition-colors"
         >
           Cancel
         </button>
         <button
           onClick={handleSave}
           disabled={!selectedFile || uploading}
-          className="flex-1 py-2.5 rounded-lg bg-gradient-to-r from-indigo-600 to-purple-600 hover:opacity-90 disabled:opacity-50 text-white font-medium transition-colors flex items-center justify-center"
+          className="flex-1 py-2.5 rounded-lg bg-gradient-to-r from-teal-400 to-cyan-400 hover:opacity-90 disabled:opacity-50 text-gray-900 font-medium transition-colors flex items-center justify-center"
         >
           {uploading ? (
             <>
@@ -906,14 +906,14 @@ const AchievementCard = ({ achievement, isUnlocked }) => {
       className={`bg-gradient-to-br ${
         isUnlocked
           ? `from-${achievement.color}-600/30 to-${achievement.color}-900/30 border-${achievement.color}-500/30`
-          : "from-slate-700/20 to-slate-900/20 border-slate-700/30"
+          : "from-slate-700/20 to-slate-900/20 border-gray-100"
       } backdrop-blur-sm rounded-xl p-4 border relative overflow-hidden`}
     >
       {/* Achievement icon */}
       <div className="flex justify-center mb-3">
         <div
           className={`w-16 h-16 rounded-full ${
-            isUnlocked ? `bg-${achievement.color}-600/20` : "bg-slate-800/50"
+            isUnlocked ? `bg-${achievement.color}-600/20` : "bg-gray-100"
           } flex items-center justify-center`}
         >
           <div
@@ -930,16 +930,16 @@ const AchievementCard = ({ achievement, isUnlocked }) => {
       <div className="text-center mb-3">
         <h3
           className={`font-bold ${
-            isUnlocked ? "text-white" : "text-slate-400"
+            isUnlocked ? "text-gray-900" : "text-gray-500"
           }`}
         >
           {achievement.name}
         </h3>
-        <p className="text-xs text-slate-400 mt-1">{achievement.description}</p>
+        <p className="text-xs text-gray-500 mt-1">{achievement.description}</p>
       </div>
 
       {/* Progress bar */}
-      <div className="relative h-1.5 bg-slate-800 rounded-full overflow-hidden mb-2">
+      <div className="relative h-1.5 bg-gray-100 rounded-full overflow-hidden mb-2">
         <div
           className={`absolute top-0 left-0 h-full ${
             isUnlocked ? `bg-${achievement.color}-500` : "bg-slate-600"
@@ -954,7 +954,7 @@ const AchievementCard = ({ achievement, isUnlocked }) => {
       </div>
 
       <div className="flex justify-between items-center text-xs">
-        <div className="text-slate-400">
+        <div className="text-gray-500">
           {achievement.progress}/{achievement.target}
         </div>
         <div
@@ -1211,20 +1211,20 @@ export default function ProfilePage() {
   const getSubscriptionTag = () => {
     if (!user) return null;
 
-    let color = "bg-slate-700 text-slate-300";
+    let color = "bg-gray-200 text-gray-500";
     let text = "Free Plan";
 
     switch (user.subscriptionTier) {
       case "premium":
-        color = "bg-gradient-to-r from-amber-600 to-yellow-500 text-white";
+        color = "bg-gradient-to-r from-amber-600 to-yellow-500 text-gray-900";
         text = "Premium";
         break;
       case "pro":
-        color = "bg-gradient-to-r from-indigo-600 to-blue-500 text-white";
+        color = "bg-gradient-to-r from-indigo-600 to-blue-500 text-gray-900";
         text = "Pro";
         break;
       case "business":
-        color = "bg-gradient-to-r from-emerald-600 to-teal-500 text-white";
+        color = "bg-gradient-to-r from-emerald-600 to-teal-500 text-gray-900";
         text = "Business";
         break;
       default:
@@ -1279,10 +1279,10 @@ export default function ProfilePage() {
   // Render UI components
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-[#070B14] via-[#0b1120] to-[#0A0E1A] flex items-center justify-center">
+      <div className="min-h-screen bg-[#FAF9F6] flex items-center justify-center">
         <div className="flex flex-col items-center">
           <div className="w-16 h-16 border-4 border-t-indigo-600 border-indigo-600/30 rounded-full animate-spin mb-4"></div>
-          <p className="text-slate-300">Loading your profile...</p>
+          <p className="text-gray-500">Loading your profile...</p>
         </div>
       </div>
     );
@@ -1290,16 +1290,16 @@ export default function ProfilePage() {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-[#070B14] via-[#0b1120] to-[#0A0E1A] flex items-center justify-center">
-        <div className="bg-slate-800/50 p-6 rounded-xl max-w-md text-center">
+      <div className="min-h-screen bg-[#FAF9F6] flex items-center justify-center">
+        <div className="bg-gray-100 p-6 rounded-xl max-w-md text-center">
           <AlertCircle className="w-16 h-16 text-red-500 mx-auto mb-4" />
-          <h2 className="text-xl font-bold text-white mb-2">
+          <h2 className="text-xl font-bold text-gray-800 mb-2">
             Error Loading Profile
           </h2>
-          <p className="text-slate-300 mb-4">{error}</p>
+          <p className="text-gray-500 mb-4">{error}</p>
           <button
             onClick={() => window.location.reload()}
-            className="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 rounded-lg text-white"
+            className="px-4 py-2 bg-teal-500 hover:bg-teal-500 rounded-lg text-gray-900"
           >
             Try Again
           </button>
@@ -1312,22 +1312,22 @@ export default function ProfilePage() {
   const { level, progress } = calculateUserLevel();
 
   return (
-    <main className="min-h-screen bg-gradient-to-b from-[#070B14] via-[#0b1120] to-[#0A0E1A] text-white">
+    <main className="min-h-screen bg-[#FAF9F6] text-gray-900">
       <div className="absolute inset-0 bg-[url('/noise.png')] opacity-[0.03] mix-blend-overlay pointer-events-none"></div>
       <div className="absolute inset-0 bg-[url('/grid.svg')] bg-center opacity-[0.03] mix-blend-overlay pointer-events-none"></div>
 
       {/* Animated glowing orb */}
-      <div className="fixed top-1/4 -right-28 w-96 h-96 bg-indigo-600/20 rounded-full blur-3xl animate-pulse pointer-events-none"></div>
-      <div className="fixed top-3/4 -left-28 w-96 h-96 bg-purple-600/20 rounded-full blur-3xl animate-pulse pointer-events-none"></div>
+      <div className="fixed top-1/4 -right-28 w-96 h-96 bg-teal-100 rounded-full blur-3xl pointer-events-none"></div>
+      <div className="fixed top-3/4 -left-28 w-96 h-96 bg-cyan-100 rounded-full blur-3xl pointer-events-none"></div>
 
       {/* Header */}
-      <header className="sticky top-0 z-50 backdrop-blur-xl bg-gradient-to-r from-black/80 via-black/70 to-black/80 border-b border-slate-800/60 shadow-lg">
+      <header className="sticky top-0 z-50 backdrop-blur-xl bg-gradient-to-r from-white/80 via-white/70 to-white/80 border-b border-gray-100 shadow-lg">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center space-x-4">
               <button
                 onClick={() => router.push("/")}
-                className="p-2 rounded-full hover:bg-slate-800/60 transition-colors"
+                className="p-2 rounded-full hover:bg-gray-100 transition-colors"
               >
                 <ArrowLeft className="h-5 w-5" />
               </button>
@@ -1347,21 +1347,21 @@ export default function ProfilePage() {
             <div className="hidden md:flex items-center space-x-4">
               <button
                 onClick={() => router.push("/")}
-                className="flex items-center px-3 py-2 rounded-md text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-800/50 transition-colors"
+                className="flex items-center px-3 py-2 rounded-md text-sm font-medium text-gray-500 hover:text-teal-600 hover:bg-gray-100 transition-colors"
               >
                 <HomeIcon className="mr-2 h-4 w-4" />
                 Home
               </button>
               <button
                 onClick={() => router.push("/recipe")}
-                className="flex items-center px-3 py-2 rounded-md text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-800/50 transition-colors"
+                className="flex items-center px-3 py-2 rounded-md text-sm font-medium text-gray-500 hover:text-teal-600 hover:bg-gray-100 transition-colors"
               >
                 <ChefHat className="mr-2 h-4 w-4" />
                 Recipes
               </button>
               <button
                 onClick={() => router.push("/fitness")}
-                className="flex items-center px-3 py-2 rounded-md text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-800/50 transition-colors"
+                className="flex items-center px-3 py-2 rounded-md text-sm font-medium text-gray-500 hover:text-teal-600 hover:bg-gray-100 transition-colors"
               >
                 <Activity className="mr-2 h-4 w-4" />
                 Fitness
@@ -1372,7 +1372,7 @@ export default function ProfilePage() {
             <div className="md:hidden">
               <button
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="p-2 rounded-md hover:bg-slate-800/60 transition-colors"
+                className="p-2 rounded-md hover:bg-gray-100 transition-colors"
               >
                 {mobileMenuOpen ? (
                   <X className="h-6 w-6" />
@@ -1394,7 +1394,7 @@ export default function ProfilePage() {
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            className="bg-black/90 backdrop-blur-lg border-b border-slate-800/60 md:hidden"
+            className="bg-white/90 backdrop-blur-lg border-b border-gray-100 md:hidden"
           >
             <div className="px-4 py-3 space-y-2">
               <button
@@ -1402,7 +1402,7 @@ export default function ProfilePage() {
                   router.push("/");
                   setMobileMenuOpen(false);
                 }}
-                className="flex items-center w-full px-3 py-2 rounded-md text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-800/50 transition-colors"
+                className="flex items-center w-full px-3 py-2 rounded-md text-sm font-medium text-gray-500 hover:text-teal-600 hover:bg-gray-100 transition-colors"
               >
                 <HomeIcon className="mr-2 h-4 w-4" />
                 Home
@@ -1412,7 +1412,7 @@ export default function ProfilePage() {
                   router.push("/recipe");
                   setMobileMenuOpen(false);
                 }}
-                className="flex items-center w-full px-3 py-2 rounded-md text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-800/50 transition-colors"
+                className="flex items-center w-full px-3 py-2 rounded-md text-sm font-medium text-gray-500 hover:text-teal-600 hover:bg-gray-100 transition-colors"
               >
                 <ChefHat className="mr-2 h-4 w-4" />
                 Recipes
@@ -1422,7 +1422,7 @@ export default function ProfilePage() {
                   router.push("/fitness");
                   setMobileMenuOpen(false);
                 }}
-                className="flex items-center w-full px-3 py-2 rounded-md text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-800/50 transition-colors"
+                className="flex items-center w-full px-3 py-2 rounded-md text-sm font-medium text-gray-500 hover:text-teal-600 hover:bg-gray-100 transition-colors"
               >
                 <Activity className="mr-2 h-4 w-4" />
                 Fitness
@@ -1432,7 +1432,7 @@ export default function ProfilePage() {
                   router.push("/diary");
                   setMobileMenuOpen(false);
                 }}
-                className="flex items-center w-full px-3 py-2 rounded-md text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-800/50 transition-colors"
+                className="flex items-center w-full px-3 py-2 rounded-md text-sm font-medium text-gray-500 hover:text-teal-600 hover:bg-gray-100 transition-colors"
               >
                 <Calendar className="mr-2 h-4 w-4" />
                 Food Diary
@@ -1444,7 +1444,7 @@ export default function ProfilePage() {
 
       {/* Profile header section */}
       <section
-        className={`bg-gradient-to-br from-slate-900/80 to-black/80 border-b border-slate-800/40`}
+        className={`bg-gradient-to-br from-white/80 to-gray-50/80 border-b border-gray-100/40`}
       >
         <div className="container mx-auto px-4 py-8">
           <div className="flex flex-col md:flex-row items-center md:items-start gap-6">
@@ -1453,7 +1453,7 @@ export default function ProfilePage() {
               <div
                 className={`w-32 h-32 md:w-40 md:h-40 rounded-full border-4 border-${
                   user?.theme || "indigo"
-                }-600 overflow-hidden bg-slate-800 flex items-center justify-center`}
+                }-600 overflow-hidden bg-gray-100 flex items-center justify-center`}
               >
                 {user?.profileImage ? (
                   <img
@@ -1462,14 +1462,14 @@ export default function ProfilePage() {
                     className="w-full h-full object-cover"
                   />
                 ) : (
-                  <User className="h-16 w-16 text-slate-400" />
+                  <User className="h-16 w-16 text-gray-500" />
                 )}
               </div>
 
               {!isEditing && (
                 <button
                   onClick={() => setShowProfilePictureModal(true)}
-                  className="absolute bottom-1 right-1 p-2 rounded-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:opacity-90 text-white opacity-0 group-hover:opacity-100 transition-opacity"
+                  className="absolute bottom-1 right-1 p-2 rounded-full bg-gradient-to-r from-teal-400 to-cyan-400 hover:opacity-90 text-gray-900 opacity-0 group-hover:opacity-100 transition-opacity"
                 >
                   <Camera size={16} />
                 </button>
@@ -1477,7 +1477,7 @@ export default function ProfilePage() {
 
               {/* User level badge */}
               <div className="absolute -top-2 -right-2 w-12 h-12 rounded-full bg-gradient-to-br from-amber-500 to-amber-600 border-4 border-slate-900 flex items-center justify-center">
-                <span className="text-white font-bold text-sm">{level}</span>
+                <span className="text-gray-900 font-bold text-sm">{level}</span>
               </div>
             </div>
 
@@ -1486,7 +1486,7 @@ export default function ProfilePage() {
               <div className="flex flex-col md:flex-row md:items-center justify-between gap-2 mb-2">
                 <div>
                   <div className="flex items-center justify-center md:justify-start gap-2">
-                    <h1 className="text-3xl font-bold text-white">
+                    <h1 className="text-3xl font-bold text-gray-800">
                       {isEditing ? (
                         <input
                           type="text"
@@ -1497,7 +1497,7 @@ export default function ProfilePage() {
                               name: e.target.value,
                             }))
                           }
-                          className="bg-slate-800/50 border border-slate-700/50 rounded-lg px-3 py-1 text-2xl w-full md:w-auto"
+                          className="bg-gray-100 border border-gray-100 rounded-lg px-3 py-1 text-2xl w-full md:w-auto"
                         />
                       ) : (
                         user.name
@@ -1507,7 +1507,7 @@ export default function ProfilePage() {
                     {getSubscriptionTag()}
                   </div>
 
-                  <div className="text-slate-400 mt-1 flex flex-col md:flex-row items-center gap-2 md:gap-4">
+                  <div className="text-gray-500 mt-1 flex flex-col md:flex-row items-center gap-2 md:gap-4">
                     <div className="flex items-center">
                       <User size={14} className="mr-1" />
                       {isEditing ? (
@@ -1520,7 +1520,7 @@ export default function ProfilePage() {
                               username: e.target.value,
                             }))
                           }
-                          className="bg-slate-800/50 border border-slate-700/50 rounded-lg px-2 py-0.5 text-sm"
+                          className="bg-gray-100 border border-gray-100 rounded-lg px-2 py-0.5 text-sm"
                         />
                       ) : (
                         <span>@{user.username}</span>
@@ -1539,7 +1539,7 @@ export default function ProfilePage() {
                               email: e.target.value,
                             }))
                           }
-                          className="bg-slate-800/50 border border-slate-700/50 rounded-lg px-2 py-0.5 text-sm"
+                          className="bg-gray-100 border border-gray-100 rounded-lg px-2 py-0.5 text-sm"
                         />
                       ) : (
                         <span>{user.email}</span>
@@ -1556,7 +1556,7 @@ export default function ProfilePage() {
                           setIsEditing(false);
                           setEditableUser({ ...user });
                         }}
-                        className="px-3 py-1.5 border border-slate-600 rounded-lg text-sm hover:bg-slate-800/50 transition-colors"
+                        className="px-3 py-1.5 border border-gray-200 rounded-lg text-sm hover:bg-gray-100 transition-colors"
                       >
                         Cancel
                       </button>
@@ -1565,7 +1565,7 @@ export default function ProfilePage() {
                         className={`px-4 py-1.5 bg-gradient-to-r ${getThemeGradient(
                           "bg",
                           user?.theme
-                        )} rounded-lg text-sm text-white flex items-center transition-all ${
+                        )} rounded-lg text-sm text-gray-700 flex items-center transition-all ${
                           saving ? "opacity-75" : "hover:opacity-90"
                         }`}
                         disabled={saving}
@@ -1612,16 +1612,16 @@ export default function ProfilePage() {
                         bio: e.target.value,
                       }))
                     }
-                    className="bg-slate-800/50 border border-slate-700/50 rounded-lg px-3 py-2 text-white w-full h-20"
+                    className="bg-gray-100 border border-gray-100 rounded-lg px-3 py-2 text-gray-900 w-full h-20"
                     placeholder="Tell us about yourself..."
                   />
                 ) : (
-                  <p className="text-slate-300">{user.bio}</p>
+                  <p className="text-gray-500">{user.bio}</p>
                 )}
               </div>
 
               {/* Additional info */}
-              <div className="mt-4 flex flex-wrap gap-x-6 gap-y-2 text-sm text-slate-400 justify-center md:justify-start">
+              <div className="mt-4 flex flex-wrap gap-x-6 gap-y-2 text-sm text-gray-500 justify-center md:justify-start">
                 {isEditing ? (
                   <div className="flex items-center">
                     <Globe size={14} className="mr-1.5" />
@@ -1634,7 +1634,7 @@ export default function ProfilePage() {
                           location: e.target.value,
                         }))
                       }
-                      className="bg-slate-800/50 border border-slate-700/50 rounded-lg px-2 py-0.5 text-sm"
+                      className="bg-gray-100 border border-gray-100 rounded-lg px-2 py-0.5 text-sm"
                       placeholder="Location"
                     />
                   </div>
@@ -1672,61 +1672,61 @@ export default function ProfilePage() {
               <div className="text-2xl font-bold">
                 {user.stats?.totalRecipes || 0}
               </div>
-              <div className="text-xs text-slate-400">Recipes</div>
+              <div className="text-xs text-gray-500">Recipes</div>
             </div>
 
-            <div className="bg-gradient-to-br from-slate-900/40 to-slate-900/20 border border-slate-700/30 rounded-lg p-3 text-center">
+            <div className="bg-gradient-to-br from-white/40 to-slate-900/20 border border-gray-100 rounded-lg p-3 text-center">
               <div className="text-2xl font-bold">
                 {user.stats?.totalWorkouts || 0}
               </div>
-              <div className="text-xs text-slate-400">Workouts</div>
+              <div className="text-xs text-gray-500">Workouts</div>
             </div>
 
-            <div className="bg-gradient-to-br from-slate-900/40 to-slate-900/20 border border-slate-700/30 rounded-lg p-3 text-center">
+            <div className="bg-gradient-to-br from-white/40 to-slate-900/20 border border-gray-100 rounded-lg p-3 text-center">
               <div className="text-2xl font-bold">
                 {user.stats?.daysTracked || 0}
               </div>
-              <div className="text-xs text-slate-400">Days Tracked</div>
+              <div className="text-xs text-gray-500">Days Tracked</div>
             </div>
 
-            <div className="bg-gradient-to-br from-slate-900/40 to-slate-900/20 border border-slate-700/30 rounded-lg p-3 text-center">
+            <div className="bg-gradient-to-br from-white/40 to-slate-900/20 border border-gray-100 rounded-lg p-3 text-center">
               <div className="text-2xl font-bold">
                 {user.stats?.goalsMet || 0}
               </div>
-              <div className="text-xs text-slate-400">Goals Met</div>
+              <div className="text-xs text-gray-500">Goals Met</div>
             </div>
 
             <div className="bg-gradient-to-br from-amber-900/30 to-amber-900/10 border border-amber-500/30 rounded-lg p-3 text-center">
               <div className="text-2xl font-bold">
                 {user.stats?.streakDays || 0}
               </div>
-              <div className="text-xs text-slate-400">Day Streak</div>
+              <div className="text-xs text-gray-500">Day Streak</div>
             </div>
 
             <div className="bg-gradient-to-br from-red-900/30 to-red-900/10 border border-red-500/30 rounded-lg p-3 text-center">
               <div className="text-2xl font-bold">
                 {user.stats?.caloriesBurned?.toLocaleString() || 0}
               </div>
-              <div className="text-xs text-slate-400">Calories Burned</div>
+              <div className="text-xs text-gray-500">Calories Burned</div>
             </div>
 
             <div className="bg-gradient-to-br from-emerald-900/30 to-emerald-900/10 border border-emerald-500/30 rounded-lg p-3 text-center">
               <div className="text-2xl font-bold">
                 {user.stats?.nutritionScore || 0}
               </div>
-              <div className="text-xs text-slate-400">Nutrition Score</div>
+              <div className="text-xs text-gray-500">Nutrition Score</div>
             </div>
           </div>
 
           {/* User level progress bar */}
           <div className="mt-4">
             <div className="flex justify-between items-center mb-1 text-sm">
-              <div className="text-slate-400">Level {level}</div>
-              <div className="text-slate-400">
+              <div className="text-gray-500">Level {level}</div>
+              <div className="text-gray-500">
                 {progress}% to Level {level + 1}
               </div>
             </div>
-            <div className="h-1.5 bg-slate-800/80 rounded-full overflow-hidden">
+            <div className="h-1.5 bg-gray-100/80 rounded-full overflow-hidden">
               <div
                 className="h-full bg-gradient-to-r from-amber-500 to-amber-600"
                 style={{ width: `${progress}%` }}
@@ -1737,7 +1737,7 @@ export default function ProfilePage() {
       </section>
 
       {/* Tabs navigation */}
-      <div className="bg-slate-900/60 backdrop-blur-sm border-b border-slate-800/60 sticky top-16 z-40">
+      <div className="bg-white/60 backdrop-blur-sm border-b border-gray-100 sticky top-16 z-40">
         <div className="container mx-auto px-4">
           <div className="flex overflow-x-auto scrollbar-hide">
             {[
@@ -1772,10 +1772,10 @@ export default function ProfilePage() {
                 onClick={() => setActiveTab(tab.id)}
                 className={`px-4 py-3 flex items-center whitespace-nowrap ${
                   activeTab === tab.id
-                    ? `text-white border-b-2 border-${
+                    ? `text-gray-900 border-b-2 border-${
                         user?.theme || "indigo"
                       }-500 font-medium`
-                    : "text-slate-300 hover:text-white border-b-2 border-transparent hover:border-slate-700/50"
+                    : "text-gray-500 hover:text-teal-600 border-b-2 border-transparent hover:border-gray-100"
                 }`}
               >
                 <span className="mr-2">{tab.icon}</span>
@@ -1799,8 +1799,8 @@ export default function ProfilePage() {
               className="space-y-6"
             >
               {/* AI Insights Section */}
-              <div className="bg-gradient-to-br from-slate-900/80 to-black/60 backdrop-blur-md rounded-xl border border-slate-700/50 overflow-hidden">
-                <div className="p-5 border-b border-slate-700/50 flex justify-between items-center">
+              <div className="bg-white backdrop-blur-md rounded-xl border border-gray-100 overflow-hidden">
+                <div className="p-5 border-b border-gray-100 flex justify-between items-center">
                   <h2 className="text-xl font-bold flex items-center">
                     <Zap
                       className={`mr-2 text-${user?.theme || "indigo"}-400`}
@@ -1810,7 +1810,7 @@ export default function ProfilePage() {
 
                   <button
                     onClick={() => generateInsights(user)}
-                    className="p-2 rounded-lg hover:bg-slate-800/70 transition-colors text-slate-400 hover:text-white flex items-center text-xs"
+                    className="p-2 rounded-lg hover:bg-gray-100 transition-colors text-gray-500 hover:text-teal-600 flex items-center text-xs"
                     disabled={insightsLoading}
                   >
                     {insightsLoading ? (
@@ -1827,7 +1827,7 @@ export default function ProfilePage() {
                     <div className="flex items-center justify-center py-8">
                       <div className="flex flex-col items-center">
                         <div className="w-10 h-10 border-4 border-t-indigo-600 border-indigo-600/30 rounded-full animate-spin mb-4"></div>
-                        <p className="text-slate-400 text-sm">
+                        <p className="text-gray-500 text-sm">
                           Generating insights...
                         </p>
                       </div>
@@ -1839,7 +1839,7 @@ export default function ProfilePage() {
                           <BookOpen className="h-6 w-6 text-blue-400" />
                         </div>
                         <div>
-                          <h3 className="text-white font-medium mb-1">
+                          <h3 className="text-gray-900 font-medium mb-1">
                             Nutrition Insight
                           </h3>
                           <p className="text-blue-100/90 text-sm">
@@ -1850,10 +1850,10 @@ export default function ProfilePage() {
 
                       <div className="bg-purple-900/20 border border-purple-600/30 rounded-xl p-4 flex">
                         <div className="w-12 h-12 bg-purple-900/40 border border-purple-700/40 rounded-full flex items-center justify-center mr-4 flex-shrink-0">
-                          <Activity className="h-6 w-6 text-purple-400" />
+                          <Activity className="h-6 w-6 text-cyan-500" />
                         </div>
                         <div>
-                          <h3 className="text-white font-medium mb-1">
+                          <h3 className="text-gray-900 font-medium mb-1">
                             Fitness Insight
                           </h3>
                           <p className="text-purple-100/90 text-sm">
@@ -1867,7 +1867,7 @@ export default function ProfilePage() {
                           <Target className="h-6 w-6 text-amber-400" />
                         </div>
                         <div>
-                          <h3 className="text-white font-medium mb-1">
+                          <h3 className="text-gray-900 font-medium mb-1">
                             Goals Insight
                           </h3>
                           <p className="text-amber-100/90 text-sm">
@@ -1881,7 +1881,7 @@ export default function ProfilePage() {
                           <ThumbsUp className="h-6 w-6 text-emerald-400" />
                         </div>
                         <div>
-                          <h3 className="text-white font-medium mb-1">
+                          <h3 className="text-gray-900 font-medium mb-1">
                             Recommendation
                           </h3>
                           <p className="text-emerald-100/90 text-sm">
@@ -1892,7 +1892,7 @@ export default function ProfilePage() {
                     </div>
                   ) : (
                     <div className="py-4 text-center">
-                      <p className="text-slate-400">
+                      <p className="text-gray-500">
                         No insights available. Click refresh to generate
                         insights.
                       </p>
@@ -1904,8 +1904,8 @@ export default function ProfilePage() {
               {/* Goals and Progress */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 {/* Current Goals */}
-                <div className="bg-gradient-to-br from-slate-900/80 to-black/60 backdrop-blur-md rounded-xl border border-slate-700/50 overflow-hidden">
-                  <div className="p-4 border-b border-slate-700/50">
+                <div className="bg-white backdrop-blur-md rounded-xl border border-gray-100 overflow-hidden">
+                  <div className="p-4 border-b border-gray-100">
                     <h2 className="text-lg font-medium flex items-center">
                       <Target
                         className={`mr-2 text-${
@@ -1922,10 +1922,10 @@ export default function ProfilePage() {
                         {user.goals.map((goal) => (
                           <div
                             key={goal.id}
-                            className="bg-slate-800/50 rounded-lg p-3 border border-slate-700/50"
+                            className="bg-gray-100 rounded-lg p-3 border border-gray-100"
                           >
                             <div className="flex justify-between items-start">
-                              <h3 className="font-medium text-white">
+                              <h3 className="font-medium text-gray-700">
                                 {goal.name}
                               </h3>
                               <div
@@ -1942,16 +1942,16 @@ export default function ProfilePage() {
                               </div>
                             </div>
 
-                            <p className="text-xs text-slate-400 mt-1">
+                            <p className="text-xs text-gray-500 mt-1">
                               {goal.target}
                             </p>
 
                             <div className="mt-3">
                               <div className="flex justify-between items-center text-xs mb-1">
-                                <span className="text-slate-300">Progress</span>
+                                <span className="text-gray-500">Progress</span>
                                 <span>{goal.progress}%</span>
                               </div>
-                              <div className="relative h-2 bg-slate-700 rounded-full overflow-hidden">
+                              <div className="relative h-2 bg-gray-200 rounded-full overflow-hidden">
                                 <div
                                   className={`absolute top-0 left-0 h-full rounded-full ${
                                     goal.type === "weight"
@@ -1965,7 +1965,7 @@ export default function ProfilePage() {
                               </div>
                             </div>
 
-                            <div className="flex justify-between items-center mt-3 text-xs text-slate-400">
+                            <div className="flex justify-between items-center mt-3 text-xs text-gray-500">
                               <span>Started {formatDate(goal.startDate)}</span>
                               <span>Target {formatDate(goal.endDate)}</span>
                             </div>
@@ -1974,10 +1974,10 @@ export default function ProfilePage() {
                       </div>
                     ) : (
                       <div className="text-center py-6 px-4">
-                        <div className="w-12 h-12 rounded-full bg-slate-800/70 flex items-center justify-center mx-auto mb-3">
+                        <div className="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center mx-auto mb-3">
                           <Target className="h-6 w-6 text-slate-500" />
                         </div>
-                        <p className="text-slate-400 text-sm">
+                        <p className="text-gray-500 text-sm">
                           No goals set yet
                         </p>
                         <button
@@ -1985,7 +1985,7 @@ export default function ProfilePage() {
                             user?.theme || "indigo"
                           }-600/40 hover:bg-${
                             user?.theme || "indigo"
-                          }-600/60 rounded-lg text-white text-sm transition-colors`}
+                          }-600/60 rounded-lg text-gray-900 text-sm transition-colors`}
                         >
                           Add a Goal
                         </button>
@@ -1995,8 +1995,8 @@ export default function ProfilePage() {
                 </div>
 
                 {/* Weight Progress */}
-                <div className="bg-gradient-to-br from-slate-900/80 to-black/60 backdrop-blur-md rounded-xl border border-slate-700/50 overflow-hidden">
-                  <div className="p-4 border-b border-slate-700/50">
+                <div className="bg-white backdrop-blur-md rounded-xl border border-gray-100 overflow-hidden">
+                  <div className="p-4 border-b border-gray-100">
                     <h2 className="text-lg font-medium flex items-center">
                       <TrendingUp
                         className={`mr-2 text-${
@@ -2078,7 +2078,7 @@ export default function ProfilePage() {
                       </div>
                     ) : (
                       <div className="text-center py-10">
-                        <p className="text-slate-400 text-sm">
+                        <p className="text-gray-500 text-sm">
                           No weight data available
                         </p>
                       </div>
@@ -2087,8 +2087,8 @@ export default function ProfilePage() {
                 </div>
 
                 {/* Nutrition Distribution */}
-                <div className="bg-gradient-to-br from-slate-900/80 to-black/60 backdrop-blur-md rounded-xl border border-slate-700/50 overflow-hidden">
-                  <div className="p-4 border-b border-slate-700/50">
+                <div className="bg-white backdrop-blur-md rounded-xl border border-gray-100 overflow-hidden">
+                  <div className="p-4 border-b border-gray-100">
                     <h2 className="text-lg font-medium flex items-center">
                       <PieChart
                         className={`mr-2 text-${
@@ -2142,25 +2142,25 @@ export default function ProfilePage() {
                         <div className="flex items-center justify-center space-x-4 mt-2">
                           <div className="flex items-center">
                             <div className="w-3 h-3 rounded-full bg-blue-500 mr-1"></div>
-                            <span className="text-xs text-slate-300">
+                            <span className="text-xs text-gray-500">
                               Protein
                             </span>
                           </div>
                           <div className="flex items-center">
                             <div className="w-3 h-3 rounded-full bg-emerald-500 mr-1"></div>
-                            <span className="text-xs text-slate-300">
+                            <span className="text-xs text-gray-500">
                               Carbs
                             </span>
                           </div>
                           <div className="flex items-center">
                             <div className="w-3 h-3 rounded-full bg-amber-500 mr-1"></div>
-                            <span className="text-xs text-slate-300">Fat</span>
+                            <span className="text-xs text-gray-500">Fat</span>
                           </div>
                         </div>
                       </div>
                     ) : (
                       <div className="text-center py-10">
-                        <p className="text-slate-400 text-sm">
+                        <p className="text-gray-500 text-sm">
                           No nutrition data available
                         </p>
                       </div>
@@ -2172,8 +2172,8 @@ export default function ProfilePage() {
               {/* Recent Activity and Analytics */}
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 {/* Recent Activity */}
-                <div className="lg:col-span-1 bg-gradient-to-br from-slate-900/80 to-black/60 backdrop-blur-md rounded-xl border border-slate-700/50 overflow-hidden">
-                  <div className="p-4 border-b border-slate-700/50">
+                <div className="lg:col-span-1 bg-white backdrop-blur-md rounded-xl border border-gray-100 overflow-hidden">
+                  <div className="p-4 border-b border-gray-100">
                     <h2 className="text-lg font-medium flex items-center">
                       <Activity
                         className={`mr-2 text-${
@@ -2190,9 +2190,9 @@ export default function ProfilePage() {
                         {user.recentActivity.map((activity) => {
                           // Activity icon based on type
                           let icon = (
-                            <Activity className="h-5 w-5 text-slate-400" />
+                            <Activity className="h-5 w-5 text-gray-500" />
                           );
-                          let bgColor = "bg-slate-800/60";
+                          let bgColor = "bg-gray-100";
 
                           if (activity.type === "recipe") {
                             icon = (
@@ -2211,7 +2211,7 @@ export default function ProfilePage() {
                             bgColor = "bg-green-900/20";
                           } else if (activity.type === "nutrition") {
                             icon = (
-                              <BookOpen className="h-5 w-5 text-purple-400" />
+                              <BookOpen className="h-5 w-5 text-cyan-500" />
                             );
                             bgColor = "bg-purple-900/20";
                           } else if (activity.type === "weight") {
@@ -2232,7 +2232,7 @@ export default function ProfilePage() {
                               <div className="flex-grow">
                                 <div className="flex justify-between items-start">
                                   <div>
-                                    <p className="text-sm text-white">
+                                    <p className="text-sm text-gray-700">
                                       <span className="font-medium">
                                         {activity.action
                                           .charAt(0)
@@ -2241,7 +2241,7 @@ export default function ProfilePage() {
                                       </span>{" "}
                                       {activity.name}
                                     </p>
-                                    <p className="text-xs text-slate-400">
+                                    <p className="text-xs text-gray-500">
                                       {formatDate(activity.date)}
                                     </p>
                                   </div>
@@ -2253,7 +2253,7 @@ export default function ProfilePage() {
                       </div>
                     ) : (
                       <div className="text-center py-6">
-                        <p className="text-slate-400 text-sm">
+                        <p className="text-gray-500 text-sm">
                           No recent activity
                         </p>
                       </div>
@@ -2262,8 +2262,8 @@ export default function ProfilePage() {
                 </div>
 
                 {/* Weekly Analytics */}
-                <div className="lg:col-span-2 bg-gradient-to-br from-slate-900/80 to-black/60 backdrop-blur-md rounded-xl border border-slate-700/50 overflow-hidden">
-                  <div className="p-4 border-b border-slate-700/50">
+                <div className="lg:col-span-2 bg-white backdrop-blur-md rounded-xl border border-gray-100 overflow-hidden">
+                  <div className="p-4 border-b border-gray-100">
                     <h2 className="text-lg font-medium flex items-center">
                       <BarChart2
                         className={`mr-2 text-${
@@ -2276,52 +2276,52 @@ export default function ProfilePage() {
 
                   <div className="p-4">
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-                      <div className="bg-slate-800/50 rounded-lg p-3 border border-slate-700/50">
-                        <div className="text-xs text-slate-400 mb-1">
+                      <div className="bg-gray-100 rounded-lg p-3 border border-gray-100">
+                        <div className="text-xs text-gray-500 mb-1">
                           Avg. Calories
                         </div>
-                        <div className="text-xl font-bold text-white">
+                        <div className="text-xl font-bold text-gray-800">
                           {calculateDailyAverage("caloriesConsumed")}
                         </div>
-                        <div className="mt-1 text-xs text-slate-400">
+                        <div className="mt-1 text-xs text-gray-500">
                           Daily consumption
                         </div>
                       </div>
 
-                      <div className="bg-slate-800/50 rounded-lg p-3 border border-slate-700/50">
-                        <div className="text-xs text-slate-400 mb-1">
+                      <div className="bg-gray-100 rounded-lg p-3 border border-gray-100">
+                        <div className="text-xs text-gray-500 mb-1">
                           Avg. Calories Burned
                         </div>
-                        <div className="text-xl font-bold text-white">
+                        <div className="text-xl font-bold text-gray-800">
                           {calculateDailyAverage("caloriesBurned")}
                         </div>
-                        <div className="mt-1 text-xs text-slate-400">
+                        <div className="mt-1 text-xs text-gray-500">
                           Daily expenditure
                         </div>
                       </div>
 
-                      <div className="bg-slate-800/50 rounded-lg p-3 border border-slate-700/50">
-                        <div className="text-xs text-slate-400 mb-1">
+                      <div className="bg-gray-100 rounded-lg p-3 border border-gray-100">
+                        <div className="text-xs text-gray-500 mb-1">
                           Avg. Workout Time
                         </div>
-                        <div className="text-xl font-bold text-white">
+                        <div className="text-xl font-bold text-gray-800">
                           {calculateDailyAverage("workoutMinutes")}{" "}
                           <span className="text-sm font-normal">min</span>
                         </div>
-                        <div className="mt-1 text-xs text-slate-400">
+                        <div className="mt-1 text-xs text-gray-500">
                           Daily activity
                         </div>
                       </div>
 
-                      <div className="bg-slate-800/50 rounded-lg p-3 border border-slate-700/50">
-                        <div className="text-xs text-slate-400 mb-1">
+                      <div className="bg-gray-100 rounded-lg p-3 border border-gray-100">
+                        <div className="text-xs text-gray-500 mb-1">
                           Avg. Sleep
                         </div>
-                        <div className="text-xl font-bold text-white">
+                        <div className="text-xl font-bold text-gray-800">
                           {calculateDailyAverage("sleepHours")}{" "}
                           <span className="text-sm font-normal">hrs</span>
                         </div>
-                        <div className="mt-1 text-xs text-slate-400">
+                        <div className="mt-1 text-xs text-gray-500">
                           Daily rest
                         </div>
                       </div>
@@ -2388,13 +2388,13 @@ export default function ProfilePage() {
                       )}
 
                     <div className="mt-4 flex justify-between items-center text-sm">
-                      <div className="text-slate-400">
+                      <div className="text-gray-500">
                         Most active time:{" "}
-                        <span className="text-white">
+                        <span className="text-gray-900">
                           {getMostActiveTime()}
                         </span>
                       </div>
-                      <button className="text-indigo-400 hover:text-indigo-300 transition-colors flex items-center">
+                      <button className="text-teal-500 hover:text-teal-400 transition-colors flex items-center">
                         <ChevronRight className="h-4 w-4 ml-0.5" />
                         <span className="text-xs">See more analytics</span>
                       </button>
@@ -2404,8 +2404,8 @@ export default function ProfilePage() {
               </div>
 
               {/* User achievements preview */}
-              <div className="bg-gradient-to-br from-slate-900/80 to-black/60 backdrop-blur-md rounded-xl border border-slate-700/50 overflow-hidden">
-                <div className="p-4 border-b border-slate-700/50 flex justify-between items-center">
+              <div className="bg-white backdrop-blur-md rounded-xl border border-gray-100 overflow-hidden">
+                <div className="p-4 border-b border-gray-100 flex justify-between items-center">
                   <h2 className="text-lg font-medium flex items-center">
                     <Trophy
                       className={`mr-2 text-${
@@ -2417,7 +2417,7 @@ export default function ProfilePage() {
 
                   <button
                     onClick={() => setActiveTab("achievements")}
-                    className="text-xs text-indigo-400 hover:text-indigo-300 transition-colors flex items-center"
+                    className="text-xs text-teal-500 hover:text-teal-400 transition-colors flex items-center"
                   >
                     View All
                     <ChevronRight className="h-4 w-4 ml-0.5" />
@@ -2436,7 +2436,7 @@ export default function ProfilePage() {
 
                     {unlockedAchievements.length === 0 && (
                       <div className="col-span-full text-center py-6">
-                        <p className="text-slate-400 text-sm">
+                        <p className="text-gray-500 text-sm">
                           No achievements unlocked yet
                         </p>
                       </div>
@@ -2446,8 +2446,8 @@ export default function ProfilePage() {
               </div>
 
               {/* Social connections */}
-              <div className="bg-gradient-to-br from-slate-900/80 to-black/60 backdrop-blur-md rounded-xl border border-slate-700/50 overflow-hidden">
-                <div className="p-4 border-b border-slate-700/50">
+              <div className="bg-white backdrop-blur-md rounded-xl border border-gray-100 overflow-hidden">
+                <div className="p-4 border-b border-gray-100">
                   <h2 className="text-lg font-medium flex items-center">
                     <Users
                       className={`mr-2 text-${
@@ -2460,41 +2460,41 @@ export default function ProfilePage() {
 
                 <div className="p-4">
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-700/50 flex items-center">
-                      <div className="w-12 h-12 rounded-full bg-indigo-900/30 border border-indigo-600/30 flex items-center justify-center mr-4">
-                        <Users className="h-6 w-6 text-indigo-400" />
+                    <div className="bg-gray-100 rounded-lg p-4 border border-gray-100 flex items-center">
+                      <div className="w-12 h-12 rounded-full bg-teal-50/30 border border-indigo-600/30 flex items-center justify-center mr-4">
+                        <Users className="h-6 w-6 text-teal-500" />
                       </div>
                       <div>
-                        <div className="text-2xl font-bold text-white">
+                        <div className="text-2xl font-bold text-gray-800">
                           {user.socialConnections?.friends || 0}
                         </div>
-                        <div className="text-sm text-slate-400">Friends</div>
+                        <div className="text-sm text-gray-500">Friends</div>
                       </div>
                     </div>
 
-                    <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-700/50 flex items-center">
+                    <div className="bg-gray-100 rounded-lg p-4 border border-gray-100 flex items-center">
                       <div className="w-12 h-12 rounded-full bg-purple-900/30 border border-purple-600/30 flex items-center justify-center mr-4">
-                        <ChefHat className="h-6 w-6 text-purple-400" />
+                        <ChefHat className="h-6 w-6 text-cyan-500" />
                       </div>
                       <div>
-                        <div className="text-2xl font-bold text-white">
+                        <div className="text-2xl font-bold text-gray-800">
                           {user.socialConnections?.recipes_shared || 0}
                         </div>
-                        <div className="text-sm text-slate-400">
+                        <div className="text-sm text-gray-500">
                           Recipes Shared
                         </div>
                       </div>
                     </div>
 
-                    <div className="bg-slate-800/50 rounded-lg p-4 border border-slate-700/50 flex items-center">
+                    <div className="bg-gray-100 rounded-lg p-4 border border-gray-100 flex items-center">
                       <div className="w-12 h-12 rounded-full bg-blue-900/30 border border-blue-600/30 flex items-center justify-center mr-4">
                         <Activity className="h-6 w-6 text-blue-400" />
                       </div>
                       <div>
-                        <div className="text-2xl font-bold text-white">
+                        <div className="text-2xl font-bold text-gray-800">
                           {user.socialConnections?.workouts_shared || 0}
                         </div>
-                        <div className="text-sm text-slate-400">
+                        <div className="text-sm text-gray-500">
                           Workouts Shared
                         </div>
                       </div>
@@ -2519,19 +2519,19 @@ export default function ProfilePage() {
                   <h2 className="text-2xl font-bold bg-gradient-to-r from-amber-400 to-yellow-500 text-transparent bg-clip-text mb-2">
                     Achievements
                   </h2>
-                  <p className="text-slate-400">
+                  <p className="text-gray-500">
                     Track your progress and unlock rewards as you reach your
                     health and fitness goals
                   </p>
                 </div>
 
-                <div className="bg-slate-800/70 rounded-lg p-2 border border-slate-700/50">
+                <div className="bg-gray-100 rounded-lg p-2 border border-gray-100">
                   <div className="flex items-center">
                     <div className="mr-3">
                       <div className="text-2xl font-bold bg-gradient-to-r from-amber-400 to-yellow-500 text-transparent bg-clip-text">
                         {unlockedAchievements.length}/{userAchievements.length}
                       </div>
-                      <div className="text-xs text-slate-400">Unlocked</div>
+                      <div className="text-xs text-gray-500">Unlocked</div>
                     </div>
                     <div className="h-10 w-10 flex items-center justify-center">
                       <div className="relative">
@@ -2580,8 +2580,8 @@ export default function ProfilePage() {
               </div>
 
               {/* Unlocked Achievements */}
-              <div className="bg-gradient-to-br from-slate-900/80 to-black/60 backdrop-blur-md rounded-xl border border-slate-700/50 overflow-hidden">
-                <div className="p-5 border-b border-slate-700/50">
+              <div className="bg-white backdrop-blur-md rounded-xl border border-gray-100 overflow-hidden">
+                <div className="p-5 border-b border-gray-100">
                   <h2 className="text-lg font-bold flex items-center">
                     <CheckCircle className="mr-2 text-emerald-500 h-5 w-5" />
                     Unlocked Achievements
@@ -2601,13 +2601,13 @@ export default function ProfilePage() {
                     </div>
                   ) : (
                     <div className="text-center py-8">
-                      <div className="w-16 h-16 rounded-full bg-slate-800 flex items-center justify-center mx-auto mb-3">
+                      <div className="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center mx-auto mb-3">
                         <Trophy className="h-8 w-8 text-slate-600" />
                       </div>
-                      <h3 className="text-lg font-medium text-white mb-1">
+                      <h3 className="text-lg font-medium text-gray-700 mb-1">
                         No achievements yet
                       </h3>
-                      <p className="text-slate-400 max-w-md mx-auto">
+                      <p className="text-gray-500 max-w-md mx-auto">
                         Start tracking your health and fitness journey to unlock
                         achievements
                       </p>
@@ -2617,10 +2617,10 @@ export default function ProfilePage() {
               </div>
 
               {/* Locked Achievements */}
-              <div className="bg-gradient-to-br from-slate-900/80 to-black/60 backdrop-blur-md rounded-xl border border-slate-700/50 overflow-hidden">
-                <div className="p-5 border-b border-slate-700/50">
+              <div className="bg-white backdrop-blur-md rounded-xl border border-gray-100 overflow-hidden">
+                <div className="p-5 border-b border-gray-100">
                   <h2 className="text-lg font-bold flex items-center">
-                    <Lock className="mr-2 text-slate-400 h-5 w-5" />
+                    <Lock className="mr-2 text-gray-500 h-5 w-5" />
                     Achievements to Unlock
                   </h2>
                 </div>
@@ -2641,10 +2641,10 @@ export default function ProfilePage() {
                       <div className="w-16 h-16 rounded-full bg-gradient-to-r from-amber-500 to-yellow-500 flex items-center justify-center mx-auto mb-3">
                         <Trophy className="h-8 w-8 text-white" />
                       </div>
-                      <h3 className="text-lg font-medium text-white mb-1">
+                      <h3 className="text-lg font-medium text-gray-700 mb-1">
                         All achievements unlocked!
                       </h3>
-                      <p className="text-slate-400">
+                      <p className="text-gray-500">
                         Congratulations! You've unlocked all available
                         achievements.
                       </p>
@@ -2669,15 +2669,15 @@ export default function ProfilePage() {
               </h2>
 
               {/* Recent Activity */}
-              <div className="bg-gradient-to-br from-slate-900/80 to-black/60 backdrop-blur-md rounded-xl border border-slate-700/50 overflow-hidden">
-                <div className="p-5 border-b border-slate-700/50 flex justify-between items-center">
+              <div className="bg-white backdrop-blur-md rounded-xl border border-gray-100 overflow-hidden">
+                <div className="p-5 border-b border-gray-100 flex justify-between items-center">
                   <h2 className="text-lg font-bold flex items-center">
                     <Activity className="mr-2 text-blue-400 h-5 w-5" />
                     Recent Activities
                   </h2>
 
                   <div className="flex items-center">
-                    <button className="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800/70 transition-colors">
+                    <button className="p-2 rounded-lg text-gray-500 hover:text-teal-600 hover:bg-gray-100 transition-colors">
                       <Filter size={16} />
                     </button>
                   </div>
@@ -2688,9 +2688,9 @@ export default function ProfilePage() {
                     user.recentActivity.map((activity) => {
                       // Activity icon and color based on type
                       let icon = (
-                        <Activity className="h-6 w-6 text-slate-400" />
+                        <Activity className="h-6 w-6 text-gray-500" />
                       );
-                      let bgColor = "bg-slate-800/60";
+                      let bgColor = "bg-gray-100";
                       let typeLabel = "Activity";
 
                       if (activity.type === "recipe") {
@@ -2706,7 +2706,7 @@ export default function ProfilePage() {
                         bgColor = "bg-green-900/20";
                         typeLabel = "Goal";
                       } else if (activity.type === "nutrition") {
-                        icon = <BookOpen className="h-6 w-6 text-purple-400" />;
+                        icon = <BookOpen className="h-6 w-6 text-cyan-500" />;
                         bgColor = "bg-purple-900/20";
                         typeLabel = "Nutrition";
                       } else if (activity.type === "weight") {
@@ -2720,7 +2720,7 @@ export default function ProfilePage() {
                       return (
                         <div
                           key={activity.id}
-                          className="p-4 hover:bg-slate-800/20 transition-colors"
+                          className="p-4 hover:bg-gray-100/20 transition-colors"
                         >
                           <div className="flex items-start">
                             <div
@@ -2732,13 +2732,13 @@ export default function ProfilePage() {
                             <div className="flex-grow">
                               <div className="flex justify-between items-start">
                                 <div>
-                                  <h3 className="text-white font-medium">
+                                  <h3 className="text-gray-900 font-medium">
                                     <span className="capitalize">
                                       {activity.action}
                                     </span>{" "}
                                     {activity.name}
                                   </h3>
-                                  <p className="text-sm text-slate-400">
+                                  <p className="text-sm text-gray-500">
                                     {formatDate(activity.date)}
                                   </p>
                                 </div>
@@ -2755,7 +2755,7 @@ export default function ProfilePage() {
                                       ? "bg-purple-900/30 text-purple-300 border border-purple-700/30"
                                       : activity.type === "weight"
                                       ? "bg-emerald-900/30 text-emerald-300 border border-emerald-700/30"
-                                      : "bg-slate-800/50 text-slate-300 border border-slate-700/30"
+                                      : "bg-gray-100 text-gray-500 border border-gray-100"
                                   }`}
                                 >
                                   {typeLabel}
@@ -2768,7 +2768,7 @@ export default function ProfilePage() {
                     })
                   ) : (
                     <div className="p-8 text-center">
-                      <p className="text-slate-400">No activity found</p>
+                      <p className="text-gray-500">No activity found</p>
                     </div>
                   )}
                 </div>
@@ -2777,8 +2777,8 @@ export default function ProfilePage() {
               {/* Activity Charts */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {/* Weekly Activity */}
-                <div className="bg-gradient-to-br from-slate-900/80 to-black/60 backdrop-blur-md rounded-xl border border-slate-700/50 overflow-hidden">
-                  <div className="p-4 border-b border-slate-700/50">
+                <div className="bg-white backdrop-blur-md rounded-xl border border-gray-100 overflow-hidden">
+                  <div className="p-4 border-b border-gray-100">
                     <h2 className="text-base font-bold flex items-center">
                       <Calendar className="mr-2 text-blue-400 h-5 w-5" />
                       Weekly Activity
@@ -2833,7 +2833,7 @@ export default function ProfilePage() {
                       </div>
                     ) : (
                       <div className="flex items-center justify-center h-60">
-                        <p className="text-slate-400">
+                        <p className="text-gray-500">
                           No activity data available
                         </p>
                       </div>
@@ -2842,8 +2842,8 @@ export default function ProfilePage() {
                 </div>
 
                 {/* Sleep Quality */}
-                <div className="bg-gradient-to-br from-slate-900/80 to-black/60 backdrop-blur-md rounded-xl border border-slate-700/50 overflow-hidden">
-                  <div className="p-4 border-b border-slate-700/50">
+                <div className="bg-white backdrop-blur-md rounded-xl border border-gray-100 overflow-hidden">
+                  <div className="p-4 border-b border-gray-100">
                     <h2 className="text-base font-bold flex items-center">
                       <Clock className="mr-2 text-blue-400 h-5 w-5" />
                       Sleep Tracking
@@ -2908,7 +2908,7 @@ export default function ProfilePage() {
                       </div>
                     ) : (
                       <div className="flex items-center justify-center h-60">
-                        <p className="text-slate-400">
+                        <p className="text-gray-500">
                           No sleep data available
                         </p>
                       </div>
@@ -2918,8 +2918,8 @@ export default function ProfilePage() {
               </div>
 
               {/* Fitness Radar Chart */}
-              <div className="bg-gradient-to-br from-slate-900/80 to-black/60 backdrop-blur-md rounded-xl border border-slate-700/50 overflow-hidden">
-                <div className="p-4 border-b border-slate-700/50">
+              <div className="bg-white backdrop-blur-md rounded-xl border border-gray-100 overflow-hidden">
+                <div className="p-4 border-b border-gray-100">
                   <h2 className="text-lg font-bold flex items-center">
                     <BarChart2 className="mr-2 text-blue-400 h-5 w-5" />
                     Fitness Profile
@@ -2986,8 +2986,8 @@ export default function ProfilePage() {
               </h2>
 
               {/* Saved Recipes */}
-              <div className="bg-gradient-to-br from-slate-900/80 to-black/60 backdrop-blur-md rounded-xl border border-slate-700/50 overflow-hidden">
-                <div className="p-5 border-b border-slate-700/50">
+              <div className="bg-white backdrop-blur-md rounded-xl border border-gray-100 overflow-hidden">
+                <div className="p-5 border-b border-gray-100">
                   <h2 className="text-lg font-bold flex items-center">
                     <ChefHat className="mr-2 text-amber-400 h-5 w-5" />
                     Saved Recipes
@@ -3000,12 +3000,12 @@ export default function ProfilePage() {
                       {user.savedRecipes.map((recipe) => (
                         <div
                           key={recipe.id}
-                          className="group relative bg-slate-800/50 rounded-xl overflow-hidden border border-slate-700/50 hover:border-amber-500/30 transition-all"
+                          className="group relative bg-gray-100 rounded-xl overflow-hidden border border-gray-100 hover:border-amber-500/30 transition-all"
                         >
-                          <div className="h-40 bg-slate-700/50 relative">
+                          <div className="h-40 bg-gray-200/50 relative">
                             {/* Would use real images in production */}
                             <div className="absolute inset-0 bg-gradient-to-br from-amber-600/30 to-red-600/30 flex items-center justify-center">
-                              <ChefHat className="h-12 w-12 text-white/30" />
+                              <ChefHat className="h-12 w-12 text-teal-300" />
                             </div>
 
                             <div className="absolute bottom-0 left-0 right-0 px-4 py-2 bg-gradient-to-t from-black/80 to-transparent">
@@ -3027,10 +3027,10 @@ export default function ProfilePage() {
                           </div>
 
                           <div className="p-4">
-                            <h3 className="text-white font-medium mb-1 line-clamp-1">
+                            <h3 className="text-gray-900 font-medium mb-1 line-clamp-1">
                               {recipe.name}
                             </h3>
-                            <p className="text-xs text-slate-400">
+                            <p className="text-xs text-gray-500">
                               Saved on {formatDate(recipe.saved)}
                             </p>
 
@@ -3040,7 +3040,7 @@ export default function ProfilePage() {
                                 View Recipe
                               </button>
 
-                              <button className="p-1.5 text-slate-400 hover:text-rose-400 transition-colors rounded-full hover:bg-rose-900/30">
+                              <button className="p-1.5 text-gray-500 hover:text-rose-400 transition-colors rounded-full hover:bg-rose-900/30">
                                 <Heart className="h-4 w-4" />
                               </button>
                             </div>
@@ -3050,18 +3050,18 @@ export default function ProfilePage() {
                     </div>
                   ) : (
                     <div className="text-center py-10">
-                      <div className="w-16 h-16 rounded-full bg-slate-800 flex items-center justify-center mx-auto mb-3">
+                      <div className="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center mx-auto mb-3">
                         <ChefHat className="h-8 w-8 text-slate-600" />
                       </div>
-                      <h3 className="text-lg font-medium text-white mb-1">
+                      <h3 className="text-lg font-medium text-gray-700 mb-1">
                         No saved recipes
                       </h3>
-                      <p className="text-slate-400 max-w-md mx-auto mb-6">
+                      <p className="text-gray-500 max-w-md mx-auto mb-6">
                         Save your favorite recipes to access them quickly
                       </p>
                       <button
                         onClick={() => router.push("/recipe")}
-                        className="px-4 py-2 bg-gradient-to-r from-amber-600 to-amber-700 hover:opacity-90 rounded-lg text-white transition-colors"
+                        className="px-4 py-2 bg-gradient-to-r from-amber-600 to-amber-700 hover:opacity-90 rounded-lg text-gray-900 transition-colors"
                       >
                         Explore Recipes
                       </button>
@@ -3071,8 +3071,8 @@ export default function ProfilePage() {
               </div>
 
               {/* Favorite Workouts */}
-              <div className="bg-gradient-to-br from-slate-900/80 to-black/60 backdrop-blur-md rounded-xl border border-slate-700/50 overflow-hidden">
-                <div className="p-5 border-b border-slate-700/50">
+              <div className="bg-white backdrop-blur-md rounded-xl border border-gray-100 overflow-hidden">
+                <div className="p-5 border-b border-gray-100">
                   <h2 className="text-lg font-bold flex items-center">
                     <Dumbbell className="mr-2 text-blue-400 h-5 w-5" />
                     Favorite Workouts
@@ -3085,14 +3085,14 @@ export default function ProfilePage() {
                       {user.favoriteWorkouts.map((workout) => (
                         <div
                           key={workout.id}
-                          className="bg-slate-800/50 rounded-xl overflow-hidden border border-slate-700/50 hover:border-blue-500/30 transition-all"
+                          className="bg-gray-100 rounded-xl overflow-hidden border border-gray-100 hover:border-blue-500/30 transition-all"
                         >
-                          <div className="p-4 border-b border-slate-700/30 flex justify-between items-center">
+                          <div className="p-4 border-b border-gray-100 flex justify-between items-center">
                             <div>
-                              <h3 className="text-white font-medium">
+                              <h3 className="text-gray-900 font-medium">
                                 {workout.name}
                               </h3>
-                              <div className="flex items-center text-sm text-slate-400 mt-1">
+                              <div className="flex items-center text-sm text-gray-500 mt-1">
                                 <Clock className="mr-1 h-3 w-3" />
                                 {workout.duration} min
                               </div>
@@ -3114,12 +3114,12 @@ export default function ProfilePage() {
 
                           <div className="p-4">
                             <div className="flex justify-between items-center">
-                              <div className="text-xs text-slate-400">
+                              <div className="text-xs text-gray-500">
                                 Last performed:{" "}
                                 {formatDate(workout.lastPerformed)}
                               </div>
 
-                              <button className="text-xs px-3 py-1.5 bg-blue-600/40 hover:bg-blue-600/60 text-white transition-colors rounded-full flex items-center">
+                              <button className="text-xs px-3 py-1.5 bg-blue-600/40 hover:bg-blue-600/60 text-gray-900 transition-colors rounded-full flex items-center">
                                 <Play className="mr-1 h-3 w-3" />
                                 Start Workout
                               </button>
@@ -3130,18 +3130,18 @@ export default function ProfilePage() {
                     </div>
                   ) : (
                     <div className="text-center py-10">
-                      <div className="w-16 h-16 rounded-full bg-slate-800 flex items-center justify-center mx-auto mb-3">
+                      <div className="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center mx-auto mb-3">
                         <Activity className="h-8 w-8 text-slate-600" />
                       </div>
-                      <h3 className="text-lg font-medium text-white mb-1">
+                      <h3 className="text-lg font-medium text-gray-700 mb-1">
                         No favorite workouts
                       </h3>
-                      <p className="text-slate-400 max-w-md mx-auto mb-6">
+                      <p className="text-gray-500 max-w-md mx-auto mb-6">
                         Save your favorite workouts to access them quickly
                       </p>
                       <button
                         onClick={() => router.push("/fitness")}
-                        className="px-4 py-2 bg-gradient-to-r from-blue-600 to-blue-700 hover:opacity-90 rounded-lg text-white transition-colors"
+                        className="px-4 py-2 bg-gradient-to-r from-blue-600 to-blue-700 hover:opacity-90 rounded-lg text-gray-900 transition-colors"
                       >
                         Explore Workouts
                       </button>
@@ -3151,67 +3151,67 @@ export default function ProfilePage() {
               </div>
 
               {/* Recently Viewed */}
-              <div className="bg-gradient-to-br from-slate-900/80 to-black/60 backdrop-blur-md rounded-xl border border-slate-700/50 overflow-hidden">
-                <div className="p-5 border-b border-slate-700/50">
+              <div className="bg-white backdrop-blur-md rounded-xl border border-gray-100 overflow-hidden">
+                <div className="p-5 border-b border-gray-100">
                   <h2 className="text-lg font-bold flex items-center">
-                    <Clock className="mr-2 text-purple-400 h-5 w-5" />
+                    <Clock className="mr-2 text-cyan-500 h-5 w-5" />
                     Recently Viewed
                   </h2>
                 </div>
 
                 <div className="p-5 space-y-3">
                   {/* Simulated recent views - would be dynamic in real app */}
-                  <div className="flex items-center bg-slate-800/50 rounded-lg p-3 border border-slate-700/50 hover:border-purple-500/30 transition-all">
+                  <div className="flex items-center bg-gray-100 rounded-lg p-3 border border-gray-100 hover:border-cyan-400/30 transition-all">
                     <div className="w-10 h-10 rounded-full bg-amber-900/30 flex items-center justify-center mr-3 flex-shrink-0">
                       <ChefHat className="h-5 w-5 text-amber-400" />
                     </div>
                     <div className="flex-grow">
-                      <h4 className="text-white text-sm">
+                      <h4 className="text-gray-900 text-sm">
                         Protein-Packed Breakfast Bowl
                       </h4>
                       <div className="flex items-center justify-between mt-1">
                         <span className="text-xs bg-amber-900/30 text-amber-300 px-2 py-0.5 rounded">
                           Recipe
                         </span>
-                        <span className="text-xs text-slate-400">
+                        <span className="text-xs text-gray-500">
                           Viewed 2 hours ago
                         </span>
                       </div>
                     </div>
                   </div>
 
-                  <div className="flex items-center bg-slate-800/50 rounded-lg p-3 border border-slate-700/50 hover:border-purple-500/30 transition-all">
+                  <div className="flex items-center bg-gray-100 rounded-lg p-3 border border-gray-100 hover:border-cyan-400/30 transition-all">
                     <div className="w-10 h-10 rounded-full bg-blue-900/30 flex items-center justify-center mr-3 flex-shrink-0">
                       <Activity className="h-5 w-5 text-blue-400" />
                     </div>
                     <div className="flex-grow">
-                      <h4 className="text-white text-sm">
+                      <h4 className="text-gray-900 text-sm">
                         30-Minute HIIT Workout
                       </h4>
                       <div className="flex items-center justify-between mt-1">
                         <span className="text-xs bg-blue-900/30 text-blue-300 px-2 py-0.5 rounded">
                           Workout
                         </span>
-                        <span className="text-xs text-slate-400">
+                        <span className="text-xs text-gray-500">
                           Viewed yesterday
                         </span>
                       </div>
                     </div>
                   </div>
 
-                  <div className="flex items-center bg-slate-800/50 rounded-lg p-3 border border-slate-700/50 hover:border-purple-500/30 transition-all">
+                  <div className="flex items-center bg-gray-100 rounded-lg p-3 border border-gray-100 hover:border-cyan-400/30 transition-all">
                     <div className="w-10 h-10 rounded-full bg-emerald-900/30 flex items-center justify-center mr-3 flex-shrink-0">
                       <BarChart2 className="h-5 w-5 text-emerald-400" />
                     </div>
                     <div className="flex-grow">
-                      <h4 className="text-white text-sm">
+                      <h4 className="text-gray-900 text-sm">
                         Monthly Nutrition Report
                       </h4>
                       <div className="flex items-center justify-between mt-1">
                         <span className="text-xs bg-emerald-900/30 text-emerald-300 px-2 py-0.5 rounded">
                           Report
                         </span>
-                        <span className="text-xs text-slate-400">
+                        <span className="text-xs text-gray-500">
                           Viewed 3 days ago
                         </span>
                       </div>
@@ -3236,10 +3236,10 @@ export default function ProfilePage() {
               </h2>
 
               {/* Account Details */}
-              <div className="bg-gradient-to-br from-slate-900/80 to-black/60 backdrop-blur-md rounded-xl border border-slate-700/50 overflow-hidden">
-                <div className="p-5 border-b border-slate-700/50">
+              <div className="bg-white backdrop-blur-md rounded-xl border border-gray-100 overflow-hidden">
+                <div className="p-5 border-b border-gray-100">
                   <h2 className="text-lg font-bold flex items-center">
-                    <User className="mr-2 text-slate-400 h-5 w-5" />
+                    <User className="mr-2 text-gray-500 h-5 w-5" />
                     Account Details
                   </h2>
                 </div>
@@ -3248,7 +3248,7 @@ export default function ProfilePage() {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     {/* Name */}
                     <div>
-                      <label className="block text-sm font-medium text-slate-300 mb-2">
+                      <label className="block text-sm font-medium text-gray-500 mb-2">
                         Name
                       </label>
                       <input
@@ -3260,17 +3260,17 @@ export default function ProfilePage() {
                             name: e.target.value,
                           }))
                         }
-                        className="w-full bg-slate-800/50 border border-slate-700/50 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/50"
+                        className="w-full bg-gray-100 border border-gray-100 rounded-lg px-4 py-2.5 text-gray-900 focus:outline-none focus:ring-2 focus:ring-teal-500/50"
                       />
                     </div>
 
                     {/* Username */}
                     <div>
-                      <label className="block text-sm font-medium text-slate-300 mb-2">
+                      <label className="block text-sm font-medium text-gray-500 mb-2">
                         Username
                       </label>
                       <div className="relative">
-                        <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">
+                        <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-500">
                           @
                         </span>
                         <input
@@ -3282,14 +3282,14 @@ export default function ProfilePage() {
                               username: e.target.value,
                             }))
                           }
-                          className="w-full bg-slate-800/50 border border-slate-700/50 rounded-lg pl-8 pr-4 py-2.5 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/50"
+                          className="w-full bg-gray-100 border border-gray-100 rounded-lg pl-8 pr-4 py-2.5 text-gray-900 focus:outline-none focus:ring-2 focus:ring-teal-500/50"
                         />
                       </div>
                     </div>
 
                     {/* Email */}
                     <div>
-                      <label className="block text-sm font-medium text-slate-300 mb-2">
+                      <label className="block text-sm font-medium text-gray-500 mb-2">
                         Email
                       </label>
                       <input
@@ -3301,13 +3301,13 @@ export default function ProfilePage() {
                             email: e.target.value,
                           }))
                         }
-                        className="w-full bg-slate-800/50 border border-slate-700/50 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/50"
+                        className="w-full bg-gray-100 border border-gray-100 rounded-lg px-4 py-2.5 text-gray-900 focus:outline-none focus:ring-2 focus:ring-teal-500/50"
                       />
                     </div>
 
                     {/* Location */}
                     <div>
-                      <label className="block text-sm font-medium text-slate-300 mb-2">
+                      <label className="block text-sm font-medium text-gray-500 mb-2">
                         Location
                       </label>
                       <input
@@ -3319,7 +3319,7 @@ export default function ProfilePage() {
                             location: e.target.value,
                           }))
                         }
-                        className="w-full bg-slate-800/50 border border-slate-700/50 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/50"
+                        className="w-full bg-gray-100 border border-gray-100 rounded-lg px-4 py-2.5 text-gray-900 focus:outline-none focus:ring-2 focus:ring-teal-500/50"
                         placeholder="City, Country"
                       />
                     </div>
@@ -3327,7 +3327,7 @@ export default function ProfilePage() {
 
                   {/* Bio */}
                   <div>
-                    <label className="block text-sm font-medium text-slate-300 mb-2">
+                    <label className="block text-sm font-medium text-gray-500 mb-2">
                       Bio
                     </label>
                     <textarea
@@ -3338,7 +3338,7 @@ export default function ProfilePage() {
                           bio: e.target.value,
                         }))
                       }
-                      className="w-full bg-slate-800/50 border border-slate-700/50 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/50 min-h-[100px]"
+                      className="w-full bg-gray-100 border border-gray-100 rounded-lg px-4 py-2.5 text-gray-900 focus:outline-none focus:ring-2 focus:ring-teal-500/50 min-h-[100px]"
                       placeholder="Tell us about yourself..."
                     />
                   </div>
@@ -3350,7 +3350,7 @@ export default function ProfilePage() {
                       className={`px-5 py-2 bg-gradient-to-r ${getThemeGradient(
                         "bg",
                         user?.theme
-                      )} rounded-lg text-white font-medium transition-all flex items-center ${
+                      )} rounded-lg text-gray-900 font-medium transition-all flex items-center ${
                         saving ? "opacity-70" : "hover:opacity-90"
                       }`}
                     >
@@ -3371,16 +3371,16 @@ export default function ProfilePage() {
               </div>
 
               {/* Theme Settings */}
-              <div className="bg-gradient-to-br from-slate-900/80 to-black/60 backdrop-blur-md rounded-xl border border-slate-700/50 overflow-hidden">
-                <div className="p-5 border-b border-slate-700/50">
+              <div className="bg-white backdrop-blur-md rounded-xl border border-gray-100 overflow-hidden">
+                <div className="p-5 border-b border-gray-100">
                   <h2 className="text-lg font-bold flex items-center">
-                    <Paintbrush className="mr-2 text-slate-400 h-5 w-5" />
+                    <Paintbrush className="mr-2 text-gray-500 h-5 w-5" />
                     Theme Settings
                   </h2>
                 </div>
 
                 <div className="p-5">
-                  <h3 className="text-base text-slate-300 mb-4">
+                  <h3 className="text-base text-gray-500 mb-4">
                     Choose Your Theme
                   </h3>
 
@@ -3413,7 +3413,7 @@ export default function ProfilePage() {
                               onChange={() => handleThemeChange(key)}
                               className="sr-only"
                             />
-                            <span className="text-sm capitalize text-slate-300">
+                            <span className="text-sm capitalize text-gray-500">
                               {key}
                             </span>
                           </div>
@@ -3429,7 +3429,7 @@ export default function ProfilePage() {
                       className={`px-4 py-2 bg-gradient-to-r ${getThemeGradient(
                         "bg",
                         editableUser?.theme
-                      )} rounded-lg text-sm text-white font-medium transition-all flex items-center ${
+                      )} rounded-lg text-sm text-gray-700 font-medium transition-all flex items-center ${
                         saving ? "opacity-70" : "hover:opacity-90"
                       }`}
                     >
@@ -3450,10 +3450,10 @@ export default function ProfilePage() {
               </div>
 
               {/* Notification Settings */}
-              <div className="bg-gradient-to-br from-slate-900/80 to-black/60 backdrop-blur-md rounded-xl border border-slate-700/50 overflow-hidden">
-                <div className="p-5 border-b border-slate-700/50">
+              <div className="bg-white backdrop-blur-md rounded-xl border border-gray-100 overflow-hidden">
+                <div className="p-5 border-b border-gray-100">
                   <h2 className="text-lg font-bold flex items-center">
-                    <Bell className="mr-2 text-slate-400 h-5 w-5" />
+                    <Bell className="mr-2 text-gray-500 h-5 w-5" />
                     Notification Settings
                   </h2>
                 </div>
@@ -3462,10 +3462,10 @@ export default function ProfilePage() {
                   <div className="space-y-4">
                     <div className="flex items-center justify-between">
                       <div>
-                        <h3 className="text-white font-medium">
+                        <h3 className="text-gray-900 font-medium">
                           Email Notifications
                         </h3>
-                        <p className="text-sm text-slate-400">
+                        <p className="text-sm text-gray-500">
                           Receive alerts and updates via email
                         </p>
                       </div>
@@ -3486,16 +3486,16 @@ export default function ProfilePage() {
                           }
                           className="sr-only peer"
                         />
-                        <div className="w-11 h-6 bg-slate-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"></div>
+                        <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-teal-500"></div>
                       </label>
                     </div>
 
                     <div className="flex items-center justify-between">
                       <div>
-                        <h3 className="text-white font-medium">
+                        <h3 className="text-gray-900 font-medium">
                           Push Notifications
                         </h3>
-                        <p className="text-sm text-slate-400">
+                        <p className="text-sm text-gray-500">
                           Get push notifications in your browser or app
                         </p>
                       </div>
@@ -3516,16 +3516,16 @@ export default function ProfilePage() {
                           }
                           className="sr-only peer"
                         />
-                        <div className="w-11 h-6 bg-slate-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"></div>
+                        <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-teal-500"></div>
                       </label>
                     </div>
 
                     <div className="flex items-center justify-between">
                       <div>
-                        <h3 className="text-white font-medium">
+                        <h3 className="text-gray-900 font-medium">
                           Weekly Reports
                         </h3>
-                        <p className="text-sm text-slate-400">
+                        <p className="text-sm text-gray-500">
                           Receive weekly summary of your activity
                         </p>
                       </div>
@@ -3546,7 +3546,7 @@ export default function ProfilePage() {
                           }
                           className="sr-only peer"
                         />
-                        <div className="w-11 h-6 bg-slate-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"></div>
+                        <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-teal-500"></div>
                       </label>
                     </div>
                   </div>
@@ -3554,10 +3554,10 @@ export default function ProfilePage() {
               </div>
 
               {/* App Settings */}
-              <div className="bg-gradient-to-br from-slate-900/80 to-black/60 backdrop-blur-md rounded-xl border border-slate-700/50 overflow-hidden">
-                <div className="p-5 border-b border-slate-700/50">
+              <div className="bg-white backdrop-blur-md rounded-xl border border-gray-100 overflow-hidden">
+                <div className="p-5 border-b border-gray-100">
                   <h2 className="text-lg font-bold flex items-center">
-                    <Settings className="mr-2 text-slate-400 h-5 w-5" />
+                    <Settings className="mr-2 text-gray-500 h-5 w-5" />
                     App Settings
                   </h2>
                 </div>
@@ -3565,8 +3565,8 @@ export default function ProfilePage() {
                 <div className="p-5 space-y-4">
                   <div className="flex items-center justify-between">
                     <div>
-                      <h3 className="text-white font-medium">Dark Mode</h3>
-                      <p className="text-sm text-slate-400">
+                      <h3 className="text-gray-900 font-medium">Dark Mode</h3>
+                      <p className="text-sm text-gray-500">
                         Toggle dark/light theme
                       </p>
                     </div>
@@ -3585,12 +3585,12 @@ export default function ProfilePage() {
                         }
                         className="sr-only peer"
                       />
-                      <div className="w-11 h-6 bg-slate-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"></div>
+                      <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-teal-500"></div>
                     </label>
                   </div>
 
                   <div>
-                    <h3 className="text-white font-medium mb-2">Language</h3>
+                    <h3 className="text-gray-900 font-medium mb-2">Language</h3>
                     <select
                       value={editableUser?.settings?.language || "english"}
                       onChange={(e) =>
@@ -3602,7 +3602,7 @@ export default function ProfilePage() {
                           },
                         }))
                       }
-                      className="w-full md:w-auto bg-slate-800/50 border border-slate-700/50 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/50"
+                      className="w-full md:w-auto bg-gray-100 border border-gray-100 rounded-lg px-4 py-2.5 text-gray-900 focus:outline-none focus:ring-2 focus:ring-teal-500/50"
                     >
                       <option value="english">English</option>
                       <option value="spanish">Spanish</option>
@@ -3613,7 +3613,7 @@ export default function ProfilePage() {
                   </div>
 
                   <div>
-                    <h3 className="text-white font-medium mb-2">Unit System</h3>
+                    <h3 className="text-gray-900 font-medium mb-2">Unit System</h3>
                     <div className="flex space-x-4">
                       <label className="flex items-center">
                         <input
@@ -3632,9 +3632,9 @@ export default function ProfilePage() {
                               },
                             }))
                           }
-                          className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-slate-600 bg-slate-800"
+                          className="h-4 w-4 text-teal-600 focus:ring-teal-500 border-gray-200 bg-gray-100"
                         />
-                        <span className="ml-2 text-slate-300">
+                        <span className="ml-2 text-gray-500">
                           Metric (kg, cm)
                         </span>
                       </label>
@@ -3656,9 +3656,9 @@ export default function ProfilePage() {
                               },
                             }))
                           }
-                          className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-slate-600 bg-slate-800"
+                          className="h-4 w-4 text-teal-600 focus:ring-teal-500 border-gray-200 bg-gray-100"
                         />
-                        <span className="ml-2 text-slate-300">
+                        <span className="ml-2 text-gray-500">
                           Imperial (lb, in)
                         </span>
                       </label>
@@ -3666,7 +3666,7 @@ export default function ProfilePage() {
                   </div>
 
                   <div>
-                    <h3 className="text-white font-medium mb-2">
+                    <h3 className="text-gray-900 font-medium mb-2">
                       Privacy Mode
                     </h3>
                     <select
@@ -3680,7 +3680,7 @@ export default function ProfilePage() {
                           },
                         }))
                       }
-                      className="w-full md:w-auto bg-slate-800/50 border border-slate-700/50 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/50"
+                      className="w-full md:w-auto bg-gray-100 border border-gray-100 rounded-lg px-4 py-2.5 text-gray-900 focus:outline-none focus:ring-2 focus:ring-teal-500/50"
                     >
                       <option value="public">
                         Public (Everyone can see your profile)
@@ -3701,7 +3701,7 @@ export default function ProfilePage() {
                       className={`px-5 py-2 bg-gradient-to-r ${getThemeGradient(
                         "bg",
                         user?.theme
-                      )} rounded-lg text-white font-medium transition-all flex items-center ${
+                      )} rounded-lg text-gray-900 font-medium transition-all flex items-center ${
                         saving ? "opacity-70" : "hover:opacity-90"
                       }`}
                     >
@@ -3734,16 +3734,16 @@ export default function ProfilePage() {
                   <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
                     <div>
                       <div className="flex items-center">
-                        <h3 className="text-xl font-bold text-white mr-2">
+                        <h3 className="text-xl font-bold text-gray-800 mr-2">
                           AnnaData {user?.subscriptionTier || "Free"}
                         </h3>
                         <div
                           className={`px-3 py-1 rounded-full text-xs font-medium ${
                             user?.subscriptionTier === "premium"
-                              ? "bg-gradient-to-r from-amber-600 to-yellow-500 text-white"
+                              ? "bg-gradient-to-r from-amber-600 to-yellow-500 text-gray-900"
                               : user?.subscriptionTier === "pro"
-                              ? "bg-gradient-to-r from-indigo-600 to-blue-500 text-white"
-                              : "bg-slate-700 text-slate-300"
+                              ? "bg-gradient-to-r from-indigo-600 to-blue-500 text-gray-900"
+                              : "bg-gray-200 text-gray-500"
                           }`}
                         >
                           {user?.subscriptionTier === "premium"
@@ -3754,7 +3754,7 @@ export default function ProfilePage() {
                         </div>
                       </div>
 
-                      <p className="text-sm text-slate-300 mt-2">
+                      <p className="text-sm text-gray-500 mt-2">
                         {user?.subscriptionTier === "premium" ||
                         user?.subscriptionTier === "pro" ? (
                           <>
@@ -3772,7 +3772,7 @@ export default function ProfilePage() {
 
                     {!user?.subscriptionTier ||
                     user?.subscriptionTier === "free" ? (
-                      <button className="px-5 py-2.5 bg-gradient-to-r from-amber-600 to-yellow-500 hover:opacity-90 rounded-lg text-white font-medium transition-colors flex items-center">
+                      <button className="px-5 py-2.5 bg-gradient-to-r from-amber-600 to-yellow-500 hover:opacity-90 rounded-lg text-gray-900 font-medium transition-colors flex items-center">
                         <Star className="mr-2 h-5 w-5" />
                         Upgrade to Premium
                       </button>
@@ -3786,40 +3786,40 @@ export default function ProfilePage() {
                   {(!user?.subscriptionTier ||
                     user?.subscriptionTier === "free") && (
                     <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
-                      <div className="bg-black/30 backdrop-blur-sm border border-amber-700/30 rounded-lg p-4">
+                      <div className="bg-white/30 backdrop-blur-sm border border-amber-700/30 rounded-lg p-4">
                         <div className="flex items-center mb-3">
                           <Check className="h-5 w-5 text-amber-500 mr-2" />
                           <h4 className="text-amber-300 font-medium">
                             AI-Powered Insights
                           </h4>
                         </div>
-                        <p className="text-sm text-slate-400">
+                        <p className="text-sm text-gray-500">
                           Get personalized recommendations and analysis based on
                           your data
                         </p>
                       </div>
 
-                      <div className="bg-black/30 backdrop-blur-sm border border-amber-700/30 rounded-lg p-4">
+                      <div className="bg-white/30 backdrop-blur-sm border border-amber-700/30 rounded-lg p-4">
                         <div className="flex items-center mb-3">
                           <Check className="h-5 w-5 text-amber-500 mr-2" />
                           <h4 className="text-amber-300 font-medium">
                             Advanced Analytics
                           </h4>
                         </div>
-                        <p className="text-sm text-slate-400">
+                        <p className="text-sm text-gray-500">
                           Detailed charts and progress tracking for all your
                           health metrics
                         </p>
                       </div>
 
-                      <div className="bg-black/30 backdrop-blur-sm border border-amber-700/30 rounded-lg p-4">
+                      <div className="bg-white/30 backdrop-blur-sm border border-amber-700/30 rounded-lg p-4">
                         <div className="flex items-center mb-3">
                           <Check className="h-5 w-5 text-amber-500 mr-2" />
                           <h4 className="text-amber-300 font-medium">
                             No Advertisements
                           </h4>
                         </div>
-                        <p className="text-sm text-slate-400">
+                        <p className="text-sm text-gray-500">
                           Enjoy an ad-free experience throughout the entire
                           application
                         </p>
@@ -3830,10 +3830,10 @@ export default function ProfilePage() {
               </div>
 
               {/* Account Actions */}
-              <div className="bg-gradient-to-br from-slate-900/80 to-black/60 backdrop-blur-md rounded-xl border border-slate-700/50 overflow-hidden">
-                <div className="p-5 border-b border-slate-700/50">
+              <div className="bg-white backdrop-blur-md rounded-xl border border-gray-100 overflow-hidden">
+                <div className="p-5 border-b border-gray-100">
                   <h2 className="text-lg font-bold flex items-center">
-                    <Shield className="mr-2 text-slate-400 h-5 w-5" />
+                    <Shield className="mr-2 text-gray-500 h-5 w-5" />
                     Account Security & Actions
                   </h2>
                 </div>
@@ -3841,31 +3841,31 @@ export default function ProfilePage() {
                 <div className="p-5">
                   <div className="space-y-6">
                     <div>
-                      <h3 className="text-white font-medium mb-2">Password</h3>
-                      <button className="px-4 py-2.5 bg-slate-800/70 hover:bg-slate-800 rounded-lg text-white transition-colors flex items-center text-sm">
+                      <h3 className="text-gray-900 font-medium mb-2">Password</h3>
+                      <button className="px-4 py-2.5 bg-gray-100 hover:bg-gray-100 rounded-lg text-gray-900 transition-colors flex items-center text-sm">
                         <Lock className="mr-2 h-4 w-4" />
                         Change Password
                       </button>
                     </div>
 
                     <div>
-                      <h3 className="text-white font-medium mb-2">
+                      <h3 className="text-gray-900 font-medium mb-2">
                         Account Data
                       </h3>
                       <div className="flex flex-wrap gap-3">
-                        <button className="px-4 py-2.5 bg-slate-800/70 hover:bg-slate-800 rounded-lg text-white transition-colors flex items-center text-sm">
+                        <button className="px-4 py-2.5 bg-gray-100 hover:bg-gray-100 rounded-lg text-gray-900 transition-colors flex items-center text-sm">
                           <Download className="mr-2 h-4 w-4" />
                           Download My Data
                         </button>
 
-                        <button className="px-4 py-2.5 bg-slate-800/70 hover:bg-slate-800 rounded-lg text-white transition-colors flex items-center text-sm">
+                        <button className="px-4 py-2.5 bg-gray-100 hover:bg-gray-100 rounded-lg text-gray-900 transition-colors flex items-center text-sm">
                           <Upload className="mr-2 h-4 w-4" />
                           Import Data
                         </button>
                       </div>
                     </div>
 
-                    <div className="pt-6 border-t border-slate-700/30">
+                    <div className="pt-6 border-t border-gray-100">
                       <h3 className="text-red-400 font-medium mb-2">
                         Danger Zone
                       </h3>
@@ -3892,10 +3892,10 @@ export default function ProfilePage() {
               </div>
 
               {/* Support and Help */}
-              <div className="bg-gradient-to-br from-slate-900/80 to-black/60 backdrop-blur-md rounded-xl border border-slate-700/50 overflow-hidden">
-                <div className="p-5 border-b border-slate-700/50">
+              <div className="bg-white backdrop-blur-md rounded-xl border border-gray-100 overflow-hidden">
+                <div className="p-5 border-b border-gray-100">
                   <h2 className="text-lg font-bold flex items-center">
-                    <HelpCircle className="mr-2 text-slate-400 h-5 w-5" />
+                    <HelpCircle className="mr-2 text-gray-500 h-5 w-5" />
                     Help & Support
                   </h2>
                 </div>
@@ -3904,16 +3904,16 @@ export default function ProfilePage() {
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <a
                       href="#"
-                      className="bg-slate-800/50 hover:bg-slate-800/70 border border-slate-700/50 rounded-lg p-4 transition-colors flex items-start"
+                      className="bg-gray-100 hover:bg-gray-100 border border-gray-100 rounded-lg p-4 transition-colors flex items-start"
                     >
                       <div className="w-10 h-10 rounded-full bg-blue-900/30 flex items-center justify-center mr-3 flex-shrink-0">
                         <Book className="h-5 w-5 text-blue-400" />
                       </div>
                       <div>
-                        <h3 className="text-white font-medium mb-1">
+                        <h3 className="text-gray-900 font-medium mb-1">
                           Documentation
                         </h3>
-                        <p className="text-sm text-slate-400">
+                        <p className="text-sm text-gray-500">
                           Read the user guides and tutorials
                         </p>
                       </div>
@@ -3921,16 +3921,16 @@ export default function ProfilePage() {
 
                     <a
                       href="#"
-                      className="bg-slate-800/50 hover:bg-slate-800/70 border border-slate-700/50 rounded-lg p-4 transition-colors flex items-start"
+                      className="bg-gray-100 hover:bg-gray-100 border border-gray-100 rounded-lg p-4 transition-colors flex items-start"
                     >
                       <div className="w-10 h-10 rounded-full bg-purple-900/30 flex items-center justify-center mr-3 flex-shrink-0">
-                        <MessageCircle className="h-5 w-5 text-purple-400" />
+                        <MessageCircle className="h-5 w-5 text-cyan-500" />
                       </div>
                       <div>
-                        <h3 className="text-white font-medium mb-1">
+                        <h3 className="text-gray-900 font-medium mb-1">
                           Contact Support
                         </h3>
-                        <p className="text-sm text-slate-400">
+                        <p className="text-sm text-gray-500">
                           Get help from our support team
                         </p>
                       </div>
@@ -3938,16 +3938,16 @@ export default function ProfilePage() {
 
                     <a
                       href="#"
-                      className="bg-slate-800/50 hover:bg-slate-800/70 border border-slate-700/50 rounded-lg p-4 transition-colors flex items-start"
+                      className="bg-gray-100 hover:bg-gray-100 border border-gray-100 rounded-lg p-4 transition-colors flex items-start"
                     >
                       <div className="w-10 h-10 rounded-full bg-amber-900/30 flex items-center justify-center mr-3 flex-shrink-0">
                         <Coffee className="h-5 w-5 text-amber-400" />
                       </div>
                       <div>
-                        <h3 className="text-white font-medium mb-1">
+                        <h3 className="text-gray-900 font-medium mb-1">
                           Community
                         </h3>
-                        <p className="text-sm text-slate-400">
+                        <p className="text-sm text-gray-500">
                           Join our community forum
                         </p>
                       </div>
@@ -3956,7 +3956,7 @@ export default function ProfilePage() {
 
                   <div className="mt-6 flex justify-center">
                     <div className="text-center max-w-md">
-                      <p className="text-sm text-slate-400">
+                      <p className="text-sm text-gray-500">
                         AnnaData Version 2.4.0 • Last Login:{" "}
                         {formatDate(user?.lastLogin || "2025-04-19T07:30:00Z")}
                       </p>
@@ -3964,14 +3964,14 @@ export default function ProfilePage() {
                         © 2025 AnnaData •{" "}
                         <a
                           href="#"
-                          className="text-indigo-400 hover:text-indigo-300"
+                          className="text-teal-500 hover:text-teal-400"
                         >
                           Terms of Service
                         </a>{" "}
                         •{" "}
                         <a
                           href="#"
-                          className="text-indigo-400 hover:text-indigo-300"
+                          className="text-teal-500 hover:text-teal-400"
                         >
                           Privacy Policy
                         </a>
@@ -3987,7 +3987,7 @@ export default function ProfilePage() {
 
       {/* Profile picture upload modal */}
       {showProfilePictureModal && (
-        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+        <div className="fixed inset-0 z-50 bg-gray-100 backdrop-blur-sm flex items-center justify-center p-4">
           <ProfilePictureUploader
             currentImage={user?.profileImage}
             onUpdate={handleUpdateProfilePicture}
@@ -3998,16 +3998,16 @@ export default function ProfilePage() {
 
       {/* Delete account confirmation modal */}
       {showDeleteConfirm && (
-        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-gradient-to-br from-slate-900/90 to-black/90 backdrop-blur-xl rounded-xl p-6 max-w-md w-full border border-red-700/30 shadow-2xl">
+        <div className="fixed inset-0 z-50 bg-gray-100 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-gradient-to-br from-white to-gray-50 backdrop-blur-xl rounded-xl p-6 max-w-md w-full border border-red-700/30 shadow-lg">
             <div className="flex flex-col items-center mb-6 text-center">
               <div className="w-16 h-16 rounded-full bg-red-900/30 flex items-center justify-center mb-4">
                 <AlertCircle className="h-8 w-8 text-red-400" />
               </div>
-              <h2 className="text-2xl font-bold text-white mb-2">
+              <h2 className="text-2xl font-bold text-gray-800 mb-2">
                 Delete Your Account?
               </h2>
-              <p className="text-slate-300">
+              <p className="text-gray-500">
                 This action cannot be undone. All your data will be permanently
                 deleted.
               </p>
@@ -4023,7 +4023,7 @@ export default function ProfilePage() {
             <div className="flex flex-col space-y-3">
               <button
                 onClick={handleDeleteAccount}
-                className="py-3 px-4 bg-red-600 hover:bg-red-700 rounded-lg text-white font-medium transition-colors flex items-center justify-center"
+                className="py-3 px-4 bg-red-600 hover:bg-red-700 rounded-lg text-gray-900 font-medium transition-colors flex items-center justify-center"
               >
                 <Trash2 className="mr-2 h-5 w-5" />
                 Yes, Delete My Account
@@ -4031,7 +4031,7 @@ export default function ProfilePage() {
 
               <button
                 onClick={() => setShowDeleteConfirm(false)}
-                className="py-3 px-4 bg-slate-800 hover:bg-slate-700 rounded-lg text-white transition-colors"
+                className="py-3 px-4 bg-gray-100 hover:bg-gray-200 rounded-lg text-gray-900 transition-colors"
               >
                 Cancel
               </button>
