@@ -196,6 +196,15 @@ export default function HomePage() {
   const [currentSeason, setCurrentSeason] = useState("");
   const [loadingSeasonalFoods, setLoadingSeasonalFoods] = useState(false);
 
+  // Health Condition Mode states
+  const [healthCondition, setHealthCondition] = useState("none"); // none, diabetes, heart, weightloss, pregnancy
+  const [healthWarnings, setHealthWarnings] = useState([]);
+  const [loadingHealthWarnings, setLoadingHealthWarnings] = useState(false);
+
+  // Food Swap states
+  const [foodSwaps, setFoodSwaps] = useState([]);
+  const [loadingFoodSwaps, setLoadingFoodSwaps] = useState(false);
+
   // Mobile menu state
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -781,6 +790,101 @@ export default function HomePage() {
     }
   };
 
+  // Generate health condition warnings for a food item
+  const generateHealthWarnings = async (food) => {
+    if (healthCondition === "none") {
+      setHealthWarnings([]);
+      return;
+    }
+
+    setLoadingHealthWarnings(true);
+    try {
+      const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
+
+      const conditionDescriptions = {
+        diabetes: "Type 2 Diabetes - needs to monitor blood sugar, avoid high glycemic foods, limit sugar and refined carbs",
+        heart: "Heart Disease - needs to limit sodium, saturated fat, cholesterol, and processed foods",
+        weightloss: "Weight Loss Goal - needs to maintain calorie deficit, avoid high calorie dense foods",
+        pregnancy: "Pregnancy - needs to avoid certain foods (raw fish, high mercury, unpasteurized), ensure adequate folate, iron, calcium"
+      };
+
+      const prompt = `
+        Analyze this food for someone with ${conditionDescriptions[healthCondition]}:
+        
+        Food: ${food.food_name}
+        Calories: ${food.nutrients.calories} kcal
+        Protein: ${food.nutrients.protein}g
+        Carbs: ${food.nutrients.carbs}g
+        Fat: ${food.nutrients.fats}g
+        
+        Return ONLY a valid JSON array with health warnings/advice. Each object should have:
+        - "type": "warning" | "caution" | "good"
+        - "message": short message (under 80 chars)
+        - "detail": brief explanation (under 120 chars)
+        
+        Include 2-4 relevant points. Be specific to the health condition.
+        No markdown, no backticks, just valid JSON array.
+      `;
+
+      const result = await model.generateContent(prompt);
+      const response = await result.response;
+      const text = response.text().replace(/```json|```/g, "").trim();
+      
+      try {
+        const warnings = JSON.parse(text);
+        setHealthWarnings(warnings);
+      } catch (e) {
+        console.error("Error parsing health warnings:", e);
+        setHealthWarnings([]);
+      }
+    } catch (error) {
+      console.error("Error generating health warnings:", error);
+      setHealthWarnings([]);
+    } finally {
+      setLoadingHealthWarnings(false);
+    }
+  };
+
+  // Generate healthier food swap suggestions
+  const generateFoodSwaps = async (food) => {
+    setLoadingFoodSwaps(true);
+    try {
+      const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
+
+      const prompt = `
+        Suggest 3 healthier alternatives to "${food.food_name}" (${food.nutrients.calories} cal, ${food.nutrients.carbs}g carbs, ${food.nutrients.fats}g fat).
+        
+        Focus on Indian food alternatives when possible.
+        
+        Return ONLY a valid JSON array. Each object should have:
+        - "name": food name
+        - "calories": estimated calories (number)
+        - "benefit": why it's healthier (under 60 chars)
+        - "savings": how many calories saved compared to original
+        
+        Make suggestions realistic and commonly available.
+        No markdown, no backticks, just valid JSON array.
+      `;
+
+      const result = await model.generateContent(prompt);
+      const response = await result.response;
+      const text = response.text().replace(/```json|```/g, "").trim();
+      
+      try {
+        const swaps = JSON.parse(text);
+        setFoodSwaps(swaps);
+      } catch (e) {
+        console.error("Error parsing food swaps:", e);
+        setFoodSwaps([]);
+      }
+    } catch (error) {
+      console.error("Error generating food swaps:", error);
+      setFoodSwaps([]);
+    } finally {
+      setLoadingFoodSwaps(false);
+    }
+  };
+
   // Function to get nutrition info using Gemini API
   const getFoodInfoFromGemini = async (searchTerm) => {
     try {
@@ -797,9 +901,15 @@ export default function HomePage() {
             "protein": grams of protein,
             "carbs": grams of carbs,
             "fats": grams of fat
+          },
+          "diet_compatibility": {
+            "vegetarian": true or false (false if contains meat, poultry, fish, seafood),
+            "vegan": true or false (false if contains any animal products including dairy, eggs, honey),
+            "keto": true or false (true if low carb, high fat)
           }
         }
-        Make the values realistic for the food type. Only return valid JSON with no markdown formatting, backticks, or additional text.
+        Make the values realistic for the food type. Be accurate about diet compatibility - meat, fish, poultry, seafood are NOT vegetarian. Dairy, eggs, honey are NOT vegan.
+        Only return valid JSON with no markdown formatting, backticks, or additional text.
       `;
 
       const result = await model.generateContent(prompt);
@@ -942,10 +1052,15 @@ export default function HomePage() {
           const base64Image = await convertToJpegBase64(image);
 
           // Create the prompt for multi-food detection
-          const prompt = `Identify ALL food items in this image. For each food, estimate nutrition.
+          const prompt = `Identify ALL food items in this image. For each food, estimate nutrition and diet compatibility.
 
 Return ONLY this JSON format (no other text):
-{"items":[{"food_name":"Food Name","serving_type":"1 serving","calories_calculated_for":100,"nutrients":{"calories":200,"protein":10,"carbs":20,"fats":8}}]}
+{"items":[{"food_name":"Food Name","serving_type":"1 serving","calories_calculated_for":100,"nutrients":{"calories":200,"protein":10,"carbs":20,"fats":8},"diet_compatibility":{"vegetarian":true,"vegan":false,"keto":false}}]}
+
+IMPORTANT for diet_compatibility:
+- vegetarian: false if contains meat, poultry, fish, seafood (sausage, bacon, chicken, beef, pork, fish, shrimp etc are NOT vegetarian)
+- vegan: false if contains ANY animal products (meat, dairy, eggs, honey, butter, cheese etc are NOT vegan)
+- keto: true if low carb (under 10g), high fat
 
 List every visible food item separately.`;
 
@@ -1266,6 +1381,8 @@ List every visible food item separately.`;
   const showFoodDetails = (food) => {
     setSelectedFood(food);
     generateInsights(food);
+    generateHealthWarnings(food);
+    generateFoodSwaps(food);
 
     // Update daily nutrition
     setDailyNutrition((prev) => ({
@@ -2165,8 +2282,8 @@ List every visible food item separately.`;
                     {selectedFood.calories_calculated_for}g)
                   </p>
 
-                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                    <div>
+                  <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
+                    <div className="space-y-6">
                       <h3 className="text-xl font-semibold text-gray-900 mb-4 flex items-center" style={{ fontFamily: 'Georgia, serif' }}>
                         <BarChart3 className="mr-2 h-5 w-5 text-teal-500" />
                         Nutrition Overview
@@ -2312,13 +2429,13 @@ List every visible food item separately.`;
                       </motion.button>
                     </div>
 
-                    <div>
+                    <div className="space-y-6">
                       <h3 className="text-xl font-semibold text-gray-900 mb-4 flex items-center" style={{ fontFamily: 'Georgia, serif' }}>
                         <Sparkles className="mr-2 h-5 w-5 text-teal-500" />
                         Food Insights
                       </h3>
 
-                      <div className="space-y-4 mb-6">
+                      <div className="space-y-4">
                         {aiInsights.length > 0 ? (
                           aiInsights.map((insight, index) => (
                             <AIInsightCard
@@ -2349,163 +2466,253 @@ List every visible food item separately.`;
                           </h4>
 
                           <div className="space-y-4">
-                            <div className="flex items-center justify-between">
-                              <span className="text-gray-700">Vegetarian</span>
-                              <div
-                                className={`px-3 py-1 rounded-full text-sm ${
-                                  selectedFood.food_name
-                                    .toLowerCase()
-                                    .includes("chicken") ||
-                                  selectedFood.food_name
-                                    .toLowerCase()
-                                    .includes("beef") ||
-                                  selectedFood.food_name
-                                    .toLowerCase()
-                                    .includes("meat")
-                                    ? "bg-red-100 text-red-600 border border-red-200"
-                                    : "bg-emerald-100 text-emerald-600 border border-emerald-200"
-                                }`}
-                              >
-                                {selectedFood.food_name
-                                  .toLowerCase()
-                                  .includes("chicken") ||
-                                selectedFood.food_name
-                                  .toLowerCase()
-                                  .includes("beef") ||
-                                selectedFood.food_name
-                                  .toLowerCase()
-                                  .includes("meat")
-                                  ? "Not Suitable"
-                                  : "Suitable"}
-                              </div>
-                            </div>
+                            {(() => {
+                              // Use AI-provided diet compatibility if available, otherwise fallback
+                              const dietInfo = selectedFood.diet_compatibility || {};
+                              const isVegetarian = dietInfo.vegetarian !== undefined ? dietInfo.vegetarian : null;
+                              const isVegan = dietInfo.vegan !== undefined ? dietInfo.vegan : null;
+                              const isKeto = dietInfo.keto !== undefined ? dietInfo.keto : (selectedFood.nutrients.carbs < 15);
+                              
+                              return (
+                                <>
+                                  <div className="flex items-center justify-between">
+                                    <span className="text-gray-700">Vegetarian</span>
+                                    <div
+                                      className={`px-3 py-1 rounded-full text-sm ${
+                                        isVegetarian === null
+                                          ? "bg-gray-100 text-gray-500 border border-gray-200"
+                                          : isVegetarian
+                                          ? "bg-emerald-100 text-emerald-600 border border-emerald-200"
+                                          : "bg-red-100 text-red-600 border border-red-200"
+                                      }`}
+                                    >
+                                      {isVegetarian === null ? "Unknown" : isVegetarian ? "Suitable" : "Not Suitable"}
+                                    </div>
+                                  </div>
 
-                            <div className="flex items-center justify-between">
-                              <span className="text-gray-700">Vegan</span>
-                              <div
-                                className={`px-3 py-1 rounded-full text-sm ${
-                                  selectedFood.food_name
-                                    .toLowerCase()
-                                    .includes("chicken") ||
-                                  selectedFood.food_name
-                                    .toLowerCase()
-                                    .includes("cheese") ||
-                                  selectedFood.food_name
-                                    .toLowerCase()
-                                    .includes("butter") ||
-                                  selectedFood.food_name
-                                    .toLowerCase()
-                                    .includes("meat")
-                                    ? "bg-red-100 text-red-600 border border-red-200"
-                                    : "bg-emerald-100 text-emerald-600 border border-emerald-200"
-                                }`}
-                              >
-                                {selectedFood.food_name
-                                  .toLowerCase()
-                                  .includes("chicken") ||
-                                selectedFood.food_name
-                                  .toLowerCase()
-                                  .includes("cheese") ||
-                                selectedFood.food_name
-                                  .toLowerCase()
-                                  .includes("butter") ||
-                                selectedFood.food_name
-                                  .toLowerCase()
-                                  .includes("meat")
-                                  ? "Not Suitable"
-                                  : "Suitable"}
-                              </div>
-                            </div>
+                                  <div className="flex items-center justify-between">
+                                    <span className="text-gray-700">Vegan</span>
+                                    <div
+                                      className={`px-3 py-1 rounded-full text-sm ${
+                                        isVegan === null
+                                          ? "bg-gray-100 text-gray-500 border border-gray-200"
+                                          : isVegan
+                                          ? "bg-emerald-100 text-emerald-600 border border-emerald-200"
+                                          : "bg-red-100 text-red-600 border border-red-200"
+                                      }`}
+                                    >
+                                      {isVegan === null ? "Unknown" : isVegan ? "Suitable" : "Not Suitable"}
+                                    </div>
+                                  </div>
 
-                            <div className="flex items-center justify-between">
-                              <span className="text-gray-700">Keto</span>
-                              <div
-                                className={`px-3 py-1 rounded-full text-sm ${
-                                  selectedFood.nutrients.carbs < 15
-                                    ? "bg-emerald-100 text-emerald-600 border border-emerald-200"
-                                    : "bg-red-100 text-red-600 border border-red-200"
-                                }`}
-                              >
-                                {selectedFood.nutrients.carbs < 15
-                                  ? "Suitable"
-                                  : "Not Suitable"}
-                              </div>
-                            </div>
+                                  <div className="flex items-center justify-between">
+                                    <span className="text-gray-700">Keto</span>
+                                    <div
+                                      className={`px-3 py-1 rounded-full text-sm ${
+                                        isKeto
+                                          ? "bg-emerald-100 text-emerald-600 border border-emerald-200"
+                                          : "bg-red-100 text-red-600 border border-red-200"
+                                      }`}
+                                    >
+                                      {isKeto ? "Suitable" : "Not Suitable"}
+                                    </div>
+                                  </div>
+                                </>
+                              );
+                            })()}
                           </div>
                         </motion.div>
-                      </div>
 
-                      <div className="grid grid-cols-2 gap-4">
-                        <motion.button
-                          whileHover={{ scale: 1.02 }}
-                          whileTap={{ scale: 0.98 }}
-                          className="relative overflow-hidden py-3 px-4 bg-teal-500 hover:bg-teal-600 rounded-xl text-white flex items-center justify-center transition-all shadow-md"
-                          onClick={() => {
-                            if (!session) {
-                              // Redirect to sign-in if not authenticated
-                              router.push("/api/auth/signin");
-                            } else {
-                              setMealTypeDialogOpen(true);
-                            }
-                          }}
-                          disabled={savingToDiary}
+                        {/* Health Condition Mode */}
+                        <motion.div
+                          whileHover={{ y: -5 }}
+                          className="bg-gradient-to-br from-rose-50 to-orange-50 border border-rose-100 rounded-xl p-5 shadow-sm hover:shadow-md transition-all"
                         >
-                          {savingToDiary ? (
-                            <>
-                              <div className="w-5 h-5 border-t-2 border-r-2 border-white rounded-full animate-spin mr-2"></div>
-                              Saving...
-                            </>
-                          ) : diarySuccess ? (
-                            <>
-                              <motion.div
-                                initial={{ scale: 0 }}
-                                animate={{ scale: 1 }}
-                                className="absolute inset-0 bg-emerald-600 flex items-center justify-center"
-                              >
-                                <Check className="mr-1 h-5 w-5" />
-                                Saved!
-                              </motion.div>
-                              <Calendar className="mr-2 h-5 w-5" />
-                              {session ? "Save to Diary" : "Sign in to Save"}
-                            </>
+                          <h4 className="flex items-center gap-2 text-lg font-semibold text-gray-900 mb-4">
+                            <Heart className="h-5 w-5 text-rose-500" />
+                            Health Condition Mode
+                          </h4>
+
+                          <select
+                            value={healthCondition}
+                            onChange={(e) => {
+                              setHealthCondition(e.target.value);
+                              if (e.target.value !== "none") {
+                                generateHealthWarnings(selectedFood);
+                              } else {
+                                setHealthWarnings([]);
+                              }
+                            }}
+                            className="w-full p-3 rounded-lg border border-rose-200 bg-white text-gray-700 mb-4 focus:ring-2 focus:ring-rose-300 focus:border-rose-300"
+                          >
+                            <option value="none">No Condition</option>
+                            <option value="diabetes">🩸 Diabetes</option>
+                            <option value="heart">❤️ Heart Health</option>
+                            <option value="weightloss">⚖️ Weight Loss</option>
+                            <option value="pregnancy">🤰 Pregnancy</option>
+                          </select>
+
+                          {loadingHealthWarnings ? (
+                            <div className="flex items-center justify-center py-4">
+                              <div className="w-6 h-6 border-2 border-rose-300 border-t-rose-500 rounded-full animate-spin"></div>
+                              <span className="ml-2 text-gray-500 text-sm">Analyzing...</span>
+                            </div>
+                          ) : healthWarnings.length > 0 ? (
+                            <div className="space-y-3">
+                              {healthWarnings.map((warning, index) => (
+                                <div
+                                  key={index}
+                                  className={`p-3 rounded-lg border ${
+                                    warning.type === "warning"
+                                      ? "bg-red-50 border-red-200"
+                                      : warning.type === "caution"
+                                      ? "bg-amber-50 border-amber-200"
+                                      : "bg-emerald-50 border-emerald-200"
+                                  }`}
+                                >
+                                  <div className="flex items-start gap-2">
+                                    <span className="text-lg">
+                                      {warning.type === "warning" ? "⚠️" : warning.type === "caution" ? "⚡" : "✅"}
+                                    </span>
+                                    <div>
+                                      <p className={`font-medium text-sm ${
+                                        warning.type === "warning"
+                                          ? "text-red-700"
+                                          : warning.type === "caution"
+                                          ? "text-amber-700"
+                                          : "text-emerald-700"
+                                      }`}>
+                                        {warning.message}
+                                      </p>
+                                      <p className="text-xs text-gray-500 mt-1">{warning.detail}</p>
+                                    </div>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          ) : healthCondition !== "none" ? (
+                            <p className="text-gray-500 text-sm text-center py-2">Select a condition to see personalized advice</p>
+                          ) : null}
+                        </motion.div>
+
+                        {/* Food Swap Suggestions */}
+                        <motion.div
+                          whileHover={{ y: -5 }}
+                          className="bg-gradient-to-br from-emerald-50 to-teal-50 border border-emerald-100 rounded-xl p-5 shadow-sm hover:shadow-md transition-all"
+                        >
+                          <h4 className="flex items-center gap-2 text-lg font-semibold text-gray-900 mb-4">
+                            <ArrowRight className="h-5 w-5 text-emerald-500" />
+                            Healthier Alternatives
+                          </h4>
+
+                          {loadingFoodSwaps ? (
+                            <div className="flex items-center justify-center py-4">
+                              <div className="w-6 h-6 border-2 border-emerald-300 border-t-emerald-500 rounded-full animate-spin"></div>
+                              <span className="ml-2 text-gray-500 text-sm">Finding swaps...</span>
+                            </div>
+                          ) : foodSwaps.length > 0 ? (
+                            <div className="space-y-3">
+                              {foodSwaps.map((swap, index) => (
+                                <motion.div
+                                  key={index}
+                                  whileHover={{ scale: 1.02 }}
+                                  className="p-3 bg-white rounded-lg border border-emerald-100 cursor-pointer hover:border-emerald-300 transition-all"
+                                  onClick={() => {
+                                    setQuery(swap.name);
+                                  }}
+                                >
+                                  <div className="flex items-center justify-between">
+                                    <div>
+                                      <p className="font-medium text-gray-800">{swap.name}</p>
+                                      <p className="text-xs text-gray-500">{swap.benefit}</p>
+                                    </div>
+                                    <div className="text-right">
+                                      <p className="text-emerald-600 font-bold">{swap.calories} cal</p>
+                                      {swap.savings > 0 && (
+                                        <p className="text-xs text-emerald-500">-{swap.savings} cal</p>
+                                      )}
+                                    </div>
+                                  </div>
+                                </motion.div>
+                              ))}
+                            </div>
                           ) : (
-                            <>
-                              <Calendar className="mr-2 h-5 w-5" />
-                              {session ? "Save to Diary" : "Sign in to Save"}
-                            </>
+                            <p className="text-gray-500 text-sm text-center py-2">Loading healthier options...</p>
                           )}
-                        </motion.button>
-
-                        <motion.button
-                          whileHover={{ scale: 1.02 }}
-                          whileTap={{ scale: 0.98 }}
-                          className="py-3 px-4 bg-cyan-500 hover:bg-cyan-600 rounded-xl text-white flex items-center justify-center transition-all shadow-md"
-                          onClick={() => {
-                            router.push(
-                              `/recipe?query=${encodeURIComponent(
-                                selectedFood.food_name
-                              )}`
-                            );
-                          }}
-                        >
-                          <ChefHat className="mr-2 h-5 w-5" />
-                          Find Recipes
-                        </motion.button>
-                      </div>
-
-                      {/* Social share button */}
-                      <div className="mt-4">
-                        <motion.button
-                          whileHover={{ scale: 1.02 }}
-                          whileTap={{ scale: 0.98 }}
-                          onClick={() => shareFood(selectedFood)}
-                          className="w-full py-2 px-4 bg-gray-100 hover:bg-gray-200 rounded-xl text-gray-700 flex items-center justify-center transition-all border border-gray-200"
-                        >
-                          <Share2 className="mr-2 h-4 w-4" />
-                          Share This Food Info
-                        </motion.button>
+                        </motion.div>
                       </div>
                     </div>
+                  </div>
+
+                  {/* Action Buttons - Full Width */}
+                  <div className="mt-8 grid grid-cols-2 gap-4">
+                    <motion.button
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      className="relative overflow-hidden py-3 px-4 bg-teal-500 hover:bg-teal-600 rounded-xl text-white flex items-center justify-center transition-all shadow-md"
+                      onClick={() => {
+                        if (!session) {
+                          router.push("/api/auth/signin");
+                        } else {
+                          setMealTypeDialogOpen(true);
+                        }
+                      }}
+                      disabled={savingToDiary}
+                    >
+                      {savingToDiary ? (
+                        <>
+                          <div className="w-5 h-5 border-t-2 border-r-2 border-white rounded-full animate-spin mr-2"></div>
+                          Saving...
+                        </>
+                      ) : diarySuccess ? (
+                        <>
+                          <motion.div
+                            initial={{ scale: 0 }}
+                            animate={{ scale: 1 }}
+                            className="absolute inset-0 bg-emerald-600 flex items-center justify-center"
+                          >
+                            <Check className="mr-1 h-5 w-5" />
+                            Saved!
+                          </motion.div>
+                          <Calendar className="mr-2 h-5 w-5" />
+                          {session ? "Save to Diary" : "Sign in to Save"}
+                        </>
+                      ) : (
+                        <>
+                          <Calendar className="mr-2 h-5 w-5" />
+                          {session ? "Save to Diary" : "Sign in to Save"}
+                        </>
+                      )}
+                    </motion.button>
+
+                    <motion.button
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      className="py-3 px-4 bg-cyan-500 hover:bg-cyan-600 rounded-xl text-white flex items-center justify-center transition-all shadow-md"
+                      onClick={() => {
+                        router.push(
+                          `/recipe?query=${encodeURIComponent(
+                            selectedFood.food_name
+                          )}`
+                        );
+                      }}
+                    >
+                      <ChefHat className="mr-2 h-5 w-5" />
+                      Find Recipes
+                    </motion.button>
+                  </div>
+
+                  {/* Social share button */}
+                  <div className="mt-4">
+                    <motion.button
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      onClick={() => shareFood(selectedFood)}
+                      className="w-full py-2 px-4 bg-gray-100 hover:bg-gray-200 rounded-xl text-gray-700 flex items-center justify-center transition-all border border-gray-200"
+                    >
+                      <Share2 className="mr-2 h-4 w-4" />
+                      Share This Food Info
+                    </motion.button>
                   </div>
                 </div>
               </motion.div>
